@@ -441,7 +441,10 @@ void ED_ParseField (char *key, char *value, edict_t *ent)
 				*(char **)(b+f->ofs) = ED_NewString (value);
 				break;
 			case F_VECTOR:
-				sscanf (value, "%f %f %f", &vec[0], &vec[1], &vec[2]);
+				if (sscanf(value, "%f %f %f", &vec[0], &vec[1], &vec[2]) != 3) {
+					gi.dprintf("WARNING: Vector field incomplete in %s, map: %s, field: %s\n", __func__, level.mapname, f->name);
+					VectorClear(vec);
+				}
 				((float *)(b+f->ofs))[0] = vec[0];
 				((float *)(b+f->ofs))[1] = vec[1];
 				((float *)(b+f->ofs))[2] = vec[2];
@@ -460,11 +463,13 @@ void ED_ParseField (char *key, char *value, edict_t *ent)
 				break;
 			case F_IGNORE:
 				break;
+			default:
+				break;
 			}
 			return;
 		}
 	}
-	gi.dprintf ("%s is not a field\n", key);
+	gi.dprintf ("%s: %s is not a field\n", __func__, key);
 }
 
 /*
@@ -492,17 +497,17 @@ char *ED_ParseEdict (char *data, edict_t *ent)
 		if (com_token[0] == '}')
 			break;
 		if (!data)
-			gi.error ("ED_ParseEntity: EOF without closing brace");
+			gi.error ("%s: EOF without closing brace", __func__);
 
 		strncpy (keyname, com_token, sizeof(keyname)-1);
 		
 	// parse value	
 		com_token = COM_Parse (&data);
 		if (!data)
-			gi.error ("ED_ParseEntity: EOF without closing brace");
+			gi.error ("%s: EOF without closing brace", __func__);
 
 		if (com_token[0] == '}')
-			gi.error ("ED_ParseEntity: closing brace without data");
+			gi.error ("%s: closing brace without data", __func__);
 
 		init = true;	
 
