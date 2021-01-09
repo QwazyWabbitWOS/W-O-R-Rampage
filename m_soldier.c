@@ -27,6 +27,8 @@ SOLDIER
 
 #include "g_local.h"
 #include "m_soldier.h"
+#include "mtwist.h"
+
 void soldier_dodge(edict_t *self, edict_t *attacker, float eta);
 void soldier_duck_up(edict_t *self);
 void soldier_widerminsmaxondeath(edict_t *self);

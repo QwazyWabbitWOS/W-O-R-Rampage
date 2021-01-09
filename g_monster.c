@@ -18,6 +18,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 #include "g_local.h"
+#include "mtwist.h"
+
 void M_touch(edict_t *self, edict_t *other, cplane_t *plane, csurface_t *surf);
 void M_calcvel(edict_t *self);
 void M_isplayerstrafing(edict_t *self);

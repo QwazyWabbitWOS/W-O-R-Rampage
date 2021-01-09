@@ -27,6 +27,7 @@ INFANTRY
 
 #include "g_local.h"
 #include "m_infantry.h"
+#include "mtwist.h"
 
 void InfantryMachineGun (edict_t *self);
 
