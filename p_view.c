@@ -154,9 +154,9 @@ void P_DamageFeedback(edict_t *player)
 		client->damage_alpha = 0;
 	client->damage_alpha += count * 0.01;
 	if (client->damage_alpha < 0.2)
-		client->damage_alpha = 0.2;
+		client->damage_alpha = 0.2f;
 	if (client->damage_alpha > 0.6)
-		client->damage_alpha = 0.6;		// don't go too saturated
+		client->damage_alpha = 0.6f;		// don't go too saturated
 
 	// the color of the blend will vary based on how much was absorbed
 	// by different armors
@@ -577,12 +577,12 @@ void SV_CheckSky(edict_t *ent)
 
 	if(ent->skyblend > skyblend_minimum->value)
 		ent->skyblend -= skyblend_speed->value;
-	SV_AddBlend(1.0, 0.2, 0.0, ent->skyblend, ent->client->ps.blend);
+	SV_AddBlend(1.0, 0.2f, 0.0, ent->skyblend, ent->client->ps.blend);
 	return;
 skyisnear:
 	if (ent->skyblend < skyblend_maximum->value)
 		ent->skyblend += skyblend_speed->value;
-	SV_AddBlend(1.0, 0.2, 0.0, ent->skyblend, ent->client->ps.blend);
+	SV_AddBlend(1.0, 0.2f, 0.0, ent->skyblend, ent->client->ps.blend);
 
 }
 void SV_CalcBlend(edict_t *ent)
@@ -604,11 +604,11 @@ void SV_CalcBlend(edict_t *ent)
 		ent->client->ps.rdflags &= ~RDF_UNDERWATER;
 
 	if (contents & (CONTENTS_SOLID | CONTENTS_LAVA))
-		SV_AddBlend(1.0, 0.3, 0.0, 0.6, ent->client->ps.blend);
+		SV_AddBlend(1.0, 0.3f, 0.0, 0.6f, ent->client->ps.blend);
 	else if (contents & CONTENTS_SLIME)
-		SV_AddBlend(0.0, 0.1, 0.05, 0.6, ent->client->ps.blend);
+		SV_AddBlend(0.0, 0.1f, 0.05f, 0.6f, ent->client->ps.blend);
 	else if (contents & CONTENTS_WATER)
-		SV_AddBlend(0.5, 0.3, 0.2, 0.4, ent->client->ps.blend);
+		SV_AddBlend(0.5, 0.3f, 0.2f, 0.4f, ent->client->ps.blend);
 	SV_CheckSky(ent);
 
 
@@ -617,7 +617,7 @@ void SV_CalcBlend(edict_t *ent)
 
 		if (ent->client->pers.items_activated & FL_QUAD)
 		{
-			SV_AddBlend(0, 0, 1, 0.08, ent->client->ps.blend);
+			SV_AddBlend(0, 0, 1, 0.08f, ent->client->ps.blend);
 
 			if (((level.framenum) % 10) == 0)
 			{
@@ -644,7 +644,7 @@ void SV_CalcBlend(edict_t *ent)
 
 		if (ent->client->pers.items_activated & FL_INV)
 		{
-			SV_AddBlend(1, 1, 0, 0.08, ent->client->ps.blend);
+			SV_AddBlend(1, 1, 0, 0.08f, ent->client->ps.blend);
 			if (((level.framenum) % 10) == 0)
 			{
 				if (ent->client->pers.inventory[ITEM_INDEX(FindItem("cells"))])
@@ -669,12 +669,12 @@ void SV_CalcBlend(edict_t *ent)
 
 		if (ent->client->pers.items_activated & FL_ENV)
 		{
-			SV_AddBlend(0, 1, 0, 0.08, ent->client->ps.blend);
+			SV_AddBlend(0, 1, 0, 0.08f, ent->client->ps.blend);
 
 		}
 		if (ent->client->pers.items_activated & FL_REB)
 		{
-			SV_AddBlend(0.4, 1, 0.4, 0.04, ent->client->ps.blend);
+			SV_AddBlend(0.4f, 1, 0.4f, 0.04f, ent->client->ps.blend);
 
 		}
 
@@ -689,7 +689,7 @@ void SV_CalcBlend(edict_t *ent)
 			if (remaining == 30)	// beginning to fade
 				gi.sound(ent, CHAN_ITEM, gi.soundindex("items/damage2.wav"), 1, ATTN_IDLE, 0);
 			if (remaining > 30 || (remaining & 4))
-				SV_AddBlend(0, 0, 1, 0.08, ent->client->ps.blend);
+				SV_AddBlend(0, 0, 1, 0.08f, ent->client->ps.blend);
 		}
 		else if (ent->client->invincible_framenum > level.framenum)
 		{
@@ -697,7 +697,7 @@ void SV_CalcBlend(edict_t *ent)
 			if (remaining == 30)	// beginning to fade
 				gi.sound(ent, CHAN_ITEM, gi.soundindex("items/protect2.wav"), 1, ATTN_IDLE, 0);
 			if (remaining > 30 || (remaining & 4))
-				SV_AddBlend(1, 1, 0, 0.08, ent->client->ps.blend);
+				SV_AddBlend(1, 1, 0, 0.08f, ent->client->ps.blend);
 		}
 		else if (ent->client->enviro_framenum > level.framenum)
 		{
@@ -705,7 +705,7 @@ void SV_CalcBlend(edict_t *ent)
 			if (remaining == 30)	// beginning to fade
 				gi.sound(ent, CHAN_ITEM, gi.soundindex("items/airout.wav"), 1, ATTN_IDLE, 0);
 			if (remaining > 30 || (remaining & 4))
-				SV_AddBlend(0, 1, 0, 0.08, ent->client->ps.blend);
+				SV_AddBlend(0, 1, 0, 0.08f, ent->client->ps.blend);
 		}
 		else if (ent->client->breather_framenum > level.framenum)
 		{
@@ -713,7 +713,7 @@ void SV_CalcBlend(edict_t *ent)
 			if (remaining == 30)	// beginning to fade
 				gi.sound(ent, CHAN_ITEM, gi.soundindex("items/airout.wav"), 1, ATTN_IDLE, 0);
 			if (remaining > 30 || (remaining & 4))
-				SV_AddBlend(0.4, 1, 0.4, 0.04, ent->client->ps.blend);
+				SV_AddBlend(0.4f, 1, 0.4f, 0.04f, ent->client->ps.blend);
 		}
 
 	}
@@ -723,15 +723,15 @@ void SV_CalcBlend(edict_t *ent)
 			, ent->client->damage_blend[2], ent->client->damage_alpha, ent->client->ps.blend);
 
 	if (ent->client->bonus_alpha > 0)
-		SV_AddBlend(0.85, 0.7, 0.3, ent->client->bonus_alpha, ent->client->ps.blend);
+		SV_AddBlend(0.85f, 0.7f, 0.3f, ent->client->bonus_alpha, ent->client->ps.blend);
 
 	// drop the damage value
-	ent->client->damage_alpha -= 0.06;
+	ent->client->damage_alpha -= 0.06f;
 	if (ent->client->damage_alpha < 0)
 		ent->client->damage_alpha = 0;
 
 	// drop the bonus value
-	ent->client->bonus_alpha -= 0.1;
+	ent->client->bonus_alpha -= 0.1f;
 	if (ent->client->bonus_alpha < 0)
 		ent->client->bonus_alpha = 0;
 	if (current_client->pers.items_activated & FL_GENERATOR)
@@ -1426,7 +1426,7 @@ void HudClientIcon(edict_t *ent)
 
 	if (ent->health > 0)
 	{
-		ent->client->hudguy_d *= 0.95;
+		ent->client->hudguy_d *= 0.95f;
 		points += ent->client->hudguy_d;
 	}
 	//gi.bprintf(PRINT_HIGH, "hudguy u = %f, d = %f\n", ent->client->hudguy_u, ent->client->hudguy_d);

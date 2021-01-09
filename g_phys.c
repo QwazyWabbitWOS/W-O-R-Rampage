@@ -915,18 +915,18 @@ void SV_Physics_Toss(edict_t *ent)
 		if (ent->movetype == MOVETYPE_BOUNCE)
 		{
 			if (ent->bounce_amount == BOUNCE_HIGHER)
-				backoff = 1.65;
+				backoff = 1.65f;
 			else if (ent->bounce_amount == BOUNCE_HIGH)
 				backoff = 1.75;
 			else if (ent->bounce_amount == BOUNCE_LOWEST)
-				backoff = 1.1;
+				backoff = 1.1f;
 			else if (ent->bounce_amount == BOUNCE_LOWER)
 				backoff = 1.25;
 			else if(ent->bounce_amount == BOUNCE_LOW)
-				backoff = 1.35;
+				backoff = 1.35f;
 			else
 				backoff = 1.5;
-			backoff += clamp(0.15 - (VectorLength(ent->velocity) * 0.001), 0.15, 0);
+			backoff += clamp(0.15 - (VectorLength(ent->velocity) * 0.001), 0.15f, 0);
 		}
 
 		else

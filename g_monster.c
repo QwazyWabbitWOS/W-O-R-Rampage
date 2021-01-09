@@ -481,7 +481,7 @@ void monster_think (edict_t *self)
 	}
 	else
 	{
-		self->monsterinfo.aimdur -= 0.1;
+		self->monsterinfo.aimdur -= 0.1f;
 	}
 	self->monsterinfo.aimdur = clamp(self->monsterinfo.aimdur, 2, 1);
 	if (strcmp(self->classname, "monster_jorg") && level.time > 1 && self->monsterinfo.monster_type != MONSTER_INSANE)
@@ -1345,11 +1345,11 @@ void M_calcstrafepos(edict_t *self, vec3_t enemypos)
 	VectorCopy(self->monsterinfo.enemy_pos3, pos3);
 	VectorCopy(self->monsterinfo.enemy_pos2, pos2);
 	VectorCopy(self->monsterinfo.enemy_pos1, pos1);
-	VectorScale(pos1, 0.2, pos1);
-	VectorScale(pos2, 0.2, pos2);
-	VectorScale(pos3, 0.2, pos3);
-	VectorScale(pos4, 0.2, pos4);
-	VectorScale(pos5, 0.2, pos5);
+	VectorScale(pos1, 0.2f, pos1);
+	VectorScale(pos2, 0.2f, pos2);
+	VectorScale(pos3, 0.2f, pos3);
+	VectorScale(pos4, 0.2f, pos4);
+	VectorScale(pos5, 0.2f, pos5);
 	VectorAdd(enemypos, pos1, enemypos);
 	VectorAdd(enemypos, pos2, enemypos);
 	VectorAdd(enemypos, pos3, enemypos);

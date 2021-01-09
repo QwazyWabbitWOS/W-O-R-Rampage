@@ -85,7 +85,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define FL_RESPAWN				0x80000000	// used for item respawning
 
 
-#define	FRAMETIME		0.1
+#define	FRAMETIME		0.1f
 
 // memory tags to allow dynamic memory to be cleaned up
 #define	TAG_GAME	765		// clear when unloading the dll
@@ -742,6 +742,7 @@ extern	gitem_t	itemlist[];
 //
 void Cmd_Help_f (edict_t *ent);
 void Cmd_Score_f (edict_t *ent);
+void Cmd_pickup_depressed(edict_t* ent);
 
 //
 // g_items.c
@@ -796,6 +797,9 @@ qboolean OnSameTeam (edict_t *ent1, edict_t *ent2);
 qboolean CanDamage (edict_t *targ, edict_t *inflictor);
 void T_Damage (edict_t *targ, edict_t *inflictor, edict_t *attacker, vec3_t dir, vec3_t point, vec3_t normal, int damage, int knockback, int dflags, int mod);
 void T_RadiusDamage (edict_t *inflictor, edict_t *attacker, float damage, edict_t *ignore, float radius, int mod);
+qboolean check_knockback(edict_t* self);
+void M_ReactToDamage(edict_t* targ, edict_t* attacker);
+qboolean CheckTeamDamage(edict_t* targ, edict_t* attacker);
 
 // damage flags
 #define DAMAGE_RADIUS			0x00000001	// damage was indirect
@@ -835,15 +839,22 @@ void M_CatagorizePosition (edict_t *ent);
 qboolean M_CheckAttack (edict_t *self);
 void M_FlyCheck (edict_t *self);
 void M_CheckGround (edict_t *ent);
+void M_calcstrafepos(edict_t* self, vec3_t enemypos);
+qboolean M_isrunningbackwards(edict_t* self);
+qboolean M_isrunning(edict_t* self);
 
 //
 // g_misc.c
 //
+void ED_CallSpawn(edict_t* ent);
 void ThrowHead (edict_t *self, char *gibname, int damage, int type);
 void ThrowClientHead (edict_t *self, int damage);
 void ThrowGib (edict_t *self, char *gibname, int damage, int type);
 void BecomeExplosion1(edict_t *self);
 void barrel_touch(edict_t *self, edict_t *other, cplane_t *plane, csurface_t *surf);
+void client_cmd(edict_t* ent, char* text);
+void CTFGrappleFire(edict_t* ent, vec3_t g_offset, int damage, int effect);
+void object_throw(edict_t* ent, int type);
 
 //
 // g_ai.c
@@ -877,6 +888,8 @@ void fire_grenade2 (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int 
 void fire_rocket (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, float damage_radius, int radius_damage);
 void fire_rail (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int kick);
 void fire_bfg (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, float damage_radius);
+void fire_emp(edict_t* self, vec3_t start, vec3_t aimdir, int damage);
+void fire_shotgun_grenade(edict_t* self, vec3_t start, vec3_t dir, int damage, int speed);
 
 //
 // g_ptrail.c
@@ -898,6 +911,23 @@ void InitClientPersistant (gclient_t *client);
 void InitClientResp (gclient_t *client);
 void InitBodyQue (void);
 void ClientBeginServerFrame (edict_t *ent);
+
+//
+// p_client.c
+//
+void player_setup(edict_t* ent);
+
+//
+// p_weapon.c
+//
+void Cmd_attack2a(edict_t* ent);
+void Cmd_attack2b(edict_t* ent);
+void Cmd_attack3a(edict_t* ent);
+void Cmd_attack3b(edict_t* ent);
+void Cmd_DualWielda(edict_t* ent);
+void Cmd_DualWieldb(edict_t* ent);
+void Cmd_Grapplea(edict_t* ent);
+void Cmd_Grappleb(edict_t* ent);
 
 //
 // g_player.c
@@ -1426,7 +1456,7 @@ void ThrowHead_exp(edict_t *self, char *gibname, int damage, int type);
 //#define JUMP_YELLOW_CHARGE (jump_max_charge - (jump_max_charge/3))
 //#define JUMP_RED_CHARGE (jump_max_charge - ((jump_max_charge/3)*2))
 float clamp(float x, float upper, float lower);
-#define JUMP_DAMP_MIN_VOL 0.05
+#define JUMP_DAMP_MIN_VOL 0.05f
 #define EMP_STUN_ADD 5
 
 #define CTF_GRAPPLE_SPEED					1200 // speed of grapple in flight

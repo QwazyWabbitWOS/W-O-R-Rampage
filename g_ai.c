@@ -119,7 +119,7 @@ void M_avoid_danger(edict_t *self)
 		}
 		if (!visible(ent, self) && random() > 0.25) //didn't hear, expand this at a later time
 			continue;
-		if (self->svflags & SVF_BOLT & random() < 0.9)
+		if (self->svflags & SVF_BOLT && random() < 0.9f)
 			continue;
 		//gi.bprintf(PRINT_HIGH, "M_avoid_danger: should jump away from danger!\n");
 		ent->monsterinfo.aiflags |= AI_JUMPDODGEPROJ;
@@ -243,7 +243,7 @@ void monster_jump(edict_t *self)
 
 
 	gi.sound(self, CHAN_AUTO, gi.soundindex(va("player/step%i.wav", rand() % 5)), 1, ATTN_IDLE, 0);
-	gi.sound(self, CHAN_AUTO, gi.soundindex(va("player/step%i.wav", rand() % 5)), 1, ATTN_IDLE, 0.05);
+	gi.sound(self, CHAN_AUTO, gi.soundindex(va("player/step%i.wav", rand() % 5)), 1, ATTN_IDLE, 0.05f);
 
 
 }
@@ -661,7 +661,7 @@ qboolean infront_aiming(edict_t *self, edict_t *other)
 	float minval = 0.965 + (range_units(self, other) * 0.0001396);
 	
 	//gi.bprintf(PRINT_HIGH, "MONSTER THINK: DOT = %f, MINVAL = %f, MINVALMAX = %f, range = %f\n", dot, minval, clamp(minval, 0.9999, 0), range_units(self, other));
-	minval = clamp(minval, 0.9999, 0);
+	minval = clamp(minval, 0.9999f, 0);
 	if (dot  > minval)
 		return true;
 
@@ -1118,7 +1118,7 @@ void HuntTarget(edict_t *self)
 	self->ideal_yaw = vectoyaw(vec);
 	// wait a while before first attack
 	if (!(self->monsterinfo.aiflags & AI_STAND_GROUND))
-		AttackFinished(self, 0.1);
+		AttackFinished(self, 0.1f);
 }
 
 void FoundTarget(edict_t *self)
@@ -1273,7 +1273,7 @@ qboolean FindTarget(edict_t *self)
 		// this is where we would check invisibility
 
 				// is client in an spot too dark to be seen?
-		if (client->light_level <= 25 & VectorLength(client->velocity) < 100 && range(self, client) > RANGE_MELEE)
+		if (client->light_level <= 25 && VectorLength(client->velocity) < 100 && range(self, client) > RANGE_MELEE)
 			return false;
 
 		if (!visible(self, client))
@@ -1424,7 +1424,7 @@ qboolean M_CheckClearShot(edict_t *self)
 	if ((strcmp(self->classname, "monster_soldier_light") == 0 || strcmp(self->classname, "monster_soldier") == 0 || strcmp(self->classname, "monster_soldier_ss") == 0) )
 	{
 		if(self->s.frame >= 272 && self->s.frame <= 307)
-		spot1[2] -= 16.7 ;
+		spot1[2] -= 16.7f;
 
 		AngleVectors(self->s.angles, forward, right, NULL);
 		G_ProjectSource(self->s.origin, monster_flash_offset[MZ2_SOLDIER_BLASTER_1], forward, right, spot1);
@@ -1598,19 +1598,19 @@ qboolean M_CheckAttack(edict_t *self)
 	}
 	else if (enemy_range == RANGE_MELEE)
 	{
-		chance = 0.4;
+		chance = 0.4f;
 	}
 	else if (enemy_range == RANGE_NEAR)
 	{
-		chance = 0.3;
+		chance = 0.3f;
 	}
 	else if (enemy_range == RANGE_MID)
 	{
-		chance = 0.2;
+		chance = 0.2f;
 	}
 	else if (enemy_range >= RANGE_FAR)
 	{
-		chance = 0.1;
+		chance = 0.1f;
 	}
 	else
 	{

@@ -154,7 +154,7 @@ qboolean fire_hit(edict_t *self, vec3_t aim, int damage, int kick)
 		point[2] -= fabs(self->enemy->maxs[2] - diff(self->enemy->mins[2], self->enemy->maxs[2])) * 1.25;
 
 	}
-	VectorScale(aim, 1.2, aim); //fix?
+	VectorScale(aim, 1.2f, aim); //fix?
 	
 	tr = gi.trace(self->s.origin, NULL, NULL, point, self, MASK_SHOT);
 	//debug_trail(self->s.origin, point);
@@ -600,17 +600,17 @@ explode:
 		ent->s.angles[YAW] = anglemod(crandom() * 1000);
 		AngleVectors(ent->s.angles, forward, right, up);
 
-		fire_grenade(ent->owner, ent->s.origin, forward, ent->dmg, 600, 0.2, ent->dmg_radius);
+		fire_grenade(ent->owner, ent->s.origin, forward, ent->dmg, 600, 0.2f, ent->dmg_radius);
 
 		VectorScale(forward, -1, forward);
 
-		fire_grenade(ent->owner, ent->s.origin, forward, ent->dmg, 600, 0.2, ent->dmg_radius);
+		fire_grenade(ent->owner, ent->s.origin, forward, ent->dmg, 600, 0.2f, ent->dmg_radius);
 
-		fire_grenade(ent->owner, ent->s.origin, right, ent->dmg, 600, 0.2, ent->dmg_radius);
+		fire_grenade(ent->owner, ent->s.origin, right, ent->dmg, 600, 0.2f, ent->dmg_radius);
 
 		VectorScale(forward, -1, forward);
 
-		fire_grenade(ent->owner, ent->s.origin, right, ent->dmg, 600, 0.1, ent->dmg_radius);
+		fire_grenade(ent->owner, ent->s.origin, right, ent->dmg, 600, 0.1f, ent->dmg_radius);
 
 		gi.sound(ent, CHAN_VOICE, gi.soundindex("weapons/GRENLF1A.WAV"), 1, ATTN_IDLE, 0);
 
@@ -645,7 +645,7 @@ explode:
 	T_RadiusDamage(ent, ent->owner, ent->dmg, ent->enemy, ent->dmg_radius, mod);
 	
 
-	VectorMA(ent->s.origin, -0.02, ent->velocity, origin);
+	VectorMA(ent->s.origin, -0.02f, ent->velocity, origin);
 	
 	gi.WriteByte(svc_temp_entity);
 	if (ent->waterlevel)
@@ -715,10 +715,10 @@ void blaster_think(edict_t *ent)
 	vectoangles(ent->velocity, ent->s.angles); //update angle
 
 	if (gi.pointcontents(ent->s.origin) & MASK_WATER)
-		VectorScale(ent->velocity, 0.99, ent->velocity);
+		VectorScale(ent->velocity, 0.99f, ent->velocity);
 
 
-	VectorScale(ent->velocity, 1 - 0.01, ent->velocity);
+	VectorScale(ent->velocity, 1 - 0.01f, ent->velocity);
 	//ent->velocity[2] -= (2500 - VectorLength(ent->velocity)) / 250;
 	add_gravity(ent);
 
@@ -767,7 +767,7 @@ void fire_shotgun_grenade(edict_t *self, vec3_t start, vec3_t dir, int damage, i
 	bolt->s.effects |= EF_GRENADE;
 	VectorScale(dir, speed, bolt->velocity);
 	if (gi.pointcontents(start) & MASK_WATER)
-		VectorScale(bolt->velocity, 0.33, bolt->velocity);
+		VectorScale(bolt->velocity, 0.33f, bolt->velocity);
 	bolt->movetype = MOVETYPE_FLYMISSILE;
 	bolt->clipmask = MASK_SHOT;
 	bolt->solid = SOLID_BBOX;
@@ -879,7 +879,7 @@ void fire_blaster(edict_t *self, vec3_t start, vec3_t dir, int damage, int speed
 	}
 	VectorScale(bolt->velocity, 1 + (crandom() * 0.1), bolt->velocity);
 	if (gi.pointcontents(start) == MASK_WATER)
-		VectorScale(bolt->velocity, 0.33, bolt->velocity);
+		VectorScale(bolt->velocity, 0.33f, bolt->velocity);
 	bolt->movetype = MOVETYPE_FLYMISSILE;
 	bolt->s.renderfx |= RF_NOSHADOW;
 	bolt->clipmask = MASK_SHOT;
@@ -1083,7 +1083,7 @@ void grenade_think(edict_t *self)
 	
 	M_avoid_danger(self);
 	if (gi.pointcontents(self->s.origin) & MASK_WATER)
-		VectorScale(self->velocity, 0.9, self->velocity);
+		VectorScale(self->velocity, 0.9f, self->velocity);
 	if (self->delay < level.time)
 	{
 		//gi.bprintf(PRINT_HIGH, "GRENADE DIE OUT OF TIMER");
@@ -1112,7 +1112,7 @@ void fire_grenade(edict_t *self, vec3_t start, vec3_t aimdir, int damage, int sp
 	VectorMA(grenade->velocity, crandom() * 10.0, right, grenade->velocity);
 
 	if (gi.pointcontents(start) & MASK_WATER)
-		VectorScale(grenade->velocity, 0.33, grenade->velocity);
+		VectorScale(grenade->velocity, 0.33f, grenade->velocity);
 
 	VectorSet(grenade->avelocity, 300, 300, 300);
 	grenade->movetype = MOVETYPE_BOUNCE;
@@ -1211,7 +1211,7 @@ void Grenade_Gravity(edict_t *self)
 		dir[2] *= 1 + (((mt_ldrand() * 2) - 1) * 0.25);
 		VectorAdd(ent->velocity, dir, ent->velocity);
 		VectorCopy(dir, dir_copy);
-		VectorScale(dir, -0.1, dir);
+		VectorScale(dir, -0.1f, dir);
 		dir[2] *= 0.25;
 		if (VectorLength(ent->avelocity) < 500)
 		{
@@ -1244,7 +1244,7 @@ void Grenade_Gravity(edict_t *self)
 		VectorNormalize(dir);
 		float dmg = (float)self->dmg;
 		if (self->svflags & SVF_GRAVITYGRENADE_WEAK)
-			dmg *= 0.05;
+			dmg *= 0.05f;
 		if(self->owner)
 			T_Damage(ent, self, self->owner, dir_copy, ent->s.origin, dir, (int)((VectorLength(dir_copy) / 1000) * dmg), 1, DAMAGE_NO_KNOCKBACK, mod);
 		else
@@ -1298,7 +1298,7 @@ void grenade_setup(edict_t *self)
 	point[2] -= 2;
 	if (gi.pointcontents(point) & CONTENTS_SOLID)
 	{
-		self->s.origin[2] += 2.1;
+		self->s.origin[2] += 2.1f;
 	}
 	VectorSet(self->mins, -2, -2, -2);
 	VectorSet(self->maxs, 2, 2, 2);
@@ -1326,7 +1326,7 @@ void fire_grenade2(edict_t *self, vec3_t start, vec3_t aimdir, int damage, int s
 	VectorMA(grenade->velocity, 200 + crandom() * 10.0, up, grenade->velocity);
 	VectorMA(grenade->velocity, crandom() * 10.0, right, grenade->velocity);
 	if (gi.pointcontents(start) & MASK_WATER)
-		VectorScale(grenade->velocity, 0.33, grenade->velocity);
+		VectorScale(grenade->velocity, 0.33f, grenade->velocity);
 	VectorSet(grenade->avelocity, random() * 60, random() * 60, random() * 60);
 	grenade->movetype = MOVETYPE_BOUNCE;
 	grenade->clipmask = MASK_SHOT;
@@ -1503,7 +1503,7 @@ void subexpl_think(edict_t *ent)
 		smodel->noise_index2 = 15;
 
 	smodel->s.modelindex = gi.modelindex("models/objects/r_explode/tris_hb.md2");
-	smodel->gravity = -0.1;
+	smodel->gravity = -0.1f;
 	VectorClear(smodel->mins);
 	VectorClear(smodel->maxs);
 	vectoangles(smodel->velocity, smodel->s.angles);
@@ -1619,7 +1619,7 @@ void rocket_explode(edict_t *ent, edict_t *other)
 	
 	vec3_t		origin;
 	// calculate position for the explosion entity
-	VectorMA(ent->s.origin, -0.02, ent->velocity, origin);
+	VectorMA(ent->s.origin, -0.02f, ent->velocity, origin);
 	
 	if (ent->owner->client)
 		PlayerNoise(ent->owner, ent->s.origin, PNOISE_IMPACT);
@@ -1728,7 +1728,7 @@ void rocket_think(edict_t *self)
 	if (self->delay < level.time)
 		G_FreeEdict(self);
 	self->nextthink = level.time + FRAMETIME;
-	VectorScale(self->velocity, 1.1, self->velocity);
+	VectorScale(self->velocity, 1.1f, self->velocity);
 
 	M_avoid_danger(self);
 
@@ -1789,7 +1789,7 @@ void fire_rocket(edict_t *self, vec3_t start, vec3_t dir, int damage, int speed,
 	//gi.bprintf(PRINT_HIGH, "DEBUG: player forward speed = %f %f %f, dot = %f\n", self->velocity[0] * forward_speed, self->velocity[1] * forward_speed, self->velocity[2] * forward_speed, forward_speed);
 
 	if (gi.pointcontents(start) & (CONTENTS_LAVA | CONTENTS_WATER | CONTENTS_SLIME))
-		VectorScale(rocket->velocity, 0.33, rocket->velocity);
+		VectorScale(rocket->velocity, 0.33f, rocket->velocity);
 	//if (!strcmp(self->classname, "monster_infantry"))
 	//	VectorMA(rocket->s.origin, 10, dir, rocket->s.origin);
 	rocket->movetype = MOVETYPE_FLYMISSILE;

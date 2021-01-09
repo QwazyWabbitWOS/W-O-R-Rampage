@@ -20,15 +20,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	
 // q_shared.h -- included first by ALL program modules
 
+#pragma once
+
 #ifdef _WIN32
-// unknown pragmas are SUPPOSED to be ignored, but....
-#pragma warning(disable : 4244)     // MIPS
-#pragma warning(disable : 4136)     // X86
-#pragma warning(disable : 4051)     // ALPHA
-
-#pragma warning(disable : 4018)     // signed/unsigned mismatch
-#pragma warning(disable : 4305)		// truncation from const double to float
-
+#pragma warning(disable : 4244)     // conversion from 'type1' to 'type2', possible loss of data
+#pragma warning(disable : 4100)		// unreferenced formal parameter
+#pragma warning(disable : 4101)		// unreferenced local parameter
+#pragma warning(disable : 4127)		// conditional expression is constant
+#if _MSC_VER > 1500
+#pragma warning(disable : 4996)		// unsafe CRT functions (_CRT_SECURE_NO_WARNINGS).
+#pragma warning(disable : 4459)		// declaration of 'var' hides global declaration.
+#pragma warning(disable : 6244)		// local declaration of <variable> hides previous declaration at <line> of <file>
+#endif
 #endif
 
 #include <assert.h>
@@ -38,6 +41,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include <ctype.h>
+#include <limits.h>
+#include <errno.h>
 
 #if (defined _M_IX86 || defined __i386__) && !defined C_ONLY && !defined __sun__
 #define id386	1

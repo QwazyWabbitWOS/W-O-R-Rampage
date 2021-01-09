@@ -74,9 +74,9 @@ void VelocityForDamage (int damage, vec3_t v)
 	v[2] = 50.0 + 50.0 * random();
 
 	if (damage < 50)
-		VectorScale (v, 0.7, v);
+		VectorScale (v, 0.7f, v);
 	else 
-		VectorScale (v, 1.2, v);
+		VectorScale (v, 1.2f, v);
 }
 
 void ClipGibVelocity (edict_t *ent)
@@ -370,12 +370,12 @@ void ThrowGib_damage(edict_t *self, edict_t *inflictor, edict_t *attacker, int d
 		gib->velocity[2] += crandom() * 200;
 	}
 	gib->movetype = MOVETYPE_BOUNCE;
-	gib->gravity = 0.9;
+	gib->gravity = 0.9f;
 	gib->think = G_FreeEdict;
 	gib->nextthink = level.time + 1.0 + random();
 	gib->classname = "damagegib";
 	if (gi.pointcontents(gib->s.origin) & MASK_WATER)
-		VectorScale(gib->velocity, 0.33, gib->velocity);
+		VectorScale(gib->velocity, 0.33f, gib->velocity);
 	gi.linkentity(gib);
 
 	if (damage * 0.1 > count * 3)
@@ -439,7 +439,7 @@ void ThrowGib_exp(edict_t *self, char *gibname, int damage, int type, vec3_t poi
 	else if (strcmp(gibname, "models/objects/gibs/sm_meat2/tris.md2") == 0)
 	{
 		gib->delay = level.time + 2 + (random() * 3);
-		gib->gravity = 0.9;
+		gib->gravity = 0.9f;
 		gib->bounce_amount = BOUNCE_LOWEST;
 
 	}	
@@ -748,7 +748,7 @@ void DebrisThink(edict_t *self)
 	if (self->waterlevel)
 		VectorScale(self->velocity, 0.25, self->velocity);
 	else
-		VectorScale(self->velocity, 0.95, self->velocity);
+		VectorScale(self->velocity, 0.95f, self->velocity);
 	self->velocity[0] *= 0.95 + (random() / 20);
 	self->velocity[1] *= 0.95 + (random() / 20);
 	self->velocity[2] *= 0.95 + (random() / 20);
@@ -3363,7 +3363,7 @@ void CTFResetGrapple(edict_t *self)
 		gclient_t *cl;
 
 		if (self->client->silencer_shots || self->client->pers.sile_health)
-			volume = 0.2;
+			volume = 0.2f;
 
 		gi.sound(self->owner, CHAN_WEAPON, gi.soundindex("weapons/grapple/grreset.wav"), volume, ATTN_NORM, 0);
 		cl = self->owner->client;
@@ -3441,7 +3441,7 @@ void CTFGrappleTouch(edict_t *self, edict_t *other, cplane_t *plane, csurface_t 
 	self->solid = SOLID_NOT;
 	
 	if (self->owner->client->silencer_shots || self->owner->client->pers.sile_health)
-		volume = 0.2;
+		volume = 0.2f;
 	
 	gi.sound(self->owner, CHAN_AUTO, gi.soundindex("weapons/grapple/grpull.wav"), volume, ATTN_IDLE, 0);
 	gi.sound(self, CHAN_AUTO, gi.soundindex("weapons/Grenlb1b.wav"), volume, ATTN_IDLE, 0);
@@ -3576,7 +3576,7 @@ void CTFGrapplePull(edict_t *self)
 			float volume = 1.0;
 
 			if (self->owner->client->silencer_shots || self->client->pers.sile_health)
-				volume = 0.2;
+				volume = 0.2f;
 
 			T_Damage(self->enemy, self, self->owner, self->velocity, self->s.origin, vec3_origin, 1, 1, 0, MOD_GRAPPLE);
 			gi.sound(self, CHAN_WEAPON, gi.soundindex("weapons/grapple/grhurt.wav"), volume, ATTN_NORM, 0);
@@ -3609,7 +3609,7 @@ void CTFGrapplePull(edict_t *self)
 			float volume = 1.0;
 
 			if (self->owner->client->silencer_shots || self->client->pers.sile_health)
-				volume = 0.2;
+				volume = 0.2f;
 
 			self->owner->client->ps.pmove.pm_flags |= PMF_NO_PREDICTION;
 			gi.sound(self->owner, CHAN_WEAPON, gi.soundindex("weapons/grapple/grhang.wav"), volume, ATTN_NORM, 0);
@@ -3754,7 +3754,7 @@ void CTFGrappleFire(edict_t *ent, vec3_t g_offset, int damage, int effect)
 	ent->client->kick_angles[0] = -1;
 
 	if (ent->client->silencer_shots || ent->client->pers.sile_health)
-		volume = 0.2;
+		volume = 0.2f;
 
 	gi.sound(ent, CHAN_WEAPON, gi.soundindex("weapons/grapple/grfire.wav"), volume, ATTN_NORM, 0);
 	CTFFireGrapple(ent, start, forward, damage, CTF_GRAPPLE_SPEED, effect);
@@ -3787,7 +3787,7 @@ float VectorLength2d(vec3_t vec)
 float NormalizeF(float f)
 {
 	f = clamp(f, -1, 1);
-		if (f <= 1 & f >= 0)
+		if (f <= 1 && f >= 0)
 			return 1;
 		else
 			return -1;
@@ -3874,11 +3874,11 @@ void fix_angles(edict_t *self)
 		{
 			if (self->s.angles[0] != 0)
 			{
-				self->s.angles[0] *= 0.1;
+				self->s.angles[0] *= 0.1f;
 			}
 			if (self->s.angles[2] != 0)
 			{
-				self->s.angles[2] *= 0.1;
+				self->s.angles[2] *= 0.1f;
 			}
 		}
 		if (fabs(self->s.angles[0]) < 10)
@@ -3931,7 +3931,7 @@ void bubble_think(edict_t *self)
 		return;
 	}
 		
-	VectorScale(self->velocity, 0.9, self->velocity);
+	VectorScale(self->velocity, 0.9f, self->velocity);
 	self->velocity[0] += crandom() * 5;
 	self->velocity[1] += crandom() * 5;
 	vec3_t end;
@@ -3964,7 +3964,7 @@ void spawn_bubble(edict_t *self, vec3_t start)
 	gi.setmodel(bubble, "sprites/s_bubble.sp2");
 	bubble->nextthink = level.time + FRAMETIME;
 	bubble->delay = level.time + 10;
-	bubble->gravity = -0.03;
+	bubble->gravity = -0.03f;
 	bubble->waterlevel = 3;
 	bubble->s.renderfx = RF_TRANSLUCENT;
 	bubble->classname = "bubble";

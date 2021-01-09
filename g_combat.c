@@ -473,7 +473,7 @@ float location_scaling(edict_t *targ, vec3_t point, float damage, int  mod, int 
 				if (z_rel < LEG_DAMAGE)
 				{
 					//gi.bprintf(PRINT_HIGH, "HIT IN *LEG*\n");
-					return 0.66;  // Scale down by 2/3
+					return 0.66f;  // Scale down by 2/3
 
 				}
 				else if (z_rel < STOMACH_DAMAGE)
@@ -485,7 +485,7 @@ float location_scaling(edict_t *targ, vec3_t point, float damage, int  mod, int 
 				else if (z_rel < CHEST_DAMAGE)
 				{
 					//	gi.bprintf(PRINT_HIGH, "HIT IN *CHEST*\n");
-					return 1.20;  // Scale up by 1/5
+					return 1.20f;  // Scale up by 1/5
 
 				}
 				if (z_rel < NECK_DAMAGE)
@@ -516,13 +516,13 @@ float location_scaling(edict_t *targ, vec3_t point, float damage, int  mod, int 
 				if (z_rel < ARM1_DAMAGE)
 				{
 					//gi.bprintf(PRINT_HIGH, "HIT IN *ARM1*\n");
-					return 0.66;  // Scale down by 1/3
+					return 0.66f;  // Scale down by 1/3
 
 				}
 				if (z_rel < ARM2_DAMAGE)
 				{
 					//gi.bprintf(PRINT_HIGH, "HIT IN *ARM2*\n");
-					return 0.66;  // Scale down by 1/3
+					return 0.66f;  // Scale down by 1/3
 
 				}
 
@@ -894,7 +894,7 @@ void T_RadiusDamage (edict_t *inflictor, edict_t *attacker, float damage, edict_
 	edict_t	*ent = NULL;
 	vec3_t	v;
 	vec3_t	dir;
-	radius *= 0.55;
+	radius *= 0.55f;
 	
 	//gi.bprintf(PRINT_HIGH, "T_RadiusDamage\n");
 

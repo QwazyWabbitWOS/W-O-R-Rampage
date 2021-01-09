@@ -99,6 +99,7 @@ void Cmd_DualWieldb(edict_t * ent)
 
 	ent->client->buttonsx &= ~BUTTON_DUAL;
 }
+
 void Cmd_Grapplea(edict_t * ent)
 {
 	ent->client->buttonsx |= BUTTON_GRAPPLE;
@@ -2759,7 +2760,7 @@ void Weapon_HyperBlaster_Fire(edict_t *ent)
 				if (scounter)
 				{
 					type = BOLT_SILENT_HB;
-					ent->client->kick_angles[0] += -0.1;
+					ent->client->kick_angles[0] += -0.1f;
 				}
 				else
 				{
@@ -3028,7 +3029,7 @@ void Machinegun_Fire(edict_t *ent)
 		damage *= 4;
 		kick *= 4;
 	}
-emp:
+//emp:
 
 	   // gi.bprintf(PRINT_HIGH, "sec attack machinegun scounter = %i", ent->client->pers.weapon_ext.scounter);
 

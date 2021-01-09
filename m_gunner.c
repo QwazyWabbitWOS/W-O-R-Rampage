@@ -513,9 +513,9 @@ void GunnerGrenade (edict_t *self)
 	if (difference_z < 64)
 	{
 		if (self->s.origin[2] < end[2])
-			difference_z *= -0.15;
+			difference_z *= -0.15f;
 		else
-			difference_z *= 0.1;
+			difference_z *= 0.1f;
 		angles[0] = angles[0] + difference_z + 10 - (dist2d  / 32);
 	}
 	else if (self->s.origin[2] < end[2])

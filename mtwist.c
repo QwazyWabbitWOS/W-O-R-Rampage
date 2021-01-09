@@ -8,6 +8,13 @@ static char Rcs_Id[] ATTRIBUTE((used)) =
     "$Id: mtwist.c,v 1.28 2014-01-23 21:11:42-08 geoff Exp $";
 #endif
 
+#ifdef _WIN32
+#pragma warning(disable : 4244)     // conversion from 'type1' to 'type2', possible loss of data
+#if _MSC_VER > 1500
+#pragma warning(disable : 4996)		// unsafe CRT functions (_CRT_SECURE_NO_WARNINGS).
+#endif
+#endif
+
 /*
  * C library functions for generating pseudorandom numbers using the
  * Mersenne Twist algorithm.  See M. Matsumoto and T. Nishimura,

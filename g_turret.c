@@ -152,7 +152,7 @@ void turret_breach_think (edict_t *self)
 	if (delta[1] < -1 * self->speed * FRAMETIME)
 		delta[1] = -1 * self->speed * FRAMETIME;
 
-	VectorScale (delta, 1.0/FRAMETIME, self->avelocity);
+	VectorScale (delta, 1.0f / FRAMETIME, self->avelocity);
 
 	self->nextthink = level.time + FRAMETIME;
 
@@ -174,7 +174,7 @@ void turret_breach_think (edict_t *self)
 
 		// x & y
 		angle = self->s.angles[1] + self->owner->move_origin[1];
-		angle *= (M_PI*2 / 360);
+		angle = angle * (M_PI*2.0f / 360.f);
 		target[0] = SnapToEights(self->s.origin[0] + cos(angle) * self->owner->move_origin[0]);
 		target[1] = SnapToEights(self->s.origin[1] + sin(angle) * self->owner->move_origin[0]);
 		target[2] = self->owner->s.origin[2];
