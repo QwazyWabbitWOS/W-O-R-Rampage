@@ -1,5 +1,4 @@
-#ifndef MTWIST_H
-#define MTWIST_H
+#pragma once
 
 /*
  * $Id: mtwist.h,v 1.24 2012-12-31 22:22:03-08 geoff Exp $
@@ -857,4 +856,3 @@ MT_INLINE std::istream& operator>>(
 #endif /* MT_GENERATE_CODE_IN_HEADER */
 #endif /* __cplusplus */
 
-#endif /* MTWIST_H */
