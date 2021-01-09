@@ -395,9 +395,9 @@ extern double		mt_64_to_double;
  * given the information, trust it.
  */
 #ifndef MT_GENERATE_CODE_IN_HEADER
-#ifdef __GNUC__
-#define MT_GENERATE_CODE_IN_HEADER 1
-#endif /* __GNUC__ */
+//#ifdef __GNUC__
+//#define MT_GENERATE_CODE_IN_HEADER 1
+//#endif /* __GNUC__ */
 #if defined(__INTEL_COMPILER)  ||  defined(_MSC_VER)
 #define MT_GENERATE_CODE_IN_HEADER 0
 #endif /* __INTEL_COMPILER || _MSC_VER */
