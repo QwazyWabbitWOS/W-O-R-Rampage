@@ -1558,7 +1558,8 @@ void IntermissionScoreboardMessage(edict_t *ent);
 #define SHOW_OBJECTIVES			0x00000080
 #define SHOW_SECRETS			0x00000100
 #define SHOW_TOTAL				0x00000200
-void create_bloodsplat(ent);
+
+void create_bloodsplat(edict_t* ent);
 qboolean ffire_radius_check(edict_t *self);
 qboolean visible_shootable(edict_t *self, edict_t *other);
 void ThrowGib_damage(edict_t *self, edict_t *inflictor, edict_t *attacker, int damage, vec3_t point);
@@ -1662,7 +1663,7 @@ extern int Sol_death5_end;
 #define MONSTER_RADIUSDMGAVOID_RADIUS 192
 float get_dist2d_point(vec3_t point1, vec3_t point2);
 #define FLAK_SPREAD 4
-static int	sound_alarm_debug;
+int	sound_alarm_debug;
 #define TYPE_HITSCAN 0
 #define TYPE_GRENADE 1
 #define TYPE_PROJECTILE 2
