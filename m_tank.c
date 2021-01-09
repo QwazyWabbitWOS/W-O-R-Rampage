@@ -82,36 +82,36 @@ void tank_idle (edict_t *self)
 
 mframe_t tank_frames_stand []=
 {
-	ai_stand, 0, NULL,
-	ai_stand, 0, NULL,
-	ai_stand, 0, NULL,
-	ai_stand, 0, NULL,
-	ai_stand, 0, NULL,
-	ai_stand, 0, NULL,
-	ai_stand, 0, NULL,
-	ai_stand, 0, NULL,
-	ai_stand, 0, NULL,
-	ai_stand, 0, NULL,
-	ai_stand, 0, NULL,
-	ai_stand, 0, NULL,
-	ai_stand, 0, NULL,
-	ai_stand, 0, NULL,
-	ai_stand, 0, NULL,
-	ai_stand, 0, NULL,
-	ai_stand, 0, NULL,
-	ai_stand, 0, NULL,
-	ai_stand, 0, NULL,
-	ai_stand, 0, NULL,
-	ai_stand, 0, NULL,
-	ai_stand, 0, NULL,
-	ai_stand, 0, NULL,
-	ai_stand, 0, NULL,
-	ai_stand, 0, NULL,
-	ai_stand, 0, NULL,
-	ai_stand, 0, NULL,
-	ai_stand, 0, NULL,
-	ai_stand, 0, NULL,
-	ai_stand, 0, NULL
+	{ai_stand, 0, NULL},
+	{ai_stand, 0, NULL},
+	{ai_stand, 0, NULL},
+	{ai_stand, 0, NULL},
+	{ai_stand, 0, NULL},
+	{ai_stand, 0, NULL},
+	{ai_stand, 0, NULL},
+	{ai_stand, 0, NULL},
+	{ai_stand, 0, NULL},
+	{ai_stand, 0, NULL},
+	{ai_stand, 0, NULL},
+	{ai_stand, 0, NULL},
+	{ai_stand, 0, NULL},
+	{ai_stand, 0, NULL},
+	{ai_stand, 0, NULL},
+	{ai_stand, 0, NULL},
+	{ai_stand, 0, NULL},
+	{ai_stand, 0, NULL},
+	{ai_stand, 0, NULL},
+	{ai_stand, 0, NULL},
+	{ai_stand, 0, NULL},
+	{ai_stand, 0, NULL},
+	{ai_stand, 0, NULL},
+	{ai_stand, 0, NULL},
+	{ai_stand, 0, NULL},
+	{ai_stand, 0, NULL},
+	{ai_stand, 0, NULL},
+	{ai_stand, 0, NULL},
+	{ai_stand, 0, NULL},
+	{ai_stand, 0, NULL}
 };
 mmove_t	tank_move_stand = {FRAME_stand01, FRAME_stand30, tank_frames_stand, NULL};
 	
@@ -129,41 +129,41 @@ void tank_walk (edict_t *self);
 
 mframe_t tank_frames_start_walk [] =
 {
-	ai_walk,  0, NULL,
-	ai_walk,  6, NULL,
-	ai_walk,  6, NULL,
-	ai_walk, 11, tank_footstep
+	{ai_walk,  0, NULL},
+	{ai_walk,  6, NULL},
+	{ai_walk,  6, NULL},
+	{ai_walk, 11, tank_footstep}
 };
 mmove_t	tank_move_start_walk = {FRAME_walk01, FRAME_walk04, tank_frames_start_walk, tank_walk};
 
 mframe_t tank_frames_walk [] =
 {
-	ai_walk, 4,	NULL,
-	ai_walk, 5,	NULL,
-	ai_walk, 3,	NULL,
-	ai_walk, 2,	NULL,
-	ai_walk, 5,	NULL,
-	ai_walk, 5,	NULL,
-	ai_walk, 4,	NULL,
-	ai_walk, 4,	tank_footstep,
-	ai_walk, 3,	NULL,
-	ai_walk, 5,	NULL,
-	ai_walk, 4,	NULL,
-	ai_walk, 5,	NULL,
-	ai_walk, 7,	NULL,
-	ai_walk, 7,	NULL,
-	ai_walk, 6,	NULL,
-	ai_walk, 6,	tank_footstep
+	{ai_walk, 4,	NULL},
+	{ai_walk, 5,	NULL},
+	{ai_walk, 3,	NULL},
+	{ai_walk, 2,	NULL},
+	{ai_walk, 5,	NULL},
+	{ai_walk, 5,	NULL},
+	{ai_walk, 4,	NULL},
+	{ai_walk, 4,	tank_footstep},
+	{ai_walk, 3,	NULL},
+	{ai_walk, 5,	NULL},
+	{ai_walk, 4,	NULL},
+	{ai_walk, 5,	NULL},
+	{ai_walk, 7,	NULL},
+	{ai_walk, 7,	NULL},
+	{ai_walk, 6,	NULL},
+	{ai_walk, 6,	tank_footstep}
 };
 mmove_t	tank_move_walk = {FRAME_walk05, FRAME_walk20, tank_frames_walk, NULL};
 
 mframe_t tank_frames_stop_walk [] =
 {
-	ai_walk,  3, NULL,
-	ai_walk,  3, NULL,
-	ai_walk,  2, NULL,
-	ai_walk,  2, NULL,
-	ai_walk,  4, tank_footstep
+	{ai_walk,  3, NULL},
+	{ai_walk,  3, NULL},
+	{ai_walk,  2, NULL},
+	{ai_walk,  2, NULL},
+	{ai_walk,  4, tank_footstep}
 };
 mmove_t	tank_move_stop_walk = {FRAME_walk21, FRAME_walk25, tank_frames_stop_walk, tank_stand};
 
@@ -181,41 +181,41 @@ void tank_run (edict_t *self);
 
 mframe_t tank_frames_start_run [] =
 {
-	ai_run,  0, NULL,
-	ai_run,  6, NULL,
-	ai_run,  6, NULL,
-	ai_run, 11, tank_footstep
+	{ai_run,  0, NULL},
+	{ai_run,  6, NULL},
+	{ai_run,  6, NULL},
+	{ai_run, 11, tank_footstep}
 };
 mmove_t	tank_move_start_run = {FRAME_walk01, FRAME_walk04, tank_frames_start_run, tank_run};
 
 mframe_t tank_frames_run [] =
 {
-	ai_run, 4,	NULL,
-	ai_run, 5,	NULL,
-	ai_run, 3,	NULL,
-	ai_run, 2,	NULL,
-	ai_run, 5,	NULL,
-	ai_run, 5,	NULL,
-	ai_run, 4,	NULL,
-	ai_run, 4,	tank_footstep,
-	ai_run, 3,	NULL,
-	ai_run, 5,	NULL,
-	ai_run, 4,	NULL,
-	ai_run, 5,	NULL,
-	ai_run, 7,	NULL,
-	ai_run, 7,	NULL,
-	ai_run, 6,	NULL,
-	ai_run, 6,	tank_footstep
+	{ai_run, 4,	NULL},
+	{ai_run, 5,	NULL},
+	{ai_run, 3,	NULL},
+	{ai_run, 2,	NULL},
+	{ai_run, 5,	NULL},
+	{ai_run, 5,	NULL},
+	{ai_run, 4,	NULL},
+	{ai_run, 4,	tank_footstep},
+	{ai_run, 3,	NULL},
+	{ai_run, 5,	NULL},
+	{ai_run, 4,	NULL},
+	{ai_run, 5,	NULL},
+	{ai_run, 7,	NULL},
+	{ai_run, 7,	NULL},
+	{ai_run, 6,	NULL},
+	{ai_run, 6,	tank_footstep}
 };
 mmove_t	tank_move_run = {FRAME_walk05, FRAME_walk20, tank_frames_run, NULL};
 
 mframe_t tank_frames_stop_run [] =
 {
-	ai_run,  3, NULL,
-	ai_run,  3, NULL,
-	ai_run,  2, NULL,
-	ai_run,  2, NULL,
-	ai_run,  4, tank_footstep
+	{ai_run,  3, NULL},
+	{ai_run,  3, NULL},
+	{ai_run,  2, NULL},
+	{ai_run,  2, NULL},
+	{ai_run,  4, tank_footstep}
 };
 mmove_t	tank_move_stop_run = {FRAME_walk21, FRAME_walk25, tank_frames_stop_run, tank_walk};
 
@@ -249,41 +249,41 @@ void tank_run (edict_t *self)
 
 mframe_t tank_frames_pain1 [] =
 {
-	ai_move, 0, NULL,
-	ai_move, 0, NULL,
-	ai_move, 0, NULL,
-	ai_move, 0, tank_cover_fire
+	{ai_move, 0, NULL},
+	{ai_move, 0, NULL},
+	{ai_move, 0, NULL},
+	{ai_move, 0, tank_cover_fire}
 };
 mmove_t tank_move_pain1 = {FRAME_pain101, FRAME_pain104, tank_frames_pain1, tank_run};
 
 mframe_t tank_frames_pain2 [] =
 {
-	ai_move, 0, NULL,
-	ai_move, 0, NULL,
-	ai_move, 0, NULL,
-	ai_move, 0, NULL,
-	ai_move, 0, tank_cover_fire
+	{ai_move, 0, NULL},
+	{ai_move, 0, NULL},
+	{ai_move, 0, NULL},
+	{ai_move, 0, NULL},
+	{ai_move, 0, tank_cover_fire}
 };
 mmove_t tank_move_pain2 = {FRAME_pain201, FRAME_pain205, tank_frames_pain2, tank_run};
 
 mframe_t tank_frames_pain3 [] =
 {
-	ai_move, -7, NULL,
-	ai_move, 0,  faster_pain,
-	ai_move, 0,  faster_pain,
-	ai_move, 0,  faster_pain,
-	ai_move, 2,  faster_pain,
-	ai_move, 0,  faster_pain,
-	ai_move, 0,  faster_pain,
-	ai_move, 3,  faster_pain,
-	ai_move, 0,  faster_pain,
-	ai_move, 2,  faster_pain,
-	ai_move, 0,  faster_pain,
-	ai_move, 0,  faster_pain,
-	ai_move, 0,  faster_pain,
-	ai_move, 0,  faster_pain,
-	ai_move, 0,  faster_pain,
-	ai_move, 0,  tank_footstep
+	{ai_move, -7, NULL},
+	{ai_move, 0,  faster_pain},
+	{ai_move, 0,  faster_pain},
+	{ai_move, 0,  faster_pain},
+	{ai_move, 2,  faster_pain},
+	{ai_move, 0,  faster_pain},
+	{ai_move, 0,  faster_pain},
+	{ai_move, 3,  faster_pain},
+	{ai_move, 0,  faster_pain},
+	{ai_move, 2,  faster_pain},
+	{ai_move, 0,  faster_pain},
+	{ai_move, 0,  faster_pain},
+	{ai_move, 0,  faster_pain},
+	{ai_move, 0,  faster_pain},
+	{ai_move, 0,  faster_pain},
+	{ai_move, 0,  tank_footstep}
 };
 mmove_t	tank_move_pain3 = {FRAME_pain301, FRAME_pain316, tank_frames_pain3, tank_run};
 

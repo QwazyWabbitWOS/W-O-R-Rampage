@@ -76,7 +76,7 @@ mframe_t berserk_frames_stand_fidget [] =
 	{ai_stand, 0, NULL},
 	{ai_stand, 0, NULL},
 	{ai_stand, 0, NULL},
-	{ai_stand, 0, NULL},
+	ai_stand, 0, berserk_fidget_sound,
 	{ai_stand, 0, NULL},
 	{ai_stand, 0, NULL},
 	{ai_stand, 0, NULL},
