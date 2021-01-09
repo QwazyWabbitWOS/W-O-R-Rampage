@@ -1657,8 +1657,8 @@ float frame_mult();
 #define MAX_TEMP_INACCURACY_MULTIPLIER 2
 #define TEMP_INACCURACY_DIVIDER 0.05
 qboolean check_frames(edict_t *self, int start_frame, int end_frame);
-extern Sol_death5_start;
-extern Sol_death5_end;
+extern int Sol_death5_start;
+extern int Sol_death5_end;
 #define MONSTER_RADIUSDMGAVOID_RADIUS 192
 float get_dist2d_point(vec3_t point1, vec3_t point2);
 #define FLAK_SPREAD 4
