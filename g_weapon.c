@@ -2199,7 +2199,7 @@ fire:
 		gi.WriteByte(5);
 		gi.WritePosition(tr.endpos);
 		gi.WriteDir(tr.plane.normal);
-		gi.WriteByte((int)"06f0");
+		gi.WriteByte(220);
 		gi.multicast(tr.endpos, MULTICAST_PVS);
 
 		VectorCopy(tr.endpos, self->s.origin);

@@ -52,18 +52,18 @@ static int	sound_death_ss;
 static int	sound_cock;
 
 
-vec3_t soldier_death4_angles_fire[] = { -27.169811, -115.125000, 0.0,
-										-38.909775, -124.266052, 0.0,
-										-47.423077, -128.973206, 0.0,
-										-47.196, -135.0, 0.0,
-										-46.451614, -120.815216, 0.0,
-										-33.250000, -130.178574, 0.0,
-										-27.486486, -127.500000, 0.0,
-										-41.227543, -123.500000, 0.0 };
+vec3_t soldier_death4_angles_fire[] = { -27.169811f, -115.125000f, 0.0f,
+										-38.909775f, -124.266052f, 0.0f,
+										-47.423077f, -128.973206f, 0.0f,
+										-47.196f, -135.0f, 0.0f,
+										-46.451614f, -120.815216f, 0.0f,
+										-33.250000f, -130.178574f, 0.0f,
+										-27.486486f, -127.500000f, 0.0f,
+										-41.227543f, -123.500000f, 0.0f };
 
 //vec3_t soldier_death4_angles_fire1 = { -90.0, -135.0, 47.196 };
 //vec3_t soldier_death4_angles_fire1 = { 90.0, 0.0, 0.0 };
-vec3_t soldier_death4_fire1 = {0.0, 0.2378, 0.7866};
+vec3_t soldier_death4_fire1 = {0.0f, 0.2378f, 0.7866f};
 void soldier_stand3_skip(self);
 void soldier_jump_detail(edict_t *self);
 
@@ -694,9 +694,9 @@ void soldier_pain (edict_t *self, edict_t *other, float kick, int damage)
 	if (self->monsterinfo.aiflags & AI_DUCKED)
 		soldier_duck_up(self);
 
-		float num = clamp(self->yaw_speed * (clamp(1 - ((float)damage / (float)self->max_health), 1, 0.02)), 999, 0.25);
+		float num = clamp(self->yaw_speed * (clamp(1 - ((float)damage / (float)self->max_health), 1, 0.02f)), 999, 0.25);
 	if (self->health <= 0)
-		self->yaw_speed *= 0.02;
+		self->yaw_speed *= 0.02f;
 	//gi.bprintf(PRINT_HIGH, "SOLDIER PAIN: num = %f, yaw_speed = %f\n", num, self->yaw_speed);
 
 	self->yaw_speed = num;
@@ -905,24 +905,24 @@ void soldier_attack2_refire2 (edict_t *self)
 
 mframe_t soldier_frames_attack2 [] =
 {
-	ai_charge, 0, NULL,
-	ai_charge, 0, NULL,
-	ai_charge, 0, NULL,
-	ai_charge, 0, NULL,
-	ai_charge, 0, soldier_fire2,
-	ai_charge, 0, NULL,
-	ai_charge, 0, NULL,
-	ai_charge, 0, soldier_attack2_refire1,
-	ai_charge, 0, NULL,
-	ai_charge, 0, NULL,
-	ai_charge, 0, NULL,
-	ai_charge, 0, NULL,
-	ai_charge, 0, soldier_cock,
-	ai_charge, 0, NULL,
-	ai_charge, 0, soldier_attack2_refire2,
-	ai_charge, 0, NULL,
-	ai_charge, 0, NULL,
-	ai_charge, 0, NULL
+	{ai_charge, 0, NULL},
+	{ai_charge, 0, NULL},
+	{ai_charge, 0, NULL},
+	{ai_charge, 0, NULL},
+	{ai_charge, 0, soldier_fire2},
+	{ai_charge, 0, NULL},
+	{ai_charge, 0, NULL},
+	{ai_charge, 0, soldier_attack2_refire1},
+	{ai_charge, 0, NULL},
+	{ai_charge, 0, NULL},
+	{ai_charge, 0, NULL},
+	{ai_charge, 0, NULL},
+	{ai_charge, 0, soldier_cock},
+	{ai_charge, 0, NULL},
+	{ai_charge, 0, soldier_attack2_refire2},
+	{ai_charge, 0, NULL},
+	{ai_charge, 0, NULL},
+	{ai_charge, 0, NULL}
 };
 mmove_t soldier_move_attack2 = {FRAME_attak201, FRAME_attak218, soldier_frames_attack2, soldier_run};
 
@@ -2579,7 +2579,7 @@ void SP_monster_soldier_x (edict_t *self)
 {
 	self->monsterinfo.monster_type = MONSTER_SOLDIER;
 
-	self->monsterinfo.weapon_offset = 10.6;
+	self->monsterinfo.weapon_offset = 10.6f;
 	self->s.modelindex = gi.modelindex ("models/monsters/soldier/tris.md2");
 	self->monsterinfo.scale = MODEL_SCALE;
 	VectorSet (self->mins, -12, -12, -20);

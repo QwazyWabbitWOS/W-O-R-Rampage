@@ -933,6 +933,11 @@ void Cmd_Grapplea(edict_t* ent);
 void Cmd_Grappleb(edict_t* ent);
 
 //
+// m_soldier.c
+//
+void soldier_stand3_skip(edict_t* self);
+
+//
 // g_player.c
 //
 void player_pain (edict_t *self, edict_t *other, float kick, int damage);
