@@ -539,7 +539,7 @@ void IntermissionScoreboardMessage(edict_t *ent)
 				"xv %i yv %i %s \" %i \" "
 				"xv %i yv %i %s \" %i \" "
 				"xv %i yv %i %s \" %i \" "
-				, x, y + 32, tag, x, y + 32, (int)cl_ent->client->pers.netname,
+				, x, y + 32, tag, x, y + 32, cl_ent->client->pers.netname,
 				x, y + 64, dmg_received, (int)cl_ent->client->resp.score_dmg_received * (level.show & SHOW_DMG_RECEIVED),
 				x, y + 80, dmg_dealt, (int)cl_ent->client->resp.score_dmg_dealt * (level.show & SHOW_DMG_DEALT),
 				x, y + 96, dmg_saved, (int)cl_ent->client->resp.score_dmg_saved * (level.show & SHOW_DMG_SAVED),
