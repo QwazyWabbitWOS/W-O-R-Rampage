@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 // g_local.h -- local definitions for game module
 
-#define _POSIX_C_SOURCE 1 // for strdup
+#define _POSIX_C_SOURCE 200809L // for strdup
 
 #include "q_shared.h"
 
