@@ -189,7 +189,7 @@ void  InitGame (void)
 	// change anytime vars
 	dmflags = gi.cvar ("dmflags", "0", CVAR_SERVERINFO);
 	fraglimit = gi.cvar ("fraglimit", "0", CVAR_SERVERINFO);
-	timelimit = gi.cvar ("timelimit", "0", CVAR_SERVERINFO);
+	timelimit = gi.cvar ("timelimit", "0", 0);
 	password = gi.cvar ("password", "", CVAR_USERINFO);
 	spectator_password = gi.cvar ("spectator_password", "", CVAR_USERINFO);
 	needpass = gi.cvar ("needpass", "0", CVAR_SERVERINFO);
@@ -210,17 +210,17 @@ void  InitGame (void)
 
 	// dm map list
 	sv_maplist = gi.cvar ("sv_maplist", "", 0);
-	jump_max_charge = gi.cvar("rampage_jump_max_charge", "600", CVAR_SERVERINFO);
-	blaster_drop = gi.cvar("rampage_blaster_drop", "1", CVAR_SERVERINFO);
-	dm_items = gi.cvar("rampage_dm_items", "0", CVAR_SERVERINFO);
-	item_mod = gi.cvar("rampage_item_mod", "1", CVAR_SERVERINFO | CVAR_LATCH);
-	skyblend_maximum = gi.cvar("rampage_skyblend_maximum", "0.15", CVAR_SERVERINFO);
-	skyblend_minimum = gi.cvar("rampage_skyblend_minimum", "0.1", CVAR_SERVERINFO);
-	skyblend_speed = gi.cvar("rampage_skyblend_speed", "0.005", CVAR_SERVERINFO);
-	sunblend = gi.cvar("rampage_sunblend", "1", CVAR_SERVERINFO);
-	real_shotgun_spread = gi.cvar("rampage_real_shotgun_spread", "0", CVAR_SERVERINFO);
-	real_gibbing = gi.cvar("rampage_real_gibbing", "0", CVAR_SERVERINFO);
-	paranoia_mode = gi.cvar("rampage_paranoia_mode", "0", CVAR_SERVERINFO);
+	jump_max_charge = gi.cvar("rampage_jump_max_charge", "600", 0);
+	blaster_drop = gi.cvar("rampage_blaster_drop", "1", 0);
+	dm_items = gi.cvar("rampage_dm_items", "0", 0);
+	item_mod = gi.cvar("rampage_item_mod", "1", CVAR_LATCH);
+	skyblend_maximum = gi.cvar("rampage_skyblend_maximum", "0.15", 0);
+	skyblend_minimum = gi.cvar("rampage_skyblend_minimum", "0.1", 0);
+	skyblend_speed = gi.cvar("rampage_skyblend_speed", "0.005", 0);
+	sunblend = gi.cvar("rampage_sunblend", "1", 0);
+	real_shotgun_spread = gi.cvar("rampage_real_shotgun_spread", "0", 0);
+	real_gibbing = gi.cvar("rampage_real_gibbing", "0", 0);
+	paranoia_mode = gi.cvar("rampage_paranoia_mode", "0", 0);
 	// items
 	InitItems ();
 
