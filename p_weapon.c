@@ -2373,7 +2373,7 @@ void Blaster_Fire(edict_t *ent, vec3_t g_offset, int damage, int type, int effec
 	vec3_t	forward, right;
 	vec3_t	start;
 	vec3_t	offset;
-	int speed;
+	int speed = 0;
 	if (item_mod->value)
 	{
 		if (is_quad)

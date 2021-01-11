@@ -189,13 +189,13 @@ vec3_t monster_flash_offset [] =
 // MZ2_BOSS2_MACHINEGUN_L1			73
 	{-32.f,	-40.f,	70.f},
 // MZ2_BOSS2_MACHINEGUN_L2			74
-	{-32,	-40,	70},
+	{-32.f,	-40.f,	70.f},
 // MZ2_BOSS2_MACHINEGUN_L3			75
-	{-32,	-40,	70},
+	{-32.f,	-40.f,	70.f},
 // MZ2_BOSS2_MACHINEGUN_L4			76
-	{-32,	-40,	70},
+	{-32.f,	-40.f,	70.f},
 // MZ2_BOSS2_MACHINEGUN_L5			77
-	{-32,	-40,	70},
+	{-32.f,	-40.f,	70.f},
 // --- End Xian Stuff
 
 // MZ2_BOSS2_ROCKET_1				78
@@ -208,49 +208,49 @@ vec3_t monster_flash_offset [] =
 	{22.0f, -16.0f, 10.0f},
 
 // MZ2_FLOAT_BLASTER_1				82
-	{32.5f, -0.8f, 10},
+	{32.5f, -0.8f, 10.f},
 
 // MZ2_SOLDIER_BLASTER_3			83
-	20.8, 10.1, -0.7,
+	20.8f, 10.1f, -0.7f,
 // MZ2_SOLDIER_SHOTGUN_3			84
-	20.8, 10.1, -0.7,
+	20.8f, 10.1f, -0.7f,
 // MZ2_SOLDIER_MACHINEGUN_3			85
-	20.8, 10.1, -0.7,
+	20.8f, 10.1f, -0.7f,
 // MZ2_SOLDIER_BLASTER_4			86
-	7.6, 9.3, 2.8,
+	7.6f, 9.3f, 2.8f,
 // MZ2_SOLDIER_SHOTGUN_4			87
-	7.6, 9.3, 2.8,
+	7.6f, 9.3f, 2.8f,
 // MZ2_SOLDIER_MACHINEGUN_4			88
-	7.6, 9.3, 4.8,
+	7.6f, 9.3f, 4.8f,
 // MZ2_SOLDIER_BLASTER_5			89
-	30.5, 9.9, -16.7,
+	30.5f, 9.9f, -16.7f,
 // MZ2_SOLDIER_SHOTGUN_5			90
-	30.5, 9.9, -16.7,
+	30.5f, 9.9f, -16.7f,
 // MZ2_SOLDIER_MACHINEGUN_5			91
-	30.5, 9.9, -16.7,
+	30.5f, 9.9f, -16.7f,
 // MZ2_SOLDIER_BLASTER_6			92
-	27.6, 3.4, -8.4,
+	27.6f, 3.4f, -8.4f,
 // MZ2_SOLDIER_SHOTGUN_6			93
-	27.6, 3.4, -8.4,
+	27.6f, 3.4f, -8.4f,
 // MZ2_SOLDIER_MACHINEGUN_6			94
-	27.6, 3.4, -8.4,
+	27.6f, 3.4f, -8.4f,
 // MZ2_SOLDIER_BLASTER_7			95
-	28.9, 4.6, -6.1,
+	28.9f, 4.6f, -6.1f,
 // MZ2_SOLDIER_SHOTGUN_7			96
-	28.9, 4.6, -6.1,
+	28.9f, 4.6f, -6.1f,
 // MZ2_SOLDIER_MACHINEGUN_7			97
-	28.9, 4.6, -6.1,
+	28.9f, 4.6f, -6.1f,
 // MZ2_SOLDIER_BLASTER_8			98
 //	34.5, 9.6, 6.1,
-	31.5, 9.6, 12.1,
+	31.5f, 9.6f, 12.1f,
 // MZ2_SOLDIER_SHOTGUN_8			99
-	34.5, 9.6, 8.1,
+	34.5f, 9.6f, 8.1f,
 // MZ2_SOLDIER_MACHINEGUN_8			100
-	34.5, 9.6 , 8.1,
+	34.5f, 9.6f , 8.1f,
 
 // --- Xian shit below ---
 // MZ2_MAKRON_BFG					101
-	{17,		-19.5f,	62.9f},
+	{17.f,	-19.5f,	62.9f},
 // MZ2_MAKRON_BLASTER_1				102
 	{-3.6f,	-24.1f,	59.5f},
 // MZ2_MAKRON_BLASTER_2				103
@@ -266,13 +266,13 @@ vec3_t monster_flash_offset [] =
 // MZ2_MAKRON_BLASTER_7				108
 	{-0.3f,	22.3f,	59.5f},
 // MZ2_MAKRON_BLASTER_8				109
-	{-6,		33,		59.5f},
+	{-6.f,	33.f,	59.5f},
 // MZ2_MAKRON_BLASTER_9				110
 	{-9.3f,	36.4f,	59.5f},
 // MZ2_MAKRON_BLASTER_10			111
-	{-7,		35,		59.5f},
+	{-7,	35.0f,	59.5f},
 // MZ2_MAKRON_BLASTER_11			112
-	{-2.1f,	29,		59.5f},
+	{-2.1f,	29.0f,	59.5f},
 // MZ2_MAKRON_BLASTER_12			113
 	{3.9f,	17.3f,	59.5f},
 // MZ2_MAKRON_BLASTER_13			114
@@ -289,42 +289,42 @@ vec3_t monster_flash_offset [] =
 	{-17.3f,	7.8f,	72.4f},
 
 // MZ2_JORG_MACHINEGUN_L1			120
-	{78.5f,	-47.1f,	96},			
+	{78.5f,	-47.1f,	96.f},			
 // MZ2_JORG_MACHINEGUN_L2			121
-	{78.5f,	-47.1f,	96},			
+	{78.5f,	-47.1f,	96.f},			
 // MZ2_JORG_MACHINEGUN_L3			122
-	{78.5f,	-47.1f,	96},			
+	{78.5f,	-47.1f,	96.f},			
 // MZ2_JORG_MACHINEGUN_L4			123
-	{78.5f,	-47.1f,	96},			
+	{78.5f,	-47.1f,	96.f},			
 // MZ2_JORG_MACHINEGUN_L5			124
-	{78.5f,	-47.1f,	96},			
+	{78.5f,	-47.1f,	96.f},			
 // MZ2_JORG_MACHINEGUN_L6			125
-	{78.5f,	-47.1f,	96},			
+	{78.5f,	-47.1f,	96.f},			
 // MZ2_JORG_MACHINEGUN_R1			126
-	{78.5f,	46.7f,  96},			
+	{78.5f,	46.7f,  96.f},			
 // MZ2_JORG_MACHINEGUN_R2			127
-	{78.5f,	46.7f,	96},			
+	{78.5f,	46.7f,	96.f},			
 // MZ2_JORG_MACHINEGUN_R3			128
-	{78.5f,	46.7f,	96},			
+	{78.5f,	46.7f,	96.f},			
 // MZ2_JORG_MACHINEGUN_R4			129
-	{78.5f,	46.7f,	96},			
+	{78.5f,	46.7f,	96.f},			
 // MZ2_JORG_MACHINEGUN_R5			130
-	{78.5f,	46.7f,	96},			
+	{78.5f,	46.7f,	96.f},			
 // MZ2_JORG_MACHINEGUN_R6			131
-	{78.5f,	46.7f,	96},			
+	{78.5f,	46.7f,	96.f},			
 // MZ2_JORG_BFG_1					132
-	{6.3f,	-9,		111.2f},
+	{6.3f,	-9.f,	111.2f},
 
 // MZ2_BOSS2_MACHINEGUN_R1			73
-	{-32,	40,	70},
+	{-32.f,	40.f,	70.f},
 // MZ2_BOSS2_MACHINEGUN_R2			74
-	{-32,	40,	70},
+	{-32.f,	40.f,	70.f},
 // MZ2_BOSS2_MACHINEGUN_R3			75
-	{-32,	40,	70},
+	{-32.f,	40.f,	70.f},
 // MZ2_BOSS2_MACHINEGUN_R4			76
-	{-32,	40,	70},
+	{-32.f,	40.f,	70.f},
 // MZ2_BOSS2_MACHINEGUN_R5			77
-	{-32,	40,	70},
+	{-32.f,	40.f,	70.f},
 
 // --- End Xian Shit ---
 

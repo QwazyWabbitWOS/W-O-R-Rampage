@@ -196,11 +196,11 @@ void P_DamageFeedback(edict_t *player)
 		side = DotProduct(v, right);
 		vec3_t kick_v;
 		VectorClear(kick_v);
-		kick_v[ROLL] += kick * side * 0.3 * ((skill->value / 2) + 1) * ((random() / 2) + 1);
-		kick_v[YAW] += kick * side * 0.3 * ((skill->value / 2) + 1) * ((random() / 2) + 1);
+		kick_v[ROLL] += kick * side * 0.3f * ((skill->value / 2) + 1) * ((random() / 2) + 1);
+		kick_v[YAW] += kick * side * 0.3f * ((skill->value / 2) + 1) * ((random() / 2) + 1);
 
 		side = -DotProduct(v, forward);
-		kick_v[PITCH] += kick * side * 0.3 * ((skill->value / 2) + 1) * ((random() / 2) + 1);
+		kick_v[PITCH] += kick * side * 0.3f * ((skill->value / 2) + 1) * ((random() / 2) + 1);
 
 		if (VectorLength(kick_v) > 5)
 			VectorScale(kick_v, 0.75, kick_v);
@@ -346,7 +346,7 @@ void SV_CalcViewOffset(edict_t *ent)
 	ratio = (ent->client->fall_time - level.time) / FALL_TIME;
 	if (ratio < 0)
 		ratio = 0;
-	v[2] -= ratio * ent->client->fall_value * 0.4;
+	v[2] -= ratio * ent->client->fall_value * 0.4f;
 
 	// add bob height
 
@@ -1538,7 +1538,7 @@ void ClientEndServerFrame(edict_t *ent)
 	// calculate speed and cycle to be used for
 	// all cyclic walking effects
 	//
-	xyspeed = sqrt(ent->velocity[0] * ent->velocity[0] + ent->velocity[1] * ent->velocity[1]);
+	xyspeed = sqrtf(ent->velocity[0] * ent->velocity[0] + ent->velocity[1] * ent->velocity[1]);
 
 	if (xyspeed < 5)
 	{

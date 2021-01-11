@@ -412,7 +412,7 @@ void update_move_frame(edict_t *self)
 {
 	self->monsterinfo.next_dir_change = level.time + 0.1;
 	//return;
-	int frame_num;
+	int frame_num = 0;
 	if (self->s.frame >= FRAME_run01 && self->s.frame <= FRAME_run08)
 	{
 		frame_num = self->s.frame - FRAME_run01;
@@ -785,7 +785,7 @@ void soldier_attack1_refire1 (edict_t *self)
 		return;
 	}
 
-	if ( ((skill->value == 3) && (random() < 0.5) || range(self, self->enemy) == RANGE_MELEE || self->monsterinfo.aggression + random() < 1.75 && skill->value > 3)  )
+	if ( ((skill->value == 3) && (random() < 0.5) || range(self, self->enemy) == RANGE_MELEE || self->monsterinfo.aggression + random() < 1.75f && skill->value > 3)  )
 		self->monsterinfo.nextframe = FRAME_attak102;
 	else
 	{
@@ -810,7 +810,7 @@ void soldier_attack1_refire2 (edict_t *self)
 		return;
 	}
 
-	if (((skill->value == 3) && (random() < 0.5) || range(self, self->enemy) == RANGE_MELEE || self->monsterinfo.aggression + random() < 1.75 && skill->value > 3))
+	if (((skill->value == 3) && (random() < 0.5) || range(self, self->enemy) == RANGE_MELEE || self->monsterinfo.aggression + random() < 1.75f && skill->value > 3))
 		self->monsterinfo.nextframe = FRAME_attak102;
 }
 void jump_skip_frame(edict_t *self)
@@ -880,7 +880,7 @@ void soldier_attack2_refire1 (edict_t *self)
 		return;
 	}
 
-	if (((skill->value == 3) && (random() < 0.5) || range(self, self->enemy) == RANGE_MELEE || self->monsterinfo.aggression + random() < 1.75 && skill->value > 3))
+	if (((skill->value == 3) && (random() < 0.5) || range(self, self->enemy) == RANGE_MELEE || self->monsterinfo.aggression + random() < 1.75f && skill->value > 3))
 		self->monsterinfo.nextframe = FRAME_attak204;
 	else
 		self->monsterinfo.nextframe = FRAME_attak218;
@@ -899,7 +899,7 @@ void soldier_attack2_refire2 (edict_t *self)
 		return;
 	}
 
-	if (((skill->value == 3) && (random() < 0.5) || range(self, self->enemy) == RANGE_MELEE || self->monsterinfo.aggression + random() < 1.75 && skill->value > 3))
+	if (((skill->value == 3) && (random() < 0.5) || range(self, self->enemy) == RANGE_MELEE || self->monsterinfo.aggression + random() < 1.75f && skill->value > 3))
 		self->monsterinfo.nextframe = FRAME_attak204;
 }
 
@@ -1745,7 +1745,7 @@ void soldier_dodge(edict_t *self, edict_t *attacker, float eta)
 	if (skill->value >= 2)
 	{
 		
-		if (self->monsterinfo.aggression + r + (skill->value / 4) < 0.0)
+		if (self->monsterinfo.aggression + r + (skill->value / 4) < 0.0f)
 		{
 			//gi.bprintf(PRINT_HIGH, "SOLDIER DODGE: DECIDED TO DUCK!\n");
 			self->monsterinfo.currentmove = &soldier_move_duck;

@@ -1119,7 +1119,7 @@ void SV_Physics_Step (edict_t *ent)
 			if (!(ent->health <= 0.0 && !M_CheckBottom(ent)))
 			{
 				vel = ent->velocity;
-				speed = sqrt(vel[0]*vel[0] +vel[1]*vel[1]);
+				speed = sqrtf(vel[0]*vel[0] +vel[1]*vel[1]);
 				if (speed)
 				{
 					if(ent->flags & FL_FLY)

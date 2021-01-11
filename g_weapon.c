@@ -124,7 +124,7 @@ qboolean fire_hit(edict_t *self, vec3_t aim, int damage, int kick)
 	vec3_t		forward, right, up;
 	vec3_t		v;
 	vec3_t		point;
-	float		range;
+	float		range = 0;
 	vec3_t		dir;
 
 	//see if enemy is in range
@@ -735,7 +735,7 @@ void blaster_think(edict_t *ent)
 void add_gravity(edict_t *ent)
 {
 	if (ent->waterlevel == 0 && !ent->groundentity)
-		ent->velocity[2] -= ent->gravity * sv_gravity->value * FRAMETIME * 0.05 * blaster_drop->value;
+		ent->velocity[2] -= ent->gravity * sv_gravity->value * FRAMETIME * 0.05f * blaster_drop->value;
 }
 void bolt_setup(edict_t *self)
 {
@@ -1176,7 +1176,7 @@ void Grenade_Gravity(edict_t *self)
 	vec3_t	v;
 	float	dist;
 	vec3_t dir, dir_copy;
-	int mod;
+	int mod = 0;
 	// the BFG effect
 	ent = NULL;
 	//gi.bprintf(PRINT_HIGH, "fabsf(sin(self->noise_index2)) = %f\n", 1 + sin(self->noise_index2));
@@ -1515,7 +1515,7 @@ void subexpl_think(edict_t *ent)
 	smodel->s.renderfx |= (RF_NOSHADOW | RF_MINLIGHT);
 	smodel->s.renderfx |= RF_TRANSLUCENT;
 	smodel->owner = ent->owner;
-	ent->nextthink = level.time + ((rand() % 5 + 1) * 0.1);
+	ent->nextthink = level.time + ((rand() % 5 + 1) * 0.1f);
 
 	ent->count++;
 
@@ -1591,7 +1591,7 @@ repeat:
 	subexpl->owner = ent->owner;
 	subexpl->think = subexpl_think;
 	//subexpl->touch = rocket_touch;
-	subexpl->nextthink = level.time + ((rand() % 5 + 1) * 0.1);
+	subexpl->nextthink = level.time + ((rand() % 5 + 1) * 0.1f);
 	subexpl->radius_dmg = radius_damage;
 	subexpl->dmg_radius = damage_radius;
 	//subexpl->s.sound = gi.soundindex("weapons/rockfly.wav");
@@ -1952,7 +1952,7 @@ void bfg_explode(edict_t *self)
 			VectorMA(ent->s.origin, 0.5, v, v);
 			VectorSubtract(self->s.origin, v, v);
 			dist = VectorLength(v);
-			points = self->radius_dmg * (1.0 - sqrt(dist / self->dmg_radius));
+			points = self->radius_dmg * (1.0 - sqrtf(dist / self->dmg_radius));
 			if (ent == self->owner)
 				points = points * 0.5;
 
