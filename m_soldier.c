@@ -64,7 +64,7 @@ vec3_t soldier_death4_angles_fire[] = { -27.169811f, -115.125000f, 0.0f,
 //vec3_t soldier_death4_angles_fire1 = { -90.0, -135.0, 47.196 };
 //vec3_t soldier_death4_angles_fire1 = { 90.0, 0.0, 0.0 };
 vec3_t soldier_death4_fire1 = {0.0f, 0.2378f, 0.7866f};
-void soldier_stand3_skip(self);
+void soldier_stand3_skip(edict_t* self);
 void soldier_jump_detail(edict_t *self);
 
 qboolean check_run(edict_t *self)
