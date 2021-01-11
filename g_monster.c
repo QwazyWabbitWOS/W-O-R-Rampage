@@ -1286,7 +1286,7 @@ void M_retreat(edict_t *self)
 }
 void M_touch(edict_t *self, edict_t *other, cplane_t *plane, csurface_t *surf)
 {
-	if (self->svflags & SVF_MONSTER && other->svflags & SVF_MONSTER)
+	if ((self->svflags & SVF_MONSTER) && (other->svflags & SVF_MONSTER))
 	{
 		float dist = get_dist2d(self, other);
 		float distv = get_dist_v(self, other);
