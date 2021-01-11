@@ -322,9 +322,9 @@ void predict_shot(edict_t *self, vec3_t origin, float proj_speed, vec3_t end, in
 	if (self->enemy->health <= 0 || self->enemy->maxs[2] <= 8) //dead or crouched
 	{
 		if(self->enemy->maxs[2])
-			enemy_origin[2] -= fabs(self->enemy->maxs[2]) * 3;
+			enemy_origin[2] -= fabsf(self->enemy->maxs[2]) * 3;
 		else
-			enemy_origin[2] -= fabs(self->enemy->mins[2]) * 0.5;
+			enemy_origin[2] -= fabsf(self->enemy->mins[2]) * 0.5;
 	}
 		
 
@@ -839,7 +839,7 @@ void M_unstuck_body_from_wall(edict_t *self)
 	vec3_t forward, backwards, end;
 	int mode = 0;
 	AngleVectors(self->s.angles, forward, NULL, NULL);
-	VectorMA(self->s.origin, fabs(self->maxs[0]) + fabs(self->maxs[1])*1.25, forward, end);
+	VectorMA(self->s.origin, fabsf(self->maxs[0]) + fabsf(self->maxs[1])*1.25, forward, end);
 	tr = gi.trace(self->s.origin, NULL, NULL, end, self, CONTENTS_SOLID);
 	if (tr.fraction != 1)
 	{
@@ -847,7 +847,7 @@ void M_unstuck_body_from_wall(edict_t *self)
 	}
 	VectorCopy(forward, backwards);
 	VectorInverse(backwards);
-	VectorMA(self->s.origin, fabs(self->maxs[0]) + fabs(self->maxs[1])*1.25, backwards, end);
+	VectorMA(self->s.origin, fabsf(self->maxs[0]) + fabsf(self->maxs[1])*1.25, backwards, end);
 	tr = gi.trace(self->s.origin, NULL, NULL, end, self, CONTENTS_SOLID);
 	if (tr.fraction != 1)
 	{
@@ -1073,7 +1073,7 @@ int range(edict_t *self, edict_t *other)
 {
 	vec3_t	v;
 	float	len;
-	float melee_distance = (fabs(self->mins[0]) + fabs(self->mins[1]) + fabs(other->mins[0]) + fabs(other->mins[1]))* 0.75 ;
+	float melee_distance = (fabsf(self->mins[0]) + fabsf(self->mins[1]) + fabsf(other->mins[0]) + fabsf(other->mins[1]))* 0.75 ;
 	VectorSubtract(self->s.origin, other->s.origin, v);
 	v[2] *= 0.25;
 	len = VectorLength(v);

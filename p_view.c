@@ -47,7 +47,7 @@ float SV_CalcRoll(vec3_t angles, vec3_t velocity)
 
 	side = DotProduct(velocity, right);
 	sign = side < 0 ? -1 : 1;
-	side = fabs(side);
+	side = fabsf(side);
 
 	value = sv_rollangle->value;
 
@@ -289,11 +289,11 @@ void SV_CalcViewOffset(edict_t *ent)
 
 		VectorScale(ent->client->v_dmg_smooth, 0.75, ent->client->v_dmg_smooth);
 
-		if (fabs(ent->client->v_dmg_pitch) > 20)
+		if (fabsf(ent->client->v_dmg_pitch) > 20)
 			ent->client->v_dmg_pitch *= 0.75;
-		if (fabs(ent->client->v_dmg_yaw) > 20)
+		if (fabsf(ent->client->v_dmg_yaw) > 20)
 			ent->client->v_dmg_yaw *= 0.75;
-		if (fabs(ent->client->v_dmg_roll) > 20)
+		if (fabsf(ent->client->v_dmg_roll) > 20)
 			ent->client->v_dmg_roll *= 0.75;
 
 		angles[PITCH] += ent->client->v_dmg_pitch;
@@ -1561,7 +1561,7 @@ void ClientEndServerFrame(edict_t *ent)
 		bobtime *= 4;
 
 	bobcycle = (int)bobtime;
-	bobfracsin = fabs(sin(bobtime*M_PI));
+	bobfracsin = fabsf(sin(bobtime*M_PI));
 
 	// detect hitting the floor
 	P_FallingDamage(ent);

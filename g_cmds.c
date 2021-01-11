@@ -1026,7 +1026,7 @@ void Cmd_debug_attack(edict_t *self)
 			debug_attack_ent->s.effects &= ~EF_FLAG1;
 			M_ReactToDamage(debug_attack_ent, tr.ent);
 			VectorCopy(debug_attack_ent->s.origin, tr.ent->s.origin);
-			tr.ent->s.origin[2] += (fabs(debug_attack_ent->mins[2]) + fabs(debug_attack_ent->maxs[2]) * 0.51) + (fabs(tr.ent->mins[2]) + fabs(tr.ent->maxs[2]) * 0.51);
+			tr.ent->s.origin[2] += (fabsf(debug_attack_ent->mins[2]) + fabsf(debug_attack_ent->maxs[2]) * 0.51) + (fabsf(tr.ent->mins[2]) + fabsf(tr.ent->maxs[2]) * 0.51);
 			gi.linkentity(tr.ent);
 			return;
 		}

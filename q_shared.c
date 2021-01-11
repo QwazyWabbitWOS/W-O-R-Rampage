@@ -161,10 +161,10 @@ void PerpendicularVector( vec3_t dst, const vec3_t src )
 	*/
 	for ( pos = 0, i = 0; i < 3; i++ )
 	{
-		if ( fabs( src[i] ) < minelem )
+		if ( fabsf( src[i] ) < minelem )
 		{
 			pos = i;
-			minelem = fabs( src[i] );
+			minelem = fabsf( src[i] );
 		}
 	}
 	tempvec[0] = tempvec[1] = tempvec[2] = 0.0F;
@@ -247,19 +247,6 @@ void R_ConcatTransforms (float in1[3][4], float in2[3][4], float out[3][4])
 
 //============================================================================
 
-
-//float Q_fabs (float f)
-//{
-//#if 0
-//	if (f >= 0)
-//		return f;
-//	return -f;
-//#else
-//	int tmp = * ( int * ) &f;
-//	tmp &= 0x7FFFFFFF;
-//	return * ( float * ) &tmp;
-//#endif
-//}
 
 #if defined _M_IX86 && !defined C_ONLY
 #pragma warning (disable:4035)

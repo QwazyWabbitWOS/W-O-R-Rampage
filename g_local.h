@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "game.h"
 //#include "mtwist.h"
 // the "gameversion" client command will print this plus compile date
-#define	GAMEVERSION	"Rampage mod v1.4a"
+#define	GAMEVERSION	"Rampage v1.4a"
 
 // protocol bytes that can be directly added to messages
 #define	svc_muzzleflash		1
@@ -1614,7 +1614,7 @@ float range_units(edict_t *self, edict_t *other);
 float get_angledifference(edict_t *ent, float angle);
 void faster_pain(edict_t *ent);
 #define DODGE_FASTER_PAIN 3
-#define BASE_YAW_SPEED 2500
+#define BASE_YAW_SPEED 2500.0f
 
 typedef enum
 {
@@ -1661,7 +1661,7 @@ float frame_mult();
 #define MUZZLEFLASH_BLASTER_MODEL "models/objects/explode/tris.md2"
 #define SOLDIER_SHOTGUN_FIRE_DELAY 2
 #define SOLDIER_BLASTER_FIRE_DELAY 0.4
-#define DEAD_DMG_REDUCTION 0.2
+#define DEAD_DMG_REDUCTION 0.2f
 #define MAX_TEMP_INACCURACY_MULTIPLIER 2
 #define TEMP_INACCURACY_DIVIDER 0.05
 qboolean check_frames(edict_t *self, int start_frame, int end_frame);

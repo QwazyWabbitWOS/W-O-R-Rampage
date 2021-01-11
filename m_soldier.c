@@ -1130,14 +1130,14 @@ void soldier_attack5_refire (edict_t *self)
 
 mframe_t soldier_frames_attack5 [] =
 {
-	ai_charge, 8, NULL},
-	ai_charge, 8, NULL},
-	ai_charge, 0, NULL},
-	ai_charge, 0, NULL},
-	ai_charge, 0, soldier_fire5,
-	ai_charge, 0, NULL},
-	ai_charge, 0, NULL},
-	ai_charge, 0, soldier_attack5_refire
+	{ai_charge, 8, NULL},
+	{ai_charge, 8, NULL},
+	{ai_charge, 0, NULL},
+	{ai_charge, 0, NULL},
+	{ai_charge, 0, soldier_fire5},
+	{ai_charge, 0, NULL},
+	{ai_charge, 0, NULL},
+	{ai_charge, 0, soldier_attack5_refire}
 };
 mmove_t soldier_move_attack5 = {FRAME_attak501, FRAME_attak508, soldier_frames_attack5, soldier_run};
 #endif

@@ -153,14 +153,14 @@ qboolean fire_hit(edict_t *self, vec3_t aim, int damage, int kick)
 	VectorMA(self->s.origin, range, dir, point);
 	if (!self->client && self->enemy->maxs[2] < 0) //new fix?
 	{
-		point[2] -= fabs(self->enemy->maxs[2] - diff(self->enemy->mins[2], self->enemy->maxs[2])) * 1.25;
+		point[2] -= fabsf(self->enemy->maxs[2] - diff(self->enemy->mins[2], self->enemy->maxs[2])) * 1.25;
 
 	}
 	VectorScale(aim, 1.2f, aim); //fix?
 	
 	tr = gi.trace(self->s.origin, NULL, NULL, point, self, MASK_SHOT);
 	//debug_trail(self->s.origin, point);
-	//gi.bprintf(PRINT_HIGH, "DEBUG: RANGE = %f, start = %s, end = %s, diff = %f\n", range, vtos(self->s.origin), vtos(point), fabs(self->enemy->maxs[2] - diff(self->enemy->mins[2], self->enemy->maxs[2])));
+	//gi.bprintf(PRINT_HIGH, "DEBUG: RANGE = %f, start = %s, end = %s, diff = %f\n", range, vtos(self->s.origin), vtos(point), fabsf(self->enemy->maxs[2] - diff(self->enemy->mins[2], self->enemy->maxs[2])));
 
 
 	if (tr.fraction < 1)
@@ -1179,7 +1179,7 @@ void Grenade_Gravity(edict_t *self)
 	int mod;
 	// the BFG effect
 	ent = NULL;
-	//gi.bprintf(PRINT_HIGH, "fabs(sin(self->noise_index2)) = %f\n", 1 + sin(self->noise_index2));
+	//gi.bprintf(PRINT_HIGH, "fabsf(sin(self->noise_index2)) = %f\n", 1 + sin(self->noise_index2));
 	int include = 0;
 	
 	while ((ent = findradius(ent, self->s.origin, self->dmg_radius )) != NULL)
@@ -1207,7 +1207,7 @@ void Grenade_Gravity(edict_t *self)
 		VectorSubtract(self->s.origin, ent->s.origin, dir);
 		VectorNormalize(dir);
 		//VectorMA(ent->velocity, 100 * (1+ sin(self->noise_index2)), dir, dir);
-		VectorScale(dir, 400 * fabs((sin(self->noise_index2))), dir);
+		VectorScale(dir, 400 * fabsf((sin(self->noise_index2))), dir);
 		dir[0] *= 1 + (((mt_ldrand() * 2) - 1) * 0.25);
 		dir[1] *= 1 + (((mt_ldrand() * 2) - 1) * 0.25);
 		dir[2] *= 1 + (((mt_ldrand() * 2) - 1) * 0.25);
@@ -2343,7 +2343,7 @@ void fire_emp(edict_t *self, vec3_t start, vec3_t aimdir, int damage)
 
 			tr = gi.trace(emp->s.origin, NULL, NULL, aimdir, self, (MASK_SHOT | CONTENTS_SLIME | CONTENTS_LAVA));
 
-			emp->s.origin[2] = (EMP_BACK_OFF - fabs(tr.endpos[2] - emp->s.origin[2])) + emp->s.origin[2];
+			emp->s.origin[2] = (EMP_BACK_OFF - fabsf(tr.endpos[2] - emp->s.origin[2])) + emp->s.origin[2];
 			//gi.bprintf(PRINT_HIGH, "EMP: MOVING UP\n");
 
 		}

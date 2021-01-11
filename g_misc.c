@@ -3492,7 +3492,7 @@ void CTFGrappleDrawCable(edict_t *self)
 	vectoangles(dir, angles);
 	if (angles[0] < -180)
 		angles[0] += 360;
-	if (fabs(angles[0]) > 45)
+	if (fabsf(angles[0]) > 45)
 		return;
 
 	trace_t	tr; //!!
@@ -3783,7 +3783,7 @@ void CTFWeapon_Grapple_Fire(edict_t *ent)
 
 float VectorLength2d(vec3_t vec)
 {
-	return fabs(vec[0]) + fabs(vec[1]);
+	return fabsf(vec[0]) + fabsf(vec[1]);
 }
 float NormalizeF(float f)
 {
@@ -3882,10 +3882,10 @@ void fix_angles(edict_t *self)
 				self->s.angles[2] *= 0.1f;
 			}
 		}
-		if (fabs(self->s.angles[0]) < 10)
+		if (fabsf(self->s.angles[0]) < 10)
 			self->s.angles[0] = 0;
 
-		if (fabs(self->s.angles[2]) < 10)
+		if (fabsf(self->s.angles[2]) < 10)
 			self->s.angles[2] = 0;
 	}
 	
