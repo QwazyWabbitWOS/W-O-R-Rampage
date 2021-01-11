@@ -1578,7 +1578,7 @@ repeat:
 	subexpl->s.effects |= EF_GRENADE;
 	subexpl->s.effects |= EF_GREENGIB;
 	subexpl->s.effects |= EF_ROCKET;
-	if (rand() % 3 == 1|| 1==1)
+	if (rand() % 3 == 1|| 1==1)	//FIXXX
 	{
 		subexpl->takedamage = DAMAGE_YES;
 		subexpl->health = 99999;
