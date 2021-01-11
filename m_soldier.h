@@ -523,5 +523,5 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MODEL_SCALE		1.000000
 
-extern Sol_death5_start = FRAME_death501;
-extern Sol_death5_end = FRAME_death524;
+extern int Sol_death5_start = FRAME_death501;
+extern int Sol_death5_end = FRAME_death524;
