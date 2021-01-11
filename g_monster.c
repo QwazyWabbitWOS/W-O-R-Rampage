@@ -255,7 +255,7 @@ void M_WorldEffects (edict_t *ent)
 			{	// drown!
 				if (ent->pain_debounce_time < level.time)
 				{
-					dmg = 2 + 2 * floor(level.time - ent->air_finished);
+					dmg = 2 + 2 * floorf(level.time - ent->air_finished);
 					if (dmg > 15)
 						dmg = 15;
 					T_Damage (ent, world, world, vec3_origin, ent->s.origin, vec3_origin, dmg, 0, DAMAGE_NO_ARMOR, MOD_WATER);
@@ -273,7 +273,7 @@ void M_WorldEffects (edict_t *ent)
 			{	// suffocate!
 				if (ent->pain_debounce_time < level.time)
 				{
-					dmg = 2 + 2 * floor(level.time - ent->air_finished);
+					dmg = 2 + 2 * floorf(level.time - ent->air_finished);
 					if (dmg > 15)
 						dmg = 15;
 					T_Damage (ent, world, world, vec3_origin, ent->s.origin, vec3_origin, dmg, 0, DAMAGE_NO_ARMOR, MOD_WATER);
@@ -1286,16 +1286,16 @@ void M_retreat(edict_t *self)
 }
 void M_touch(edict_t *self, edict_t *other, cplane_t *plane, csurface_t *surf)
 {
-	if (self->svflags & SVF_MONSTER && self->svflags & SVF_MONSTER)
+	if (self->svflags & SVF_MONSTER && other->svflags & SVF_MONSTER)
 	{
 		float dist = get_dist2d(self, other);
 		float distv = get_dist_v(self, other);
 		//if(distv > 0)
 		//	gi.bprintf(PRINT_HIGH, "DEBUG: MONSTER TOUCHED MONSTER AND NOT THE SAME ORIGIN!\n");
-		//if (dist > (fabs(self->mins[0]) + fabs(self->mins[0]) * 1.42) + (fabs(other->mins[0]) + fabs(other->mins[0]) * 1.42))
+		//if (dist > (fabsf(self->mins[0]) + fabsf(self->mins[0]) * 1.42) + (fabsf(other->mins[0]) + fabsf(other->mins[0]) * 1.42))
 		//{
 			
-			if (distv > (fabs(self->mins[2]) + fabs(self->maxs[2]) * 0.45) + (fabs(other->mins[2]) + fabs(other->maxs[2]) * 0.45))
+			if (distv > (fabsf(self->mins[2]) + fabsf(self->maxs[2]) * 0.45) + (fabsf(other->mins[2]) + fabsf(other->maxs[2]) * 0.45))
 			{
 				//gi.bprintf(PRINT_HIGH, "DEBUG: MONSTER HIGHER THEN OTHER!\n");
 				vec3_t dir;
