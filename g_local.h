@@ -1431,6 +1431,7 @@ void toggle_gl_ammo(edict_t *ent);
 #define WEAPON_MODE_GRENADE_NORMAL 0 
 #define WEAPON_MODE_GRENADE_GRAVITY 1
 #define WEAPON_MODE_GRENADE_TRAP 3
+
 typedef enum
 {
 	BOUNCE_NORMAL,
@@ -1476,6 +1477,7 @@ void CTFWeapon_Grapple(edict_t *ent);
 void CTFPlayerResetGrapple(edict_t *ent);
 void CTFGrapplePull(edict_t *self);
 void CTFResetGrapple(edict_t *self);
+
 typedef enum {
 	CTF_GRAPPLE_STATE_OFF,
 	CTF_GRAPPLE_STATE_HOLSTER,
@@ -1579,6 +1581,7 @@ void check_move_dir(edict_t *self, vec3_t point);
 #define MOVE_RIGHT 2
 
 void monster_jump(edict_t *self);
+
 typedef enum {
 	SCAN_LEFT,
 	SCAN_RIGHT,
@@ -1677,3 +1680,4 @@ int	sound_alarm_debug;
 #define TYPE_BLASTER 3
 #define BLASTER_DROP_CONST 50
 #define MIN_RETREAT_TIME 2
+

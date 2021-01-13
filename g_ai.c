@@ -19,6 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // g_ai.c
 
 #include "g_local.h"
+
 void Origin_WOffset(edict_t *self, vec3_t origin)
 {
 	AngleVectors(self->s.angles, NULL, origin, NULL);
@@ -26,6 +27,7 @@ void Origin_WOffset(edict_t *self, vec3_t origin)
 	//VectorCopy(origin, self->s.origin);
 	//spawn_m_muzzleflash(self, origin, self->s.origin, 0);
 }
+
 void M_avoid_danger(edict_t *self)
 {
 	//gi.bprintf(PRINT_HIGH, "M_avoid_danger: FUNCTION START!\n");
@@ -137,7 +139,6 @@ void M_avoid_danger(edict_t *self)
 		//gi.bprintf(PRINT_HIGH, "DEBUG: MONSTER AVOID DANGER: ENDED AT %i TRIES!!!\n", count);
 
 }
-
 
 void monster_jump(edict_t *self)
 {
