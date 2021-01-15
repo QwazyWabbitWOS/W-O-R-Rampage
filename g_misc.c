@@ -315,7 +315,7 @@ void ThrowGib_damage(edict_t *self, edict_t *inflictor, edict_t *attacker, int d
 	next_spawn_is_gib = 1;
 	spawn:
 	gib = G_Spawn();
-	float vscale;
+	float vscale = 0;
 	vec3_t gibdir;
 	gib->classname = "gibd";
 	gib->solid = SOLID_BBOX;
@@ -379,7 +379,7 @@ void ThrowGib_damage(edict_t *self, edict_t *inflictor, edict_t *attacker, int d
 		VectorScale(gib->velocity, 0.33f, gib->velocity);
 	gi.linkentity(gib);
 
-	if (damage * 0.1 > count * 3)
+	if (damage * 0.1f > count * 3)
 	{
 		count++;
 		goto spawn;
@@ -1610,7 +1610,7 @@ void barrel_explode (edict_t *self)
 	ThrowDebris(self, "models/objects/debris1/tris.md2", spd, org, NULL, 0);
 
 	// bottom corners
-	spd = (100.75 * (float)self->dmg / 200.0) * (1 + random());
+	spd = (100.75f * (float)self->dmg / 200.0f) * (1 + random());
 	VectorCopy (self->absmin, org);
 	spd *= 1 + random();
 	ThrowDebris (self, "models/objects/debris3/tris.md2", spd, org, NULL, 0);
@@ -2742,10 +2742,11 @@ void SP_target_character (edict_t *self)
 void target_string_use (edict_t *self, edict_t *other, edict_t *activator)
 {
 	edict_t *e;
-	int		n, l;
+	int		n;
+	int		l;
 	char	c;
 
-	l = strlen(self->message);
+	l = (int)strlen(self->message);
 	for (e = self->teammaster; e; e = e->teamchain)
 	{
 		if (!e->count)
@@ -3398,9 +3399,14 @@ void GrappleDelete(edict_t *self)
 
 	G_FreeEdict(self);
 }
+
 void CTFGrappleTouch(edict_t *self, edict_t *other, cplane_t *plane, csurface_t *surf)
 {
 	float volume = 1.0;
+
+	if (!self || !self->owner)
+		return;
+	
 	//gi.bprintf(PRINT_HIGH, "GRAPPLE TOUCHING SOMETHING\n");
 	if (other == self->owner_solid || self->owner && self->owner->health <= 0)
 	{
@@ -3626,7 +3632,7 @@ void CTFGrapplePull(edict_t *self)
 void add_gravity_grapple(edict_t *ent)
 {
 	if (ent->waterlevel == 0)
-		ent->velocity[2] -= ent->gravity * sv_gravity->value * FRAMETIME * 0.5;
+		ent->velocity[2] -= ent->gravity * sv_gravity->value * FRAMETIME * 0.5f;
 //	gi.bprintf(PRINT_HIGH, "ADDING GRAVITY TO THE GRAPPLE\n");
 }
 
@@ -3797,13 +3803,18 @@ float NormalizeF(float f)
 void GrappleWind(edict_t *self, vec3_t offset)
 {
 	vec3_t dir;
-	edict_t *owner;
+	edict_t *owner = NULL;
 	float dist;
+	float speed;
+
 	if (self->owner)
 		owner = self->owner;
 	else if (self->owner_solid)
 		owner = self->owner_solid;
-	float speed;
+	
+	if (!owner)
+		return;
+
 	//gi.bprintf(PRINT_HIGH, "SHOULD WIND THE GRAPPLE origin = %s, old origin = %s\n", vtos(self->s.origin), vtos(self->s.old_origin));
 	//if(owner->groundentity)
 	//gi.bprintf(PRINT_HIGH, "SHOULD WIND THE GRAPPLE owner->groundentity classname = %s\n", owner->groundentity->classname);
@@ -4338,7 +4349,7 @@ void spawn_m_muzzleflash(edict_t *self, vec3_t start, vec3_t dir, int flashtype)
 	flash->owner = self;
 	flash->classname = "muzzleflash";
 	VectorCopy(start, flash->s.origin);
-	if(!(self->monsterinfo.aiflags && AI_NOTONGROUND1) && !(self->monsterinfo.aiflags && AI_NOTONGROUND1))
+	if(!(self->monsterinfo.aiflags && AI_NOTONGROUND1) && !(self->monsterinfo.aiflags && AI_NOTONGROUND2))
 		VectorCopy(self->monsterinfo.velocity, flash->velocity);
 	//gi.bprintf(PRINT_HIGH, "DEBUG: monster velocity is = %f %f %f ???\n", self->monsterinfo.velocity[0], self->monsterinfo.velocity[1], self->monsterinfo.velocity[2]);
 	

@@ -264,7 +264,7 @@ void WriteField1 (FILE *f, field_t *field, byte *base)
 	case F_LSTRING:
 	case F_GSTRING:
 		if ( *(char **)p )
-			len = strlen(*(char **)p) + 1;
+			len = (int)strlen(*(char **)p) + 1;
 		else
 			len = 0;
 		*(int *)p = len;
@@ -329,7 +329,7 @@ void WriteField2 (FILE *f, field_t *field, byte *base)
 	case F_LSTRING:
 		if ( *(char **)p )
 		{
-			len = strlen(*(char **)p) + 1;
+			len = (int)strlen(*(char **)p) + 1;
 			fwrite (*(char **)p, len, 1, f);
 		}
 		break;
@@ -538,9 +538,10 @@ void ReadGame (char *filename)
 	gi.FreeTags (TAG_GAME);
 
 	f = fopen (filename, "rb");
-	if (!f)
-		gi.error ("Couldn't open %s", filename);
-
+	if (!f) {
+		gi.error("Couldn't open %s", filename);
+		return;
+	}
 	count = fread (str, sizeof(str), 1, f);
 	if (count)
 		; // don't worry, be happy
@@ -686,9 +687,10 @@ void WriteLevel (char *filename)
 	void	*base;
 
 	f = fopen (filename, "wb");
-	if (!f)
-		gi.error ("Couldn't open %s", filename);
-
+	if (!f) {
+		gi.error("Couldn't open %s", filename);
+		return;
+	}
 	// write out edict size for checking
 	i = sizeof(edict_t);
 	fwrite (&i, sizeof(i), 1, f);

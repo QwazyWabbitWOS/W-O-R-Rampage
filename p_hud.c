@@ -345,7 +345,7 @@ void DeathmatchScoreboardMessage(edict_t *ent, edict_t *killer)
 	// print level name and exit rules
 	string[0] = 0;
 
-	stringlength = strlen(string);
+	stringlength = (int)strlen(string);
 
 	// add the clients in sorted order
 	if (total > 12)
@@ -371,7 +371,7 @@ void DeathmatchScoreboardMessage(edict_t *ent, edict_t *killer)
 		{
 			Com_sprintf(entry, sizeof(entry),
 				"xv %i yv %i picn %s ", x + 32, y, tag);
-			j = strlen(entry);
+			j = (int)strlen(entry);
 			if (stringlength + j > 1024)
 				break;
 			strcpy(string + stringlength, entry);
@@ -382,7 +382,7 @@ void DeathmatchScoreboardMessage(edict_t *ent, edict_t *killer)
 		Com_sprintf(entry, sizeof(entry),
 			"client %i %i %i %i %i %i ",
 			x, y, sorted[i], cl->resp.score, cl->ping, (level.framenum - cl->resp.enterframe) / 600);
-		j = strlen(entry);
+		j = (int)strlen(entry);
 		if (stringlength + j > 1024)
 			break;
 		strcpy(string + stringlength, entry);
@@ -500,7 +500,7 @@ void IntermissionScoreboardMessage(edict_t *ent)
 	// print level name and exit rules
 	string[0] = 0;
 
-	stringlength = strlen(string);
+	stringlength = (int)strlen(string);
 
 	// add the clients in sorted order
 	if (total > 12)
@@ -552,7 +552,7 @@ void IntermissionScoreboardMessage(edict_t *ent)
 				x, y + 228, total_score, (int)(cl_ent->client->resp.score_total * 0.00390625 * (level.show & SHOW_TOTAL)))
 				;
 
-			j = strlen(entry);
+			j = (int)strlen(entry);
 			if (stringlength + j > 1024)
 				break;
 			strcpy(string + stringlength, entry);
@@ -567,7 +567,7 @@ void IntermissionScoreboardMessage(edict_t *ent)
 		/*x, y + 32, ent->client->resp.score_dmg_receive, x, y + 40, ent->client->resp.score_dmg_dealt, x, y + 48, ent->client->resp.score_dmg_saved,
 			x + 56, y, ent->client->resp.score_item_pickup, x + 64, y, ent->client->resp.score_item_usage, x + 72, y, ent->client->resp.score_health_bonus,
 			x + 80, y, ent->client->resp.score_objectives, x + 88, y, ent->client->resp.score_secrets);*/
-		j = strlen(entry);
+		j = (int)strlen(entry);
 		if (stringlength + j > 1024)
 			break;
 		strcpy(string + stringlength, entry);
@@ -597,7 +597,7 @@ void IntermissionScoreboardMessage(edict_t *ent)
 		x, y + 164, secrets,
 		x, y + 198, total_score
 	);
-	j = strlen(entry);
+	j = (int)strlen(entry);
 	if (stringlength + j > 1024)
 		return;
 	strcpy(string + stringlength, entry);

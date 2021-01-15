@@ -527,8 +527,8 @@ static uint32_t mts_devseed(
     mt_state*		state,		/* State vector to seed */
     char*		seed_dev)	/* Device to seed from */
     {
-    int			bytesread;	/* Byte count read from device */
-    int			nextbyte;	/* Index of next byte to read */
+    size_t		bytesread;	/* Byte count read from device */
+    size_t			nextbyte;	/* Index of next byte to read */
     FILE*		ranfile;	/* Access to device */
     union
 	{
@@ -555,7 +555,7 @@ static uint32_t mts_devseed(
 	{
 	setbuf(ranfile, NULL);
 	for (nextbyte = 0;
-	  nextbyte < (int)sizeof randomunion.ranbuffer;
+	  nextbyte < sizeof randomunion.ranbuffer;
 	  nextbyte += bytesread)
 	    {
 	    bytesread = fread(&randomunion.ranbuffer[nextbyte], (size_t)1,
@@ -606,8 +606,8 @@ static uint32_t mts_devseed(
 void mts_bestseed(
     mt_state*		state)		/* State vector to seed */
     {
-    int			bytesread;	/* Byte count read from device */
-    int			nextbyte;	/* Index of next byte to read */
+    size_t			bytesread;	/* Byte count read from device */
+    size_t			nextbyte;	/* Index of next byte to read */
     FILE*		ranfile;	/* Access to device */
 
     ranfile = fopen("/dev/random", "rb");
