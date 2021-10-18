@@ -656,6 +656,7 @@ extern	cvar_t	*g_select_empty;
 extern	cvar_t	*dedicated;
 
 extern	cvar_t	*filterban;
+extern	cvar_t	*flashlightmode; //QW/ mode for flashlight code.
 
 extern	cvar_t	*sv_gravity;
 extern	cvar_t	*sv_maxvelocity;
@@ -1164,6 +1165,9 @@ struct gclient_s
 	int			silencer_shots;
 	int			weapon_sound; 
 	
+	// flashlight
+	edict_t*	flashlight;
+	int		flashtype;
 
 	float		pickup_msg_time;
 

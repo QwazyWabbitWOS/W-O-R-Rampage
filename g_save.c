@@ -159,7 +159,7 @@ is loaded.
 */
 void  InitGame (void)
 {
-	gi.dprintf ("==== InitGame ====\n");
+	gi.dprintf ("==== InitGame %s ====\n", GAMEVERSION);
 	gi.cvar_forceset("g_features", va("%d", G_FEATURES));
 	gun_x = gi.cvar ("gun_x", "0", 0);
 	gun_y = gi.cvar ("gun_y", "0", 0);
@@ -194,6 +194,7 @@ void  InitGame (void)
 	spectator_password = gi.cvar ("spectator_password", "", CVAR_USERINFO);
 	needpass = gi.cvar ("needpass", "0", CVAR_SERVERINFO);
 	filterban = gi.cvar ("filterban", "1", 0);
+	flashlightmode = gi.cvar("flashlightmode", "1", 0);
 
 	g_select_empty = gi.cvar ("g_select_empty", "0", CVAR_ARCHIVE);
 

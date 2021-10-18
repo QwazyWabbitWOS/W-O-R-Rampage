@@ -19,6 +19,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "g_local.h"
 #include "m_player.h"
+#include "flashlight.h"
+
 edict_t *debug_attack_ent;
 
 char *ClientTeam (edict_t *ent)
@@ -1060,6 +1062,11 @@ void ClientCommand (edict_t *ent)
 
 	cmd = gi.argv(0);
 
+	if (Q_stricmp(cmd, "flashlight") == 0)
+	{
+		Cmd_Flashlight(ent);
+		return;
+	}
 	if (Q_stricmp (cmd, "players") == 0)
 	{
 		Cmd_Players_f (ent);
