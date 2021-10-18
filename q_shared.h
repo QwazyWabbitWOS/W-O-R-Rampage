@@ -63,10 +63,6 @@ typedef enum {false, true}	qboolean;
 #define NULL ((void *)0)
 #endif
 
-#ifdef _WIN32
-#define strdup _strdup	//QW// MS uses the implementation reserved name. 
-#endif
-
 // Knightmare added
 #ifndef min
 #define min(a,b)        (((a) < (b)) ? (a) : (b))
