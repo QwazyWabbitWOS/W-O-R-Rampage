@@ -929,7 +929,7 @@ void walkmonster_start_go (edict_t *self)
 		{
 			self->monsterinfo.aiflags |= AI_IMPATIENT;
 		}
-		self->yaw_speed = (BASE_YAW_SPEED * (0.75 + (mt_ldrand() * 0.25))) / (1 + VectorLength(self->mins) + VectorLength(self->maxs) + (self->mass * 0.1));
+		self->yaw_speed = (BASE_YAW_SPEED * (0.75f + ((float)mt_ldrand() * 0.25f))) / (1 + VectorLength(self->mins) + VectorLength(self->maxs) + (self->mass * 0.1f));
 		self->viewheight = 25;
 	}
 	monster_start_go (self);
@@ -1089,8 +1089,11 @@ void M_retreat_think(edict_t *self)
 	//gi.bprintf(PRINT_HIGH, "DEBUG: DISTANCE BETWEEN POINT RETREAT AND THE MONSTER IS %f! REMOVE DISTANCE IS %f!\n", get_dist(self, self->owner), (self->owner->mins[0] + self->owner->mins[1] * 2));
 	//if (self->owner && self != self->owner->goalentity )
 	//	self->owner->goalentity = self;
-	
-	if (!self->owner || self->owner->health <= 0 || self->delay < level.time || get_dist(self, self->owner) < (self->owner->maxs[0] + self->owner->maxs[1] * 2))
+
+	if (!self || !self->owner)
+		return;
+
+	if (self->owner->health <= 0 || self->delay < level.time || get_dist(self, self->owner) < (self->owner->maxs[0] + self->owner->maxs[1] * 2))
 	{
 		if (self->owner)
 		{	
@@ -1106,6 +1109,7 @@ void M_retreat_think(edict_t *self)
 	}
 	else
 		self->nextthink = level.time + FRAMETIME;
+
 	if (random() < 0.04 || visible(self->owner, self->owner->enemy) && infront(self->owner, self->owner->enemy) && visible(self->owner->enemy, self->owner) && infront_aiming(self->owner->enemy, self->owner))
 	{
 		if (!(self->owner->monsterinfo.aiflags & AI_STAND_GROUND)) // make the monster stop for a second and shoot or something while retreating

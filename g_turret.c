@@ -297,7 +297,7 @@ void turret_driver_die (edict_t *self, edict_t *inflictor, edict_t *attacker, in
 
 qboolean FindTarget (edict_t *self);
 
-void turret_driver_think (edict_t *self)
+void turret_driver_think(edict_t* self)
 {
 	vec3_t	target;
 	vec3_t	dir;
@@ -310,14 +310,14 @@ void turret_driver_think (edict_t *self)
 
 	if (!self->enemy)
 	{
-		if (!FindTarget (self))
+		if (!FindTarget(self))
 			return;
 		self->monsterinfo.trail_time = level.time;
 		self->monsterinfo.aiflags &= ~AI_LOST_SIGHT;
 	}
 	else
 	{
-		if (visible (self, self->enemy))
+		if (visible(self, self->enemy))
 		{
 			if (self->monsterinfo.aiflags & AI_LOST_SIGHT)
 			{
@@ -332,24 +332,27 @@ void turret_driver_think (edict_t *self)
 		}
 	}
 
-	// let the turret know where we want it to aim
-	VectorCopy (self->enemy->s.origin, target);
-	target[2] += self->enemy->viewheight;
-	VectorSubtract (target, self->target_ent->s.origin, dir);
-	vectoangles (dir, self->target_ent->move_angles);
-
+	if (self->enemy)
+	{
+		// let the turret know where we want it to aim
+		VectorCopy(self->enemy->s.origin, target);
+		target[2] += self->enemy->viewheight;
+		VectorSubtract(target, self->target_ent->s.origin, dir);
+		vectoangles(dir, self->target_ent->move_angles);
+	}
 	// decide if we should shoot
 	if (level.time < self->monsterinfo.attack_finished)
 		return;
 
-	reaction_time = (3 - skill->value) * 1.0;
+	reaction_time = (3 - skill->value) * 1.0f;
 	if ((level.time - self->monsterinfo.trail_time) < reaction_time)
 		return;
 
-	self->monsterinfo.attack_finished = level.time + reaction_time + 1.0;
+	self->monsterinfo.attack_finished = level.time + reaction_time + 1.0f;
 	//FIXME how do we really want to pass this along?
 	self->target_ent->spawnflags |= 65536;
 }
+
 
 void turret_driver_link (edict_t *self)
 {

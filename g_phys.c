@@ -87,38 +87,34 @@ void SV_CheckVelocity (edict_t *ent)
 
 /*
 =============
-SV_RunThink
-
 Runs thinking code for this frame if necessary
 =============
 */
-
-qboolean SV_RunThink (edict_t *ent)
+qboolean SV_RunThink(edict_t* ent)
 {
 	float	thinktime;
 
 	thinktime = ent->nextthink;
+
 	if (thinktime <= 0)
 		return true;
-
-	if (thinktime > level.time+0.001)
+	if (thinktime > level.time + 0.001)
 		return true;
-	
+
 	ent->nextthink = 0;
-	if (!ent->think)
+
+	if (!ent->think || !ent->inuse)
 	{
-		gi.error("NULL ent->think, %s", ent->classname);
-		/*ent->s.effects |= EF_FLIES;
-		ent->s.sound = gi.soundindex("misc/ar2_pkup.wav");
-		ent->think = indicator;
-		ent->nextthink = level.time + 0.1;
-		gi.bprintf(PRINT_HIGH, "indicator origin = %s", vtos(ent->s.origin));
-
-		//G_FreeEdict(ent);
-		return false;*/
+		if (ent->classname && ent->model)
+			gi.dprintf("NULL ent->think (classname %s, model %s mapname %s)\n", ent->classname, ent->model, level.mapname);
+		else if (ent->classname)
+			gi.dprintf("NULL ent->think (classname %s mapname %s)\n", ent->classname, level.mapname);
+		else
+			gi.dprintf("NULL ent->think (mapname %s)\n", level.mapname);
+		return false;
 	}
-	ent->think (ent);
 
+	ent->think(ent);
 	return false;
 }
 
@@ -555,6 +551,9 @@ qboolean SV_Push (edict_t *pusher, vec3_t move, vec3_t amove)
 	vec3_t		org, org2, move2, forward, right, up;
 	vec3_t		realmins, realmaxs;	// Knightmare added
 
+	if (!pusher)
+		return false;
+
 	// clamp the move to 1/8 units, so the position will
 	// be accurate for client side prediction
 	for (i=0 ; i<3 ; i++)
@@ -712,86 +711,54 @@ qboolean SV_Push (edict_t *pusher, vec3_t move, vec3_t amove)
 
 /*
 ================
-SV_Physics_Pusher
-
 Bmodel objects don't interact with each other, but
 push all box objects
 ================
 */
-void SV_Physics_Pusher (edict_t *ent)
+void SV_Physics_Pusher(edict_t* ent)
 {
 	vec3_t		move, amove;
-	edict_t		*part, *mv;
+	edict_t* part, * mv;
 
 	// if not a team captain, so movement will be handled elsewhere
-	if ( ent->flags & FL_TEAMSLAVE)
+	if (ent->flags & FL_TEAMSLAVE)
 		return;
 
 	// make sure all team slaves can move before commiting
 	// any moves or calling any think functions
 	// if the move is blocked, all moved objects will be backed out
 //retry:
-	int retry_projectile = 0;
-	retry_proj:
 	pushed_p = pushed;
-	obstacle = NULL;
-
-	for (part = ent ; part ; part=part->teamchain)
+	for (part = ent; part; part = part->teamchain)
 	{
 		if (part->velocity[0] || part->velocity[1] || part->velocity[2] ||
 			part->avelocity[0] || part->avelocity[1] || part->avelocity[2]
 			)
 		{	// object is moving
-			VectorScale (part->velocity, FRAMETIME, move);
-			VectorScale (part->avelocity, FRAMETIME, amove);
+			VectorScale(part->velocity, FRAMETIME, move);
+			VectorScale(part->avelocity, FRAMETIME, amove);
 
 			if (!SV_Push(part, move, amove))
-			{
-				//gi.bprintf(PRINT_HIGH, "SV_Physics_Pusher: %s MOVE BLOCKED\n", part->classname);
-
 				break;	// move was blocked
-			}
 		}
 	}
 	if (pushed_p > &pushed[MAX_EDICTS])
-		gi.error (ERR_FATAL, "pushed_p > &pushed[MAX_EDICTS], memory corrupted");
+		gi.error(ERR_FATAL, "pushed_p > &pushed[MAX_EDICTS], memory corrupted");
 
-	if (part && (retry_projectile < 25))
+	if (part)
 	{
-		//gi.bprintf(PRINT_HIGH, "SV_Physics_Pusher: MOVE FAILED!!!\n");
-
 		// the move failed, bump all nextthink times and back out moves
-		//if (!(obstacle->svflags & SVF_PROJECTILE))
-		//{
-			for (mv = ent; mv; mv = mv->teamchain)
-			{
-				if (mv->nextthink > 0 && !(obstacle->svflags & SVF_PROJECTILE))
-					mv->nextthink += FRAMETIME;
-			}
+		for (mv = ent; mv; mv = mv->teamchain)
+		{
+			if (mv->nextthink > 0)
+				mv->nextthink += FRAMETIME;
+		}
 
-		//}
 		// if the pusher has a "blocked" function, call it
 		// otherwise, just stay in place until the obstacle is gone
-
-		if (obstacle->svflags & SVF_PROJECTILE)
-		{
-			retry_projectile++;
-			//gi.bprintf(PRINT_HIGH, "SV_Physics_Pusher: DESTROYING PROJECTILE, RETRYING MOVE!\n");
-
-			if (part->blocked)
-				part->blocked(part, obstacle);
-			//G_FreeEdict(obstacle);
-			goto retry_proj;
-		}
-		else
-		{
-			//gi.bprintf(PRINT_HIGH, "SV_Physics_Pusher: DESTROYING %s!\n", obstacle->classname);
-			
-
-			if (part->blocked)
-				part->blocked(part, obstacle);
-		}
-#if 0	
+		if (part->blocked)
+			part->blocked(part, obstacle);
+#if 0
 		// if the pushed entity went away and the pusher is still there
 		if (!obstacle->inuse && part->inuse)
 			goto retry;
@@ -800,16 +767,11 @@ void SV_Physics_Pusher (edict_t *ent)
 	else
 	{
 		// the move succeeded, so call all think functions
-		for (part = ent ; part ; part=part->teamchain)
+		for (part = ent; part; part = part->teamchain)
 		{
-			SV_RunThink (part);
+			SV_RunThink(part);
 		}
 	}
-	//if(obstacle)
-	//	gi.bprintf(PRINT_HIGH, "SV_Physics_Pusher: retry_projectile = %i, last obstacle = %s\n", retry_projectile, obstacle->classname);
-	//else
-	//	gi.bprintf(PRINT_HIGH, "SV_Physics_Pusher: retry_projectile = %i, ending function\n", retry_projectile);
-//
 }
 
 //==================================================================

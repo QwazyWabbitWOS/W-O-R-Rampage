@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "g_local.h"
 #include "mtwist.h"
 
-typedef struct
+typedef struct spawn_s
 {
 	char	*name;
 	void	(*spawn)(edict_t *ent);
@@ -342,26 +342,21 @@ void ED_CallSpawn(edict_t *ent)
 {
 	spawn_t	*s;
 	gitem_t	*item;
-	int		i;
 
 	if (!ent->classname)
 	{
-		gi.dprintf("ED_CallSpawn: NULL classname\n");
+		gi.dprintf ("%s: NULL classname\n", __func__);
 		return;
 	}
 
 	// check item spawn functions
-	for (i = 0, item = itemlist; i < game.num_items; i++, item++)
-	{
-		if (!item->classname)
-			continue;
 
-		if (!strcmp(item->classname, ent->classname))
+	item = FindItemByClassname (ent->classname);
+	if (item != NULL)
 		{	// found it
 			SpawnItem(ent, item);
 			return;
 		}
-	}
 
 	// check normal spawn functions
 	for (s = spawns; s->name; s++)
@@ -383,17 +378,17 @@ ED_NewString
 char *ED_NewString (char *string)
 {
 	char	*newb, *new_p;
-	int		i,l;
+	int		i, length;
 	
-	l = (int)strlen(string) + 1;
+	length = (int)strlen(string) + 1;
 
-	newb = gi.TagMalloc (l, TAG_LEVEL);
+	newb = gi.TagMalloc (length, TAG_LEVEL);
 
 	new_p = newb;
 
-	for (i=0 ; i< l ; i++)
+	for (i=0 ; i<length ; i++)
 	{
-		if (string[i] == '\\' && i < l-1)
+		if (string[i] == '\\' && i < length-1)
 		{
 			i++;
 			if (string[i] == 'n')
@@ -424,7 +419,7 @@ void ED_ParseField (char *key, char *value, edict_t *ent)
 	field_t	*f;
 	byte	*b;
 	float	v;
-	vec3_t	vec;
+	vec3_t	vec = { 0 };
 
 	for (f=fields ; f->name ; f++)
 	{
@@ -443,7 +438,6 @@ void ED_ParseField (char *key, char *value, edict_t *ent)
 			case F_VECTOR:
 				if (sscanf(value, "%f %f %f", &vec[0], &vec[1], &vec[2]) != 3) {
 					gi.dprintf("WARNING: Vector field incomplete in %s, map: %s, field: %s\n", __func__, level.mapname, f->name);
-					VectorClear(vec);
 				}
 				((float *)(b+f->ofs))[0] = vec[0];
 				((float *)(b+f->ofs))[1] = vec[1];
@@ -635,8 +629,10 @@ void SpawnEntities (char *mapname, char *entities, char *spawnpoint)
 		com_token = COM_Parse (&entities);
 		if (!entities)
 			break;
-		if (com_token[0] != '{')
+		if (com_token[0] != '{') {
 			gi.error ("ED_LoadFromFile: found %s when expecting {",com_token);
+			return; //QW// never executes.
+		}
 
 		if (!ent)
 			ent = g_edicts;
@@ -656,7 +652,9 @@ void SpawnEntities (char *mapname, char *entities, char *spawnpoint)
 			}
 		}
 		// yet another map hack
-		if (!Q_stricmp(level.mapname, "command") && !Q_stricmp(ent->classname, "trigger_once") && !Q_stricmp(ent->model, "*27"))
+		if (ent && !Q_stricmp(level.mapname, "command") && 
+			!Q_stricmp(ent->classname, "trigger_once") && 
+			!Q_stricmp(ent->model, "*27"))
 			ent->spawnflags &= ~SPAWNFLAG_NOT_HARD;
 
 		// remove things (except the world) from different skill levels or deathmatch
@@ -677,7 +675,8 @@ void SpawnEntities (char *mapname, char *entities, char *spawnpoint)
 					((skill->value == 0) && (ent->spawnflags & SPAWNFLAG_NOT_EASY)) ||
 					((skill->value == 1) && (ent->spawnflags & SPAWNFLAG_NOT_MEDIUM)) ||
 					(((skill->value == 2) || (skill->value == 3)) && (ent->spawnflags & SPAWNFLAG_NOT_HARD) ||
-					(skill->value > 3) && !dm_items->value && ((ent->spawnflags & SPAWNFLAG_NOT_EASY) && (ent->spawnflags & SPAWNFLAG_NOT_MEDIUM) && (ent->spawnflags & SPAWNFLAG_NOT_HARD)))
+					(skill->value > 3) && !dm_items->value && ((ent->spawnflags & SPAWNFLAG_NOT_EASY) && 
+					(ent->spawnflags & SPAWNFLAG_NOT_MEDIUM) && (ent->spawnflags & SPAWNFLAG_NOT_HARD)))
 					)
 					
 					{
@@ -709,107 +708,110 @@ void SpawnEntities (char *mapname, char *entities, char *spawnpoint)
 	SpawnSun();
 	PlayerTrail_Init ();
 }
-void SpawnEntitiess(char *mapname, char *entities, char *spawnpoint)
-{
-	edict_t		*ent;
-	int			inhibit;
-	char		*com_token;
-	int			i;
-	float		skill_level;
 
-	skill_level = floor(skill->value);
-	if (skill_level < 0)
-		skill_level = 0;
-	if (skill_level > 3)
-		skill_level = 3;
-	if (skill->value != skill_level)
-		gi.cvar_forceset("skill", va("%f", skill_level));
-
-	SaveClientData();
-
-	gi.FreeTags(TAG_LEVEL);
-
-	memset(&level, 0, sizeof(level));
-	memset(g_edicts, 0, game.maxentities * sizeof(g_edicts[0]));
-
-	strncpy(level.mapname, mapname, sizeof(level.mapname) - 1);
-	strncpy(game.spawnpoint, spawnpoint, sizeof(game.spawnpoint) - 1);
-
-	// set client fields on player ents
-	for (i = 0; i < game.maxclients; i++)
-		g_edicts[i + 1].client = game.clients + i;
-
-	ent = NULL;
-	inhibit = 0;
-
-	// parse ents
-	while (1)
-	{
-		// parse the opening brace	
-		com_token = COM_Parse(&entities);
-		if (!entities)
-			break;
-		if (com_token[0] != '{')
-			gi.error("ED_LoadFromFile: found %s when expecting {", com_token);
-
-		if (!ent)
-			ent = g_edicts;
-		else
-			ent = G_Spawn();
-		entities = ED_ParseEdict(entities, ent);
-
-		// yet another map hack
-		if (!Q_stricmp(level.mapname, "command") && !Q_stricmp(ent->classname, "trigger_once") && !Q_stricmp(ent->model, "*27"))
-			ent->spawnflags &= ~SPAWNFLAG_NOT_HARD;
-
-		// remove things (except the world) from different skill levels or deathmatch
-		if (ent != g_edicts)
-		{
-			if (deathmatch->value)
-			{
-				if (ent->spawnflags & SPAWNFLAG_NOT_DEATHMATCH)
-				{
-					//G_FreeEdict(ent);
-					//inhibit++;
-					continue;
-				}
-			}
-			else
-			{
-				if ( /* ((coop->value) && (ent->spawnflags & SPAWNFLAG_NOT_COOP)) || */
-					((skill->value == 0) && (ent->spawnflags & SPAWNFLAG_NOT_EASY)) ||
-					((skill->value == 1) && (ent->spawnflags & SPAWNFLAG_NOT_MEDIUM)) ||
-					(((skill->value == 2) || (skill->value == 3)) && (ent->spawnflags & SPAWNFLAG_NOT_HARD))
-					)
-				{
-					//G_FreeEdict(ent);
-					//inhibit++;
-					continue;
-				}
-			}
-
-			ent->spawnflags &= ~(SPAWNFLAG_NOT_EASY | SPAWNFLAG_NOT_MEDIUM | SPAWNFLAG_NOT_HARD | SPAWNFLAG_NOT_COOP | SPAWNFLAG_NOT_DEATHMATCH);
-		}
-
-		ED_CallSpawn(ent);
-	}
-
-	gi.dprintf("%i entities inhibited\n", inhibit);
-
-#ifdef DEBUG
-	i = 1;
-	ent = EDICT_NUM(i);
-	while (i < globals.num_edicts) {
-		if (ent->inuse != 0 || ent->inuse != 1)
-			Com_DPrintf("Invalid entity %d\n", i);
-		i++, ent++;
-	}
-#endif
-
-	G_FindTeams();
-
-	PlayerTrail_Init();
-}
+//void SpawnEntitiess(char *mapname, char *entities, char *spawnpoint)
+//{
+//	edict_t		*ent;
+//	int			inhibit;
+//	char		*com_token;
+//	int			i;
+//	float		skill_level;
+//
+//	skill_level = floor(skill->value);
+//	if (skill_level < 0)
+//		skill_level = 0;
+//	if (skill_level > 3)
+//		skill_level = 3;
+//	if (skill->value != skill_level)
+//		gi.cvar_forceset("skill", va("%f", skill_level));
+//
+//	SaveClientData();
+//
+//	gi.FreeTags(TAG_LEVEL);
+//
+//	memset(&level, 0, sizeof(level));
+//	memset(g_edicts, 0, game.maxentities * sizeof(g_edicts[0]));
+//
+//	strncpy(level.mapname, mapname, sizeof(level.mapname) - 1);
+//	strncpy(game.spawnpoint, spawnpoint, sizeof(game.spawnpoint) - 1);
+//
+//	// set client fields on player ents
+//	for (i = 0; i < game.maxclients; i++)
+//		g_edicts[i + 1].client = game.clients + i;
+//
+//	ent = NULL;
+//	inhibit = 0;
+//
+//	// parse ents
+//	while (1)
+//	{
+//		// parse the opening brace	
+//		com_token = COM_Parse(&entities);
+//		if (!entities)
+//			break;
+//		if (com_token[0] != '{')
+//			gi.error("ED_LoadFromFile: found %s when expecting {", com_token);
+//
+//		if (!ent)
+//			ent = g_edicts;
+//		else
+//			ent = G_Spawn();
+//		entities = ED_ParseEdict(entities, ent);
+//
+//		// yet another map hack
+//		if (ent && !Q_stricmp(level.mapname, "command") && 
+//			!Q_stricmp(ent->classname, "trigger_once") && 
+//			!Q_stricmp(ent->model, "*27"))
+//			ent->spawnflags &= ~SPAWNFLAG_NOT_HARD;
+//
+//		// remove things (except the world) from different skill levels or deathmatch
+//		if (ent != g_edicts)
+//		{
+//			if (deathmatch->value)
+//			{
+//				if (ent->spawnflags & SPAWNFLAG_NOT_DEATHMATCH)
+//				{
+//					//G_FreeEdict(ent);
+//					//inhibit++;
+//					continue;
+//				}
+//			}
+//			else
+//			{
+//				if ( /* ((coop->value) && (ent->spawnflags & SPAWNFLAG_NOT_COOP)) || */
+//					((skill->value == 0) && (ent->spawnflags & SPAWNFLAG_NOT_EASY)) ||
+//					((skill->value == 1) && (ent->spawnflags & SPAWNFLAG_NOT_MEDIUM)) ||
+//					(((skill->value == 2) || (skill->value == 3)) && (ent->spawnflags & SPAWNFLAG_NOT_HARD))
+//					)
+//				{
+//					//G_FreeEdict(ent);
+//					//inhibit++;
+//					continue;
+//				}
+//			}
+//
+//			ent->spawnflags &= ~(SPAWNFLAG_NOT_EASY | SPAWNFLAG_NOT_MEDIUM | SPAWNFLAG_NOT_HARD | SPAWNFLAG_NOT_COOP | SPAWNFLAG_NOT_DEATHMATCH);
+//		}
+//
+//		ED_CallSpawn(ent);
+//	}
+//
+//	gi.dprintf("%i entities inhibited\n", inhibit);
+//
+//#ifdef DEBUG
+//	i = 1;
+//	ent = EDICT_NUM(i);
+//	while (i < globals.num_edicts) {
+//		if (ent->inuse != 0 || ent->inuse != 1)
+//			Com_DPrintf("Invalid entity %d\n", i);
+//		i++, ent++;
+//	}
+//#endif
+//
+//	G_FindTeams();
+//
+//	PlayerTrail_Init();
+//}
 
 
 //===================================================================

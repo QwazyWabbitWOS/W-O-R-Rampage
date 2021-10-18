@@ -201,7 +201,7 @@ void Cmd_attack2a(edict_t * ent)
 	if (ent->client->pers.weapon == FindItem("chaingun"))
 	{
 		ent->client->pers.secondary ^= SECONDARY_CHAINGUN;
-		if (!ent->client->pers.secondary & SECONDARY_CHAINGUN)
+		if (!(ent->client->pers.secondary & SECONDARY_CHAINGUN))
 		{
 			ent->client->pers.secondary ^= SECONDARY_CHAINGUN_DECCELERATE;
 
@@ -591,16 +591,23 @@ void set_gunxyz(edict_t *ent)
 
 		}
 }
+
 void check_pmodels(edict_t *ent)
 {
 	int city3 = 0;
+
 	if (!strcmp(level.mapname, "city3"))
 		city3 = 1;
+
 	if (ent->health <= 0)
+		return;
+	if (!ent->client->pers.weapon->weapmodel)
 		return;
 
 	int backup_model = ent->client->pers.weapon->weapmodel;
-	int i;
+	
+	int i = 0;
+
 	if (ent->client->pers.weapon == FindItem("hyperblaster") && !city3)
 	{
 		if (ent->client->pers.weapon_ext.dual < WEAPON_DUAL_ACTIVE)
@@ -633,6 +640,7 @@ void check_pmodels(edict_t *ent)
 			ent->client->pers.weapon->weapmodel = 12;
 
 	}
+
 	// set visible model
 	if (ent->s.modelindex == 255) {
 		if (ent->client->pers.weapon)
@@ -641,12 +649,12 @@ void check_pmodels(edict_t *ent)
 			i = 0;
 		ent->s.skinnum = (ent - g_edicts - 1) | i;
 	}
-	ent->client->pers.weapon->weapmodel = backup_model;
+	else
+		ent->client->pers.weapon->weapmodel = backup_model;
 }
+
 /*
 ===============
-ChangeWeapon
-
 The old weapon has been dropped all the way, so make the new one
 current
 ===============
@@ -670,10 +678,6 @@ void ChangeWeapon(edict_t *ent)
 	ent->client->newweapon = NULL;
 	ent->client->machinegun_shots = 0;
 
-	
-
-
-
 	// set visible model
 	if (ent->s.modelindex == 255) {
 		if (ent->client->pers.weapon)
@@ -682,7 +686,9 @@ void ChangeWeapon(edict_t *ent)
 			i = 0;
 		ent->s.skinnum = (ent - g_edicts - 1) | i;
 	}
+
 	check_pmodels(ent);
+
 	if (ent->client->pers.weapon && ent->client->pers.weapon->ammo)
 		ent->client->ammo_index = ITEM_INDEX(FindItem(ent->client->pers.weapon->ammo));
 	else
@@ -699,12 +705,6 @@ void ChangeWeapon(edict_t *ent)
 	ent->client->ps.gunindex = gi.modelindex(ent->client->pers.weapon->view_model);
 	ent->client->pers.secondary = 0;
 	ent->client->pers.scount = 0;
-	
-
-
-
-
-
 	ent->client->anim_priority = ANIM_PAIN;
 	if (ent->client->ps.pmove.pm_flags & PMF_DUCKED)
 	{
@@ -715,17 +715,15 @@ void ChangeWeapon(edict_t *ent)
 	{
 		ent->s.frame = FRAME_pain301;
 		ent->client->anim_end = FRAME_pain304;
-
 	}
 
 	set_gunxyz(ent);
 
 	if (ent->client->pers.weapon == FindItem("grenade launcher") && ent->client->pers.weapon_ext.mode == WEAPON_MODE_GRENADE_LAUNCHER_CLUSTER)
 	{
-
 		toggle_gl_ammo(ent);
-
 	}
+
 	gitem_t *index;
 	index = FindItemByClassname(ent->client->pers.weapon->classname);
 
@@ -1893,9 +1891,9 @@ GRENADE
 ======================================================================
 */
 
-#define GRENADE_TIMER		3.0
-#define GRENADE_MINSPEED	600
-#define GRENADE_MAXSPEED	1000
+#define GRENADE_TIMER		3.0f
+#define GRENADE_MINSPEED	600.f
+#define GRENADE_MAXSPEED	1000.f
 
 void weapon_grenade_fire(edict_t *ent, qboolean held, int gravity)
 {
@@ -2738,7 +2736,7 @@ void Weapon_HyperBlaster_Fire(edict_t *ent)
 				goto skip;
 			}
 
-			rotation = (ent->client->ps.gunframe - 5) * 2 * M_PI / 6;
+			rotation = (ent->client->ps.gunframe - 5.0) * 2.0 * M_PI / 6.0;
 			offset[0] = -4 * sin(rotation * (scounter * 0.33));
 			offset[1] = 0;
 			offset[2] = 4 * cos(rotation * (scounter * 0.33));

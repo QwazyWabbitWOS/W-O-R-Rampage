@@ -34,6 +34,8 @@ void M_avoid_danger(edict_t *self)
 	if (deathmatch->value)
 		return;
 
+	if (!self)
+		return;
 
 	vec3_t point, prediction, dir;
 	edict_t *ent;
@@ -43,6 +45,7 @@ void M_avoid_danger(edict_t *self)
 	trace_t tr;
 	vec3_t from, end, end_real;
 	float radius;
+
 	if (!self->dmg_radius)
 		radius = 16;
 	else
@@ -476,6 +479,7 @@ void predict_shot(edict_t *self, vec3_t origin, float proj_speed, vec3_t end, in
 	vec3_t predicted_angles;
 	vec3_t aim_angles;
 	vec3_t correction_end;
+
 	VectorSubtract(end, origin, dir_prediction);
 	//vectoangles(dir_prediction, aim_angles);
 
@@ -525,7 +529,7 @@ qboolean visible_shootable(edict_t *self, edict_t *other)
 	vec3_t	spot1;
 	vec3_t	spot2;
 	trace_t	trace;
-	int got_enemy;
+	int got_enemy = 0;
 	if (self->enemy == other && self->enemy->client)
 		got_enemy = 1;
 	VectorCopy(self->s.origin, spot1);
@@ -567,7 +571,7 @@ qboolean visible(edict_t *self, edict_t *other)
 	vec3_t	spot1;
 	vec3_t	spot2;
 	trace_t	trace;
-	int got_enemy;
+	int got_enemy = 0;
 
 	if (!other || !self)
 	{
@@ -1724,14 +1728,14 @@ qboolean ai_checkattack(edict_t *self, float dist)
 	qboolean	hesDeadJim;
 	//gi.bprintf(PRINT_HIGH, "ai_checkattack:\n");
 	// this causes monsters to run blindly to the combat point w/o firing
-	if (self->goalentity && random() + self->monsterinfo.aggression > 1.5)
+	if (self->goalentity && random() + self->monsterinfo.aggression > 1.5f)
 	{
 		if (self->monsterinfo.aiflags & AI_COMBAT_POINT)
 			return false;
 
 		if (self->monsterinfo.aiflags & AI_SOUND_TARGET)
 		{
-			if ((level.time - self->enemy->teleport_time) > 5.0)
+			if ((level.time - self->enemy->teleport_time) > 5.0f)
 			{
 				if (self->goalentity == self->enemy)
 					if (self->movetarget)

@@ -339,7 +339,7 @@ void tank_pain (edict_t *self, edict_t *other, float kick, int damage)
 			return;
 	
 	// If hard or nightmare, don't go into pain while attacking
-	if ( skill->value == 2 && skill->value == 3)
+	if ( skill->value == 2 || skill->value == 3)
 	{
 		if ( (self->s.frame >= FRAME_attak301) && (self->s.frame <= FRAME_attak330) )
 			return;
@@ -382,7 +382,7 @@ void TankBlaster (edict_t *self)
 	vec3_t	start;
 	vec3_t	end;
 	vec3_t	dir;
-	int		flash_number;
+	int		flash_number = 0;
 
 	int damage = 30;
 	if (skill->value > 3)
@@ -399,18 +399,13 @@ void TankBlaster (edict_t *self)
 		int add = (int)((self->s.frame - FRAME_attak501) / 3);
 		flash_number = MZ2_TANK_BLASTER2_1 + add;
 		//gi.bprintf(PRINT_HIGH, "DEBUG: TANK BLASTER FRAME ADD = %i, flashnumber = %i, current frame = %i\n", add, flash_number, self->s.frame);
-		
-
 	}
+
 	AngleVectors (self->s.angles, forward, right, NULL);
 	G_ProjectSource (self->s.origin, monster_flash_offset[flash_number], forward, right, start);
-	
 	VectorCopy (self->enemy->s.origin, end);
 	predict_shot(self, start, MONSTER_GUARD_BOLT_SPEED, end, TYPE_BLASTER);
-
-	
 	VectorSubtract (end, start, dir);
-
 	monster_fire_blaster (self, start, dir, damage, 800, flash_number, EF_BLASTER);
 }	
 
@@ -453,7 +448,7 @@ void TankRocket (edict_t *self)
 void TankMachineGun (edict_t *self)
 {
 	vec3_t	dir;
-	vec3_t	vec;
+	vec3_t	vec = { 0 };
 	vec3_t	start;
 	vec3_t	forward, right;
 	int		flash_number;

@@ -190,7 +190,7 @@ void GladiatorGun (edict_t *self)
 }
 void gladiator_attack_refire(edict_t *self)
 {
-	if (random() + self->monsterinfo.aggression + (skill->value * 0.1) > 1.5)
+	if (random() + self->monsterinfo.aggression + (skill->value * 0.1f) > 1.5f)
 	{
 		self->monsterinfo.nextframe = FRAME_attack1;
 

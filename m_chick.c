@@ -496,7 +496,7 @@ void Chick_PreAttack1 (edict_t *self)
 	if (skill->value <= 3)
 		return;
 
-	if (random() + self->monsterinfo.aggression > 1.5 && get_dist(self, self->enemy) > 400)
+	if (random() + self->monsterinfo.aggression > 1.5f && get_dist(self, self->enemy) > 400)
 	{
 		self->monsterinfo.aiflags |= AI_SHOOTSROCKET;
 		gi.sound(self, CHAN_ITEM, gi.soundindex("weapons/rocket_chargeup.wav"), 1, ATTN_IDLE, 0);

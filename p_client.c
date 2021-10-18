@@ -921,19 +921,19 @@ SelectSpawnPoint
 Chooses a player start, deathmatch start, coop start, etc
 ============
 */
-void	SelectSpawnPoint (edict_t *ent, vec3_t origin, vec3_t angles)
+void SelectSpawnPoint(edict_t* ent, vec3_t origin, vec3_t angles)
 {
-	edict_t	*spot = NULL;
+	edict_t* spot = NULL;
 
 	if (deathmatch->value)
-		spot = SelectDeathmatchSpawnPoint ();
+		spot = SelectDeathmatchSpawnPoint();
 	else if (coop->value)
-		spot = SelectCoopSpawnPoint (ent);
+		spot = SelectCoopSpawnPoint(ent);
 
 	// find a single player start spot
 	if (!spot)
 	{
-		while ((spot = G_Find (spot, FOFS(classname), "info_player_start")) != NULL)
+		while ((spot = G_Find(spot, FOFS(classname), "info_player_start")) != NULL)
 		{
 			if (!game.spawnpoint[0] && !spot->targetname)
 				break;
@@ -949,16 +949,17 @@ void	SelectSpawnPoint (edict_t *ent, vec3_t origin, vec3_t angles)
 		{
 			if (!game.spawnpoint[0])
 			{	// there wasn't a spawnpoint without a target, so use any
-				spot = G_Find (spot, FOFS(classname), "info_player_start");
+				spot = G_Find(spot, FOFS(classname), "info_player_start");
 			}
-			if (!spot)
-				gi.error ("Couldn't find spawn point %s\n", game.spawnpoint);
+			if (!spot) {
+				gi.error("Couldn't find spawn point %s\n", game.spawnpoint);
+				return;
+			}
 		}
 	}
-
-	VectorCopy (spot->s.origin, origin);
+	VectorCopy(spot->s.origin, origin);
 	origin[2] += 9;
-	VectorCopy (spot->s.angles, angles);
+	VectorCopy(spot->s.angles, angles);
 }
 
 //======================================================================

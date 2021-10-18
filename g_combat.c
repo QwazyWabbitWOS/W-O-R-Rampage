@@ -344,9 +344,9 @@ static int CheckArmor (edict_t *ent, vec3_t point, vec3_t normal, int damage, in
 	armor = GetItemByIndex (index);
 
 	if (dflags & DAMAGE_ENERGY)
-		save = ceil(((gitem_armor_t *)armor->info)->energy_protection*damage);
+		save = ceilf(((gitem_armor_t *)armor->info)->energy_protection*damage);
 	else
-		save = ceil(((gitem_armor_t *)armor->info)->normal_protection*damage);
+		save = ceilf(((gitem_armor_t *)armor->info)->normal_protection*damage);
 	if (save >= client->pers.inventory[index])
 		save = client->pers.inventory[index];
 
@@ -726,7 +726,7 @@ knockback:
 	{
 		vec3_t add_punch;
 		VectorClear(add_punch);
-		int pdmg = take - ((take + abs(targ->mins[0]) * 2) * 0.5);
+		int pdmg = take - ((take + fabs(targ->mins[0]) * 2.0f) * 0.5);
 		pdmg = clamp(pdmg, 45, 0);
 		//if (mod == MOD_SHOTGUN || MOD_SSHOTGUN)
 		//	pdmg *= 0.25;
@@ -945,8 +945,8 @@ void shockwave_think(edict_t *self)
 	float radius = (self->dmg_radius / 3) * (self->count + 1);
 	float inner_radius = (self->dmg_radius / 4) * self->count;
 	ent = NULL;
-	int i = 0;
 	vec3_t normal, point;
+
 	while ((ent = findradius(ent, self->s.origin, radius)) != NULL)
 	{
 
