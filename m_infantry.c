@@ -615,7 +615,7 @@ void InfantryMachineGun(edict_t *self)
 	}
 	if(fire_rocket)
 	{
-		int damage = 50;
+		damage = 50;
 		if (skill->value > 3)
 			damage *= skill->value / 2;
 		monster_fire_rocket(self, start, forward, damage, 500, MZ2_INFANTRY_MACHINEGUN_1);

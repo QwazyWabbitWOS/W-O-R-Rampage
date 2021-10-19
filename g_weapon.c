@@ -208,8 +208,8 @@ void kick_hit(edict_t *self, int damage, int kick)
 	trace_t		tr;
 	vec3_t		forward, right, up, angles, start, offset;
 	vec3_t		v = { 0 };
-	vec3_t		point = { 0 };
-	float		range = { 0 };
+	//vec3_t		point = { 0 };
+	//float		range = { 0 };
 	vec3_t		dir;
 	
 	if (deathmatch->value)
@@ -271,13 +271,13 @@ void kick_hit(edict_t *self, int damage, int kick)
 	VectorNormalize(v);
 	return;
 
-	if (self->movetype != MOVETYPE_WALK)
-	{
-		VectorMA(self->enemy->velocity, kick, v, tr.ent->velocity);
-		if (self->enemy->velocity[2] > 0)
-			self->enemy->groundentity = NULL;
-	}
-	return;
+	//if (self->movetype != MOVETYPE_WALK)
+	//{
+	//	VectorMA(self->enemy->velocity, kick, v, tr.ent->velocity);
+	//	if (self->enemy->velocity[2] > 0)
+	//		self->enemy->groundentity = NULL;
+	//}
+	//return;
 }
 
 /*
@@ -684,7 +684,6 @@ explode:
 
 void shotgun_grenade_touch(edict_t *self, edict_t *other, cplane_t *plane, csurface_t *surf)
 {
-	int		mod = 0;
 	//gi.bprintf(PRINT_HIGH, "SHOTGUN GRENADE TOUCH: origin = %s time = %f\n", vtos(self->s.origin), level.time);
 
 	if (other == self->owner)
@@ -714,6 +713,7 @@ void shotgun_grenade_touch(edict_t *self, edict_t *other, cplane_t *plane, csurf
 
 	G_FreeEdict(self);
 }
+
 void blaster_think(edict_t *ent)
 {
 	if (ent->style)
@@ -729,7 +729,6 @@ void blaster_think(edict_t *ent)
 	if (gi.pointcontents(ent->s.origin) & MASK_WATER)
 		VectorScale(ent->velocity, 0.99f, ent->velocity);
 
-
 	VectorScale(ent->velocity, 1 - 0.01f, ent->velocity);
 	//ent->velocity[2] -= (2500 - VectorLength(ent->velocity)) / 250;
 	add_gravity(ent);
@@ -738,8 +737,6 @@ void blaster_think(edict_t *ent)
 
 	if (ent->delay < level.time)
 		G_FreeEdict(ent);
-
-	
 }
 
 void add_gravity(edict_t *ent)
@@ -747,6 +744,7 @@ void add_gravity(edict_t *ent)
 	if (ent->waterlevel == 0 && !ent->groundentity)
 		ent->velocity[2] -= ent->gravity * sv_gravity->value * FRAMETIME * 0.05f * blaster_drop->value;
 }
+
 void bolt_setup(edict_t *self)
 {
 	self->nextthink = level.time + 0.05;
@@ -754,6 +752,7 @@ void bolt_setup(edict_t *self)
 	VectorSet(self->mins, -BOLT_SIZE, -BOLT_SIZE, -BOLT_SIZE);
 	VectorSet(self->maxs, BOLT_SIZE, BOLT_SIZE, BOLT_SIZE);
 }
+
 void fire_shotgun_grenade(edict_t *self, vec3_t start, vec3_t dir, int damage, int speed)
 {
 	edict_t	*bolt;
@@ -810,6 +809,7 @@ void fire_shotgun_grenade(edict_t *self, vec3_t start, vec3_t dir, int damage, i
 	}
 
 }
+
 void bolt_die(edict_t *self, edict_t *inflictor, edict_t *attacker, int damage, vec3_t point)
 {
 	//gi.bprintf(PRINT_HIGH, "BOLT DIE: self = %s, attacker = %s", self->classname, attacker->classname);
@@ -1173,9 +1173,9 @@ void Grenade_Gravity(edict_t *self)
 	M_avoid_danger(self);
 
 	edict_t	*ent;
-	float	points = 0;
+	//float	points = 0;
 	vec3_t	v;
-	float	dist = 0;
+	//float	dist = 0;
 	vec3_t dir = { 0 };
 	vec3_t dir_copy = { 0 };
 	int mod = 0;
@@ -1468,14 +1468,9 @@ void smodel_think(edict_t *self)
 		VectorSubtract(self->s.origin, ent->s.origin, dist);
 		if ((ent->takedamage))
 			T_Damage(ent, self, self->owner, self->velocity, self->s.origin, self->s.origin, (int)(100 / (VectorLength(dist) / 4)), 1, DAMAGE_NO_KNOCKBACK, MOD_R_SPLASH);
-
-
-
-
-
 	}
-
 }
+
 void subexpl_think(edict_t *ent)
 {
 
@@ -1538,26 +1533,24 @@ void subexpl_think(edict_t *ent)
 
 	if (ent->count > 3) //3
 		G_FreeEdict(ent);
-
 }
+
 void nuke_endgame(edict_t *self)
 {
 	gi.AddCommandString("gamemap vnuke.pcx");
 }
+
 void rocket_heatbomb(edict_t *ent)
 {
 	edict_t *subexpl;
-	vec3_t dir = { 0 };
+	//vec3_t dir = { 0 };
 	int index = -1;
 	int retry_num = 0;
 	float speed;
 	int radius_damage = 100;
 	int damage_radius = 100;
 	gi.sound(ent, CHAN_WEAPON, gi.soundindex("world/explod1.wav"), 1, ATTN_NORM, 0);
-
-
 	M_avoid_danger(ent);
-
 
 repeat:
 	index++;
@@ -1616,7 +1609,6 @@ repeat:
 	}
 	else
 		G_FreeEdict(ent);
-
 }
 
 void rocket_explode(edict_t *ent, edict_t *other)
@@ -1652,6 +1644,7 @@ void rocket_explode(edict_t *ent, edict_t *other)
 	G_FreeEdict(ent);
 	
 }
+
 void rocket_die(edict_t *self, edict_t *inflictor, edict_t *attacker, int damage, vec3_t point)
 {
 	if (strcmp(self->classname, "rocket")) //temp fix // ????????
@@ -1678,10 +1671,6 @@ void rocket_touch(edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *sur
 		return;
 	}
 
-
-
-
-
 	if (other->takedamage)
 	{
 		T_Damage(other, ent, ent->owner, ent->velocity, ent->s.origin, plane->normal, ent->dmg, 0, 0, MOD_ROCKET);
@@ -1702,7 +1691,6 @@ void rocket_touch(edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *sur
 		}
 	}
 	rocket_explode(ent, other);
-
 }
 
 void throw_nuke(edict_t *self)
@@ -1726,7 +1714,6 @@ void throw_nuke(edict_t *self)
 	VectorScale(forward, 300, nuke->velocity);
 	nuke->velocity[2] += 200;
 	nuke->flags |= FL_NUKE;
-
 	gi.linkentity(nuke);
 }
 
@@ -1736,19 +1723,17 @@ void rocket_think(edict_t *self)
 		G_FreeEdict(self);
 	self->nextthink = level.time + FRAMETIME;
 	VectorScale(self->velocity, 1.1f, self->velocity);
-
 	M_avoid_danger(self);
-
 }
-void rocket_setup(edict_t *self)
+
+void rocket_setup(edict_t* self)
 {
-	
-		if (self->owner)
-		{
-			self->owner_solid = self->owner;
-			self->owner = NULL;
-		}
-	if(self->spawnflags && !paranoia_mode->value)
+	if (self->owner)
+	{
+		self->owner_solid = self->owner;
+		self->owner = NULL;
+	}
+	if (self->spawnflags && !paranoia_mode->value)
 		self->s.effects = EF_TRACKERTRAIL;
 
 	self->nextthink = level.time + FRAMETIME;
@@ -1772,13 +1757,12 @@ void rocket_setup(edict_t *self)
 	VectorSet(self->maxs, 2, 2, 2);
 	self->die = rocket_die;
 	self->takedamage = DAMAGE_YES;
-	
 }
+
 void fire_rocket(edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, float damage_radius, int radius_damage)
 {
 	edict_t	*rocket;
 
-	
 	silencer_degrade(self, damage);
 
 	rocket = G_Spawn();
@@ -1786,17 +1770,18 @@ void fire_rocket(edict_t *self, vec3_t start, vec3_t dir, int damage, int speed,
 	VectorCopy(dir, rocket->movedir);
 	vectoangles(dir, rocket->s.angles);
 	speed *= 0.6; //because the rocket is accelerating
-	
-
 	VectorScale(dir, speed, rocket->velocity);
 	float forward_speed = get_angledifference(self, 0);
 	
-	if(self->client && forward_speed > 0) //shootable projectiles make the rocket block the player when he moves forward, so this is to counter it
+	//shootable projectiles make the rocket block the player when he moves forward, so this is to counter it
+	if(self->client && forward_speed > 0)
 		VectorMA(rocket->velocity, forward_speed * 0.25, self->velocity, rocket->velocity);
+
 	//gi.bprintf(PRINT_HIGH, "DEBUG: player forward speed = %f %f %f, dot = %f\n", self->velocity[0] * forward_speed, self->velocity[1] * forward_speed, self->velocity[2] * forward_speed, forward_speed);
 
 	if (gi.pointcontents(start) & (CONTENTS_LAVA | CONTENTS_WATER | CONTENTS_SLIME))
 		VectorScale(rocket->velocity, 0.33f, rocket->velocity);
+
 	//if (!strcmp(self->classname, "monster_infantry"))
 	//	VectorMA(rocket->s.origin, 10, dir, rocket->s.origin);
 	rocket->movetype = MOVETYPE_FLYMISSILE;

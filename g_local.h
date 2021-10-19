@@ -1403,9 +1403,9 @@ float blaster_charge_calc(edict_t *ent, int charge);
 #define BOLT_NOISY 1
 #define BOLT_SILENT 2
 #define BOLT_NOISY_HB 3
-#define BOLT_NOISY2_HB 3
-#define BOLT_NOISY2_HB_SLOW 4
-#define BOLT_SILENT_HB 5
+#define BOLT_NOISY2_HB 4
+#define BOLT_NOISY2_HB_SLOW 5
+#define BOLT_SILENT_HB 6
 #define WEAPON_MODE_HYPERBLASTER_NORMAL 0
 #define WEAPON_MODE_HYPERBLASTER_FAST 1
 #define WEAPON_MODE_HYPERBLASTER_SLOW 2

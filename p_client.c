@@ -2018,6 +2018,7 @@ void 	pickup_check(edict_t *ent)
 		}
 	}
 }
+
 void count_current_entities()
 {
 	int			i;
@@ -2033,6 +2034,7 @@ void count_current_entities()
 	}
 	//gi.bprintf(PRINT_HIGH, "CURRENT NUMBER OF ENTITIES == %i, game.maxentities = %i, globals.num_edicts = %i \n", ents_inuse, game.maxentities, globals.num_edicts);
 }
+
 void grapple_func(edict_t *ent)
 {
 	if (ent->client->buttonsx & BUTTON_GRAPPLE || ent->client->ctf_grapplestate)
@@ -2158,7 +2160,7 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 				player->client->resp.score_objectives = 0;
 				player->client->resp.score_secrets = 0;
 			}
-			gi.bprintf(PRINT_HIGH, "DEBUG: SHOULD EXIT INTERMISSION!\n");
+			//gi.bprintf(PRINT_HIGH, "DEBUG: SHOULD EXIT INTERMISSION!\n");
 			level.exitintermission = true;
 		}
 		
@@ -2462,4 +2464,3 @@ void ClientBeginServerFrame (edict_t *ent)
 
 	client->latched_buttons = 0;
 }
-

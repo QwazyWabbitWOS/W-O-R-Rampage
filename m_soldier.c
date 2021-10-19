@@ -124,8 +124,9 @@ qboolean check_run(edict_t *self)
 	num++;
 	goto check;
 
-	return false;
+	//return false;
 }
+
 void start_charge(edict_t *self)
 {
 	self->monsterinfo.aiflags |= AI_CHARGEDSHOT;
@@ -1524,7 +1525,7 @@ void soldier_fire(edict_t *self, int flash_number)
 				else
 					predict_shot(self, start, 0, end, TYPE_HITSCAN);
 			
-			trace_t tr;
+			//trace_t tr;
 			int trace_num = 0;
 			check_valid:
 			tr = gi.trace(self->enemy->s.origin, NULL, NULL, end, self, CONTENTS_SOLID);

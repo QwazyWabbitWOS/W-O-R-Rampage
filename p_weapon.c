@@ -1902,7 +1902,7 @@ GRENADE
 
 void weapon_grenade_fire(edict_t *ent, qboolean held, int gravity)
 {
-	gi.bprintf(PRINT_HIGH, "DEBUG: gravity = %i\n", gravity);
+	//gi.bprintf(PRINT_HIGH, "DEBUG: gravity = %i\n", gravity);
 	vec3_t	offset;
 	vec3_t	forward, right;
 	vec3_t	start;
@@ -2635,9 +2635,9 @@ void Weapon_Blaster(edict_t *ent)
 void Weapon_HyperBlaster_Fire(edict_t *ent)
 {
 	float	rotation;
-	vec3_t	offset;
-	int		effect;
-	int		damage;
+	vec3_t	offset = { 0 };
+	int		effect = 0;
+	int		damage = 0;
 	vec3_t	forward, right;
 	vec3_t	start;
 	int speed;
@@ -2662,8 +2662,6 @@ void Weapon_HyperBlaster_Fire(edict_t *ent)
 		ent->client->weapon_sound = gi.soundindex("weapons/hyprbl2a.wav");
 	else
 		ent->client->weapon_sound = gi.soundindex("weapons/hyprbl1a.wav");
-
-
 
 	if (!(ent->client->buttons & BUTTON_ATTACK))
 	{
@@ -2723,7 +2721,6 @@ void Weapon_HyperBlaster_Fire(edict_t *ent)
 		{
 			if (ent->client->pers.weapon_ext.scounter && current_mode == WEAPON_MODE_HYPERBLASTER_SLOW)
 			{
-
 				goto skip;
 			}
 
@@ -2757,8 +2754,6 @@ void Weapon_HyperBlaster_Fire(edict_t *ent)
 					ent->client->kick_angles[0] += -1;
 					type = BOLT_NOISY_HB;
 				}
-
-
 			}
 
 			/*if ((ent->client->ps.gunframe == 6) || (ent->client->ps.gunframe == 9) && !(ent->client->pers.secondary & SECONDARY_HYPERBLASTER))
@@ -2790,7 +2785,6 @@ void Weapon_HyperBlaster_Fire(edict_t *ent)
 
 			}
 			/*****************************************from Blaster_fire function**********************/
-
 
 			if (item_mod->value)
 			{

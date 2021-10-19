@@ -1717,56 +1717,56 @@ void barrel_minmax(edict_t *ent)
 void barrel_touch(edict_t *self, edict_t *other, cplane_t *plane, csurface_t *surf)
 {
 	float	ratio;
-	vec3_t	v;
+	vec3_t	v = { 0 };
 
 	if (other->movetype == MOVETYPE_WALK && 1==0)
 	{
 		return;
-		if (!self->pickup_master && other->client->pers.pickup == PICKUP_ATTEMPT)
-		{
-			other->client->pers.pickup = PICKUP_PICKINGUPSTART;
+		//if (!self->pickup_master && other->client->pers.pickup == PICKUP_ATTEMPT)
+		//{
+		//	other->client->pers.pickup = PICKUP_PICKINGUPSTART;
 
-		}
-		else if (!self->pickup_master && other->client->pers.pickup == PICKUP_PICKINGUPLAST)
-		{
-			
-			gi.sound(other, CHAN_VOICE, gi.soundindex("*jump1.wav"), 1, ATTN_NORM, 0);
-			//gi.bprintf(PRINT_HIGH, "%s touched %s", self->classname, other->classname);
-			//gi.bprintf(PRINT_HIGH, "PICKED UP1, view model %s view modelb %s\n", other->client->newweapon->view_model, other->client->pers.weapon->view_model);
+		//}
+		//else if (!self->pickup_master && other->client->pers.pickup == PICKUP_PICKINGUPLAST)
+		//{
+		//	
+		//	gi.sound(other, CHAN_VOICE, gi.soundindex("*jump1.wav"), 1, ATTN_NORM, 0);
+		//	//gi.bprintf(PRINT_HIGH, "%s touched %s", self->classname, other->classname);
+		//	//gi.bprintf(PRINT_HIGH, "PICKED UP1, view model %s view modelb %s\n", other->client->newweapon->view_model, other->client->pers.weapon->view_model);
 
-			other->client->pers.lastweapon = other->client->pers.weapon;
-			//gi.bprintf(PRINT_HIGH, "PICKED UP2, view model %s view modelb %s\n", other->client->newweapon->view_model, other->client->pers.weapon->view_model);
+		//	other->client->pers.lastweapon = other->client->pers.weapon;
+		//	//gi.bprintf(PRINT_HIGH, "PICKED UP2, view model %s view modelb %s\n", other->client->newweapon->view_model, other->client->pers.weapon->view_model);
 
-			//strcpy(other->client->pers.weapon->view_model, other->client->pers.weapon->view_modelb);
-			if (strncmp(self->classname, "monster", 7) == 0)
-			{
+		//	//strcpy(other->client->pers.weapon->view_model, other->client->pers.weapon->view_modelb);
+		//	if (strncmp(self->classname, "monster", 7) == 0)
+		//	{
 
-				other->style = PICKUP_OBJECT_GUARD;
-				vmodel_backup = "models/weapons/v_pguard/tris.md2";
-				gi.sound(self, CHAN_BODY, gi.soundindex("misc/neck1.wav"), 1, ATTN_NORM, 0);
+		//		other->style = PICKUP_OBJECT_GUARD;
+		//		vmodel_backup = "models/weapons/v_pguard/tris.md2";
+		//		gi.sound(self, CHAN_BODY, gi.soundindex("misc/neck1.wav"), 1, ATTN_NORM, 0);
 
-				int n = 1 + rand() % 3;
+		//		int n = 1 + rand() % 3;
 
-				gi.sound(self, CHAN_AUTO, gi.soundindex(va("soldier/SOLPAIN%i.wav", n)), 1, ATTN_NORM, 0);
-			}
-			else
-			{
-				//gi.bprintf(PRINT_HIGH, "%s touched %s", self->classname, other->classname);
+		//		gi.sound(self, CHAN_AUTO, gi.soundindex(va("soldier/SOLPAIN%i.wav", n)), 1, ATTN_NORM, 0);
+		//	}
+		//	else
+		//	{
+		//		//gi.bprintf(PRINT_HIGH, "%s touched %s", self->classname, other->classname);
 
-				other->style = PICKUP_OBJECT_BARREL;
-				vmodel_backup = "models/weapons/v_pbarrel/tris.md2";
-			}
-			//other->client->pers.weapon->view_model = vmodel_backup;
+		//		other->style = PICKUP_OBJECT_BARREL;
+		//		vmodel_backup = "models/weapons/v_pbarrel/tris.md2";
+		//	}
+		//	//other->client->pers.weapon->view_model = vmodel_backup;
 
 
-			other->client->ps.gunindex = gi.modelindex(vmodel_backup);
-			other->client->pers.pickup = PICKUP_PICKEDUP;
-			//gi.bprintf(PRINT_HIGH, "PICKED UP3, view model %s view modelb %s\n", other->client->newweapon->view_model, other->client->pers.weapon->view_model);
-			other->gravity = 1.5;
-			G_FreeEdict(self);
-			other->client->ps.gunframe = 0;
-			return;
-		}
+		//	other->client->ps.gunindex = gi.modelindex(vmodel_backup);
+		//	other->client->pers.pickup = PICKUP_PICKEDUP;
+		//	//gi.bprintf(PRINT_HIGH, "PICKED UP3, view model %s view modelb %s\n", other->client->newweapon->view_model, other->client->pers.weapon->view_model);
+		//	other->gravity = 1.5;
+		//	G_FreeEdict(self);
+		//	other->client->ps.gunframe = 0;
+		//	return;
+		//}
 
 	}
 	else if (self->pickup_master && self->pickup_master != other)
@@ -1889,7 +1889,6 @@ void barrel_touch(edict_t *self, edict_t *other, cplane_t *plane, csurface_t *su
 
 void object_throw(edict_t *ent, int type)
 {
-
 	edict_t	*object;
 	vec3_t forward, right, start, offset, angles;
 	
@@ -1997,27 +1996,26 @@ void object_throw(edict_t *ent, int type)
 
 	return;
 
-	AngleVectors(ent->client->v_angle, forward, right, NULL);
-	
-	tr = gi.trace(ent->s.origin, NULL, NULL, start, ent, CONTENTS_WINDOW);
-	if (tr.fraction < 1 )
-	{
-		//gi.bprintf(PRINT_HIGH, "BLOCKED THROW by %s, EXPLODING, pos = %s\n", tr.ent->classname, vtos(ent->s.origin));
-
-		//barrel_delay(object, object, ent->pickup_master, 100, object->s.origin);
-	}
+	//AngleVectors(ent->client->v_angle, forward, right, NULL);
+	//
+	//tr = gi.trace(ent->s.origin, NULL, NULL, start, ent, CONTENTS_WINDOW);
+	//if (tr.fraction < 1 )
+	//{
+	//	//gi.bprintf(PRINT_HIGH, "BLOCKED THROW by %s, EXPLODING, pos = %s\n", tr.ent->classname, vtos(ent->s.origin));
+	//	//barrel_delay(object, object, ent->pickup_master, 100, object->s.origin);
+	//}
 }
-void scanner(edict_t *ent)
-{
 
+void scanner(edict_t* ent)
+{
 	vec3_t forward, right, start, offset, angles;
 
 	VectorSet(offset, 8, 8, ent->viewheight - 8);
 	AngleVectors(ent->client->v_angle, forward, right, NULL);
 	P_ProjectSource(ent->client, ent->s.origin, offset, forward, right, start);
-
 	VectorMA(start, 500, forward, forward);
 	trace_t tr = gi.trace(start, NULL, NULL, forward, ent, MASK_SHOT);
+
 	if (tr.fraction < 1)
 	{
 		gi.WriteByte(svc_temp_entity);
@@ -2028,6 +2026,7 @@ void scanner(edict_t *ent)
 		//gi.bprintf(PRINT_HIGH, "BLOCKED THROW by %s, EXPLODING \n", tr.ent->classname);
 	}
 }
+
 void SP_misc_explobox (edict_t *self)
 {
 	if (deathmatch->value)
@@ -2140,8 +2139,6 @@ void SP_misc_eastertank (edict_t *ent)
 
 /*QUAKED misc_easterchick (1 .5 0) (-32 -32 0) (32 32 32)
 */
-
-
 void misc_easterchick_think (edict_t *self)
 {
 	if (++self->s.frame < 247)
@@ -2290,11 +2287,8 @@ void misc_deadsoldier_think(edict_t *ent)
 
 void spawn_at_deadsoldier(edict_t *ent)
 {
-	
-	
 	float random = mt_ldrand() * 100;
 	//gi.dprintf("spawn_at_deadsoldier: random = %f", random);
-
 
 	if (random < 15)
 		return;
@@ -2319,8 +2313,6 @@ void spawn_at_deadsoldier(edict_t *ent)
 			item->classname = "ammo_cells";
 		else if (random >= 95 && random <= 100)
 			item->classname = "item_pack";
-	
-
 		
 	if(random > 99.9)
 		item->classname = "item_nuke";
@@ -2330,6 +2322,7 @@ void spawn_at_deadsoldier(edict_t *ent)
 		G_FreeEdict(item);
 		return;
 	}
+
 	VectorCopy(ent->s.origin, item->s.origin);
 	item->s.origin[2] += 17;
 	trace_t tr;
@@ -2339,51 +2332,56 @@ void spawn_at_deadsoldier(edict_t *ent)
 	tr = gi.trace(item->s.origin, NULL, NULL, end, item, CONTENTS_SOLID);
 	if (tr.fraction == 1)
 	{
-		goto spawn;
+		ED_CallSpawn(item);
+		return;
 	}
 	else
 	{
 		VectorCopy(end, item->s.origin);
-		goto spawn;
+		ED_CallSpawn(item);
+		return;
 	}
-	end[0] -= 34;
-	tr = gi.trace(item->s.origin, NULL, NULL, end, item, CONTENTS_SOLID);
-	if (tr.fraction == 1)
-	{
-		goto spawn;
-	}
-	else
-	{
-		VectorCopy(end, item->s.origin);
-		goto spawn;
-	}
-	end[0] += 17;
-	end[1] += 17;
-	tr = gi.trace(item->s.origin, NULL, NULL, end, item, CONTENTS_SOLID);
-	if (tr.fraction == 1)
-	{
-		goto spawn;
-	}
-	else
-	{
-		VectorCopy(end, item->s.origin);
-		goto spawn;
-	}
-	end[1] -= 34;
-	tr = gi.trace(item->s.origin, NULL, NULL, end, item, CONTENTS_SOLID);
-	if (tr.fraction == 1)
-	{
-		goto spawn;
-	}
-	else
-	{
-		VectorCopy(end, item->s.origin);
-		goto spawn;
-	}
-
-	spawn:
-	ED_CallSpawn(item);
-
+	//end[0] -= 34;
+	//tr = gi.trace(item->s.origin, NULL, NULL, end, item, CONTENTS_SOLID);
+	//if (tr.fraction == 1)
+	//{
+	//	ED_CallSpawn(item);
+	//	return;
+	//}
+	//else
+	//{
+	//	VectorCopy(end, item->s.origin);
+	//	ED_CallSpawn(item);
+	//	return;
+	//}
+	//end[0] += 17;
+	//end[1] += 17;
+	//tr = gi.trace(item->s.origin, NULL, NULL, end, item, CONTENTS_SOLID);
+	//if (tr.fraction == 1)
+	//{
+	//	ED_CallSpawn(item);
+	//	return;
+	//}
+	//else
+	//{
+	//	VectorCopy(end, item->s.origin);
+	//	ED_CallSpawn(item);
+	//	return;
+	//}
+	//end[1] -= 34;
+	//tr = gi.trace(item->s.origin, NULL, NULL, end, item, CONTENTS_SOLID);
+	//if (tr.fraction == 1)
+	//{
+	//	ED_CallSpawn(item);
+	//	return;
+	//}
+	//else
+	//{
+	//	VectorCopy(end, item->s.origin);
+	//	ED_CallSpawn(item);
+	//	return;
+	//}
+	//ED_CallSpawn(item);
 }
 
 void SP_misc_deadsoldier (edict_t *ent)
@@ -3125,10 +3123,10 @@ void head_die(edict_t *self, int damage, vec3_t point)
 	self->takedamage = DAMAGE_PUSH;
 	self->s.modelindex = 0;
 	G_FreeEdict(self);
-	return;
-	self->takedamage = DAMAGE_NO;
-	self->solid = SOLID_NOT;
 	gi.linkentity(self);
+	return;
+	//self->takedamage = DAMAGE_NO;
+	//self->solid = SOLID_NOT;
 }
 void head_diepain(edict_t *self, edict_t *inflictor, edict_t *attacker, int damage, vec3_t point)
 {
@@ -3909,23 +3907,24 @@ void fix_angles(edict_t *self)
 void entity_janitor(edict_t *ent)
 {
 	return;
-	int			i;
-	edict_t		*e;
-	int edicts_inuse = 0;
-	e = &g_edicts[(int)maxclients->value + 1];
-	for (i = maxclients->value + 1; i < globals.num_edicts; i++, e++)
-	{
-		if (e->inuse)
-			edicts_inuse++;
 
-	}
+	//int			i;
+	//edict_t		*e;
+	//int edicts_inuse = 0;
+	//e = &g_edicts[(int)maxclients->value + 1];
+	//for (i = maxclients->value + 1; i < globals.num_edicts; i++, e++)
+	//{
+	//	if (e->inuse)
+	//		edicts_inuse++;
 
-	if (edicts_inuse >= game.maxentities - 128)
-	{
-		G_FreeEdict(ent);
-	}
-	else
-		ent->nextthink = level.time + ENTITY_JANITOR_TIME;
+	//}
+
+	//if (edicts_inuse >= game.maxentities - 128)
+	//{
+	//	G_FreeEdict(ent);
+	//}
+	//else
+	//	ent->nextthink = level.time + ENTITY_JANITOR_TIME;
 }
 
 void debug_trail(vec3_t start, vec3_t end)
