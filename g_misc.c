@@ -3092,15 +3092,17 @@ void toggle_gl_ammo(edict_t *ent)
 		ent->client->ps.stats[STAT_AMMO] = ent->client->pers.inventory[ent->client->ammo_index];
 	}
 }
-/*void gi.sound(edict_t *ent, int channel, int soundindex, float volume, float attenuation, float timeofs)
-{
-	/*if (channel != CHAN_WEAPON)
-	{
-		volume *= 0.75; 
-	}*/
-/*
-	gi.sound(ent, channel, soundindex, volume, attenuation, timeofs);
-}*/
+
+//void gi.sound(edict_t *ent, int channel, int soundindex, float volume, float attenuation, float timeofs)
+//{
+//	if (channel != CHAN_WEAPON)
+//	{
+//		volume *= 0.75; 
+//	}
+//
+//	gi.sound(ent, channel, soundindex, volume, attenuation, timeofs);
+//}
+
 void reverse_hand(edict_t *ent)
 {
 	if (ent->client->pers.hand == 0)
@@ -3346,8 +3348,8 @@ float clamp(float x, float upper, float lower)
 	return min(upper, max(x, lower));
 }
 
-/*------------------------------------------------------------------------* /
-/* GRAPPLE																  */
+/*------------------------------------------------------------------------*/
+/* GRAPPLE                                                                */
 /*------------------------------------------------------------------------*/
 
 // ent is player
@@ -4349,7 +4351,8 @@ void spawn_m_muzzleflash(edict_t *self, vec3_t start, vec3_t dir, int flashtype)
 	flash->owner = self;
 	flash->classname = "muzzleflash";
 	VectorCopy(start, flash->s.origin);
-	if(!(self->monsterinfo.aiflags && AI_NOTONGROUND1) && !(self->monsterinfo.aiflags && AI_NOTONGROUND2))
+
+	if(!(self->monsterinfo.aiflags & AI_NOTONGROUND1) && !(self->monsterinfo.aiflags & AI_NOTONGROUND2))
 		VectorCopy(self->monsterinfo.velocity, flash->velocity);
 	//gi.bprintf(PRINT_HIGH, "DEBUG: monster velocity is = %f %f %f ???\n", self->monsterinfo.velocity[0], self->monsterinfo.velocity[1], self->monsterinfo.velocity[2]);
 	

@@ -451,13 +451,13 @@ qboolean CheckTeamDamage(edict_t *targ, edict_t *attacker)
 // AQC Scale damage amount by location of hit on player's body..
 //==============================================================
 #define IsIn(x, a, b)     ( ( x ) >= ( a ) && ( x ) <= ( b ) )
-#define LEG_DAMAGE     (height/2.0)-abs(targ->mins[2])-3
-#define STOMACH_DAMAGE (height/1.6)-abs(targ->mins[2])
-#define CHEST_DAMAGE   (height/1.3)-abs(targ->mins[2])
-#define NECK_DAMAGE    (height/1.2)-abs(targ->mins[2])
-#define HEAD_DAMAGE    (height/0.7)-abs(targ->mins[2])
-#define ARM1_DAMAGE    (height/1.4)-abs(targ->mins[2])+8  // Should go about between the chest and stomach, and going over by 8
-#define ARM2_DAMAGE    (height/1.4)-abs(targ->mins[2])-8// Should go about between the chest and stomach, and going over by -8
+#define LEG_DAMAGE     (height/2.0)-fabsf(targ->mins[2])-3
+#define STOMACH_DAMAGE (height/1.6)-fabsf(targ->mins[2])
+#define CHEST_DAMAGE   (height/1.3)-fabsf(targ->mins[2])
+#define NECK_DAMAGE    (height/1.2)-fabsf(targ->mins[2])
+#define HEAD_DAMAGE    (height/0.7)-fabsf(targ->mins[2])
+#define ARM1_DAMAGE    (height/1.4)-fabsf(targ->mins[2])+8  // Should go about between the chest and stomach, and going over by 8
+#define ARM2_DAMAGE    (height/1.4)-fabsf(targ->mins[2])-8// Should go about between the chest and stomach, and going over by -8
 
 float location_scaling(edict_t *targ, vec3_t point, float damage, int  mod, int headshot) 
 {
@@ -468,7 +468,7 @@ float location_scaling(edict_t *targ, vec3_t point, float damage, int  mod, int 
 	if (!(targ->flags&FL_GODMODE))
 		if (!VectorEmpty(point))
 			if (IsIn(mod, MOD_BLASTER, MOD_RAILGUN)) {
-				height = abs(targ->mins[2]) + targ->maxs[2];
+				height = fabsf(targ->mins[2]) + targ->maxs[2];
 				z_rel = point[2] - targ->s.origin[2];
 				if (z_rel < LEG_DAMAGE)
 				{

@@ -441,11 +441,12 @@ void M_MoveFrame (edict_t *self)
 
 	index = self->s.frame - move->firstframe;
 	if (move->frame[index].aifunc)
+	{
 		if (!(self->monsterinfo.aiflags & AI_HOLD_FRAME))
-			move->frame[index].aifunc (self, move->frame[index].dist * self->monsterinfo.scale);
+			move->frame[index].aifunc(self, move->frame[index].dist * self->monsterinfo.scale);
 		else
-			move->frame[index].aifunc (self, 0);
-
+			move->frame[index].aifunc(self, 0);
+	}
 	if (move->frame[index].thinkfunc)
 		move->frame[index].thinkfunc (self);
 }
@@ -563,9 +564,11 @@ void monster_think (edict_t *self)
 		self->nextthink = level.time + FRAMETIME;
 		
 		self->monsterinfo.emp_effect_left = clamp(self->monsterinfo.emp_effect_left - 1, self->monsterinfo.emp_effect_left, 0);
+
 		if (self->movetype == MOVETYPE_FLY)
 			self->movetype = MOVETYPE_FLY_B;
-		if (!self->monsterinfo.emp_effect_left == 1 && self->movetype == MOVETYPE_FLY_B)
+
+		if (!(self->monsterinfo.emp_effect_left == 1) && self->movetype == MOVETYPE_FLY_B)
 			self->movetype = MOVETYPE_FLY;
 		return;
 	}
@@ -1199,8 +1202,10 @@ void M_retreat(edict_t *self)
 	//IF WE USE THIS FUNCTION TOO MANY TIMES IT MAKES AN INFINITE LOOP!!!!
 
 	//gi.bprintf(PRINT_HIGH, "DEBUG: BEGINNING OF MONSTER RETREAT\n");
-	if (self->monsterinfo.last_retreat + MIN_RETREAT_TIME > level.time);
+
+	if (self->monsterinfo.last_retreat + MIN_RETREAT_TIME > level.time)
 		return;
+
 	self->monsterinfo.last_retreat = level.time;
 	if (!self->enemy)
 	{

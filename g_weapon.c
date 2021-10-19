@@ -491,10 +491,12 @@ void bolt_explode(edict_t *self, edict_t *other , cplane_t *plane, int destroy)
 {
 	int		mod;
 	vec3_t normalc = { 0 };
-	if (!plane->normal)
+
+	if (!plane)
 		VectorCopy(self->s.origin, normalc);
 	else
 		VectorCopy(plane->normal, normalc);
+	
 	if (self->owner_solid->client)
 		PlayerNoise(self->owner_solid, self->s.origin, PNOISE_IMPACT);
 
@@ -1207,7 +1209,7 @@ void Grenade_Gravity(edict_t *self)
 		VectorSubtract(self->s.origin, ent->s.origin, dir);
 		VectorNormalize(dir);
 		//VectorMA(ent->velocity, 100 * (1+ sin(self->noise_index2)), dir, dir);
-		VectorScale(dir, 400 * fabsf((sin(self->noise_index2))), dir);
+		VectorScale(dir, 400 * fabs((sin(self->noise_index2))), dir);
 		dir[0] *= 1 + (((mt_ldrand() * 2) - 1) * 0.25);
 		dir[1] *= 1 + (((mt_ldrand() * 2) - 1) * 0.25);
 		dir[2] *= 1 + (((mt_ldrand() * 2) - 1) * 0.25);
@@ -1410,7 +1412,7 @@ fire_rocket
 */
 qboolean check_point(vec3_t origin, vec3_t dest)
 {
-	if (gi.pointcontents(dest));
+	if (gi.pointcontents(dest))
 	{
 		trace_t tr;
 		tr = gi.trace(origin, NULL, NULL, dest, NULL, MASK_SOLID);
@@ -1426,6 +1428,7 @@ qboolean check_point(vec3_t origin, vec3_t dest)
 	}
 	return true;
 }
+
 void smodel_think(edict_t *self)
 {
 	self->nextthink = level.time + 0.1;

@@ -858,17 +858,22 @@ void Use_Weapon(edict_t *ent, gitem_t *item)
 		return;
 
 
-	if (item->ammo && !g_select_empty->value && !(item->flags & IT_AMMO) && ent->client->pers.weapon != FindItem("blaster")) //this blaster check should not be done this way, but it accidentaly works
+	if (item->ammo && !g_select_empty->value && 
+		!(item->flags & IT_AMMO) && 
+		ent->client->pers.weapon != FindItem("blaster")) //this blaster check should not be done this way, but it accidentaly works
 	{
 		ammo_item = FindItem(item->ammo);
 		ammo_index = ITEM_INDEX(ammo_item);
-		int ix;
-		if (item == FindItem("grenade launcher") && !ent->client->pers.inventory[ammo_index])
+
+		if (item == FindItem("grenade launcher") && 
+			!ent->client->pers.inventory[ammo_index])
 		{
 			if (ent->client->pers.weapon_ext_save.grenadelauncher.mode == WEAPON_MODE_GRENADE_LAUNCHER_NORMAL &&
 				(ent->client->pers.inventory[ammo_index] != ITEM_INDEX(FindItem("Cluster Grenades")) &&
-					ent->client->pers.inventory[ITEM_INDEX(FindItem("Grenades"))] || ent->client->pers.inventory[ammo_index] != ITEM_INDEX(FindItem("Grenades")) &&
-					ent->client->pers.inventory[ITEM_INDEX(FindItem("Cluster Grenades"))]));
+					ent->client->pers.inventory[ITEM_INDEX(FindItem("Grenades"))] || 
+					ent->client->pers.inventory[ammo_index] != ITEM_INDEX(FindItem("Grenades")) &&
+					ent->client->pers.inventory[ITEM_INDEX(FindItem("Cluster Grenades"))]))
+				/* Do nothing? */;
 			{
 				if (ent->client->pers.weapon_ext_save.grenadelauncher.mode == WEAPON_MODE_GRENADE_LAUNCHER_CLUSTER)
 					ent->client->pers.weapon_ext_save.grenadelauncher.mode = WEAPON_MODE_GRENADE_LAUNCHER_NORMAL;
@@ -2456,7 +2461,7 @@ void Weapon_Blaster_Fire(edict_t *ent)
 
 	int volume = 1;
 	if (is_silenced)
-		volume = 0.1;
+		volume = 0;
 
 	int		hand = ent->client->pers.hand;
 	if (ent->client->ps.gunframe == 5 && !ent->client->pers.weapon_ext.scounter && ent->client->pers.weapon_ext.dual != WEAPON_DUAL_ACTIVE)
@@ -2469,16 +2474,12 @@ void Weapon_Blaster_Fire(edict_t *ent)
 		return;
 	}
 
-
-
 	if (ent->client->ps.gunframe == 12 || ent->client->ps.gunframe == 14 || ent->client->ps.gunframe == 16 || ent->client->pers.weapon_ext.loopstarted && ent->client->ps.gunframe == 10)
 	{
 		if (ent->client->pers.weapon_ext.dual == WEAPON_DUAL_ACTIVE && !ent->client->pers.weapon_ext.scounter)
 		{
 			//if (ent->client->ps.gunframe == 5)
 			//	ent->client->ps.gunframe = 9;
-
-
 
 			if (!(ent->client->buttons & BUTTON_ATTACK))
 			{
@@ -2491,35 +2492,25 @@ void Weapon_Blaster_Fire(edict_t *ent)
 				ent->client->ps.gunframe++;
 				return;
 			}
-
-
 		}
-
-
 	}
-
-
-
-
 
 	if (deathmatch->value)
 		damage = 15;
 	else
 		damage = 10;
+
 	if (ent->client->ps.gunframe == 11 || ent->client->ps.gunframe == 15)
 	{
 		if (hand)
 			ent->client->pers.hand = 0;
 		else
 			ent->client->pers.hand = 1;
-
 	}
-
 
 	ent->client->pers.weapon_ext.loopstarted = 1;
 fire:
 	/*****************************************from Blaster_fire function**********************/
-
 
 	if (dual_counter && ent->client->pers.weapon_ext.scounter)
 	{
@@ -2594,15 +2585,16 @@ fire:
 
 		goto fire;
 	}
+
 	if (dual_counter)
 	{
 		if (ent->client->pers.hand == 0)
 			ent->client->pers.hand = 1;
 		else
 			ent->client->pers.hand = 0;
-
-		
+	
 	}
+
 	if (dual_counter && ent->client->pers.weapon_ext.scounter)
 	{
 		VectorAdd(start, start2, start);
@@ -2628,7 +2620,6 @@ fire:
 	}
 	ent->client->ps.gunframe++;
 	ent->client->pers.weapon_ext.scounter = 0;
-
 }
 
 void Weapon_Blaster(edict_t *ent)
@@ -2662,7 +2653,7 @@ void Weapon_HyperBlaster_Fire(edict_t *ent)
 
 	int volume = 1;
 	if (is_silenced)
-		volume = 0.1;
+		volume = 0;
 
 	if (!ent->client->weapon_sound)
 		gi.sound(ent, CHAN_AUTO, gi.soundindex("weapons/Hyprbu1a.wav"), 1, ATTN_IDLE, 0);
@@ -3420,7 +3411,7 @@ void weapon_shotgun_fire(edict_t *ent)
 
 	int volume = 1;
 	if (is_silenced)
-		volume = 0.1;
+		volume = 0;
 
 	float s_offset = 0;
 	int fired_grenade = 0;
