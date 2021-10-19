@@ -206,7 +206,7 @@ void berserk_runa1_loop(edict_t *self)
 {
 	if (random() > 0.5)
 		self->monsterinfo.nextframe = FRAME_r_att7;
-	else if (self->enemy && (self, self->enemy) > RANGE_MELEE) //got here without an enemy there is a bug somewhere where enemy is removed
+	else if (self->enemy && range(self, self->enemy) > RANGE_MELEE) //got here without an enemy there is a bug somewhere where enemy is removed
 		berserk_run(self);
 }
 
