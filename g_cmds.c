@@ -885,6 +885,43 @@ void Cmd_Wave_f (edict_t *ent)
 	}
 }
 
+// Manage flood protection.
+qboolean CheckFlood(edict_t* ent)
+{
+	int	i;
+
+	gclient_t* cl;
+
+	if (flood_msgs->value) {
+		cl = ent->client;
+
+		if (level.time < cl->flood_locktill) {
+			gi.cprintf(ent, PRINT_HIGH, "You can't talk for %d more seconds\n",
+				(int)(cl->flood_locktill - level.time));
+			return true;
+		}
+
+		i = cl->flood_whenhead - flood_msgs->value + 1;
+
+		if (i < 0)
+		{
+			i = ((int)sizeof(cl->flood_when) / (int)sizeof(cl->flood_when[0])) + i;
+		}
+
+		if ((size_t)cl->flood_when[i] && level.time - cl->flood_when[i] < flood_persecond->value)
+		{
+			cl->flood_locktill = level.time + flood_waitdelay->value;
+			gi.cprintf(ent, PRINT_CHAT, "Flood protection:  You can't talk for %d seconds.\n",
+				(int)flood_waitdelay->value);
+			return true;
+		}
+
+		cl->flood_whenhead = (((size_t)cl->flood_whenhead + 1) % (sizeof(cl->flood_when) / sizeof(cl->flood_when[0])));
+		cl->flood_when[cl->flood_whenhead] = level.time;
+	}
+	return false;
+}
+
 /*
 ==================
 Cmd_Say_f
@@ -933,27 +970,10 @@ void Cmd_Say_f (edict_t *ent, qboolean team, qboolean arg0)
 
 	strcat(text, "\n");
 
-	if (flood_msgs->value) {
-		cl = ent->client;
-
-        if (level.time < cl->flood_locktill) {
-			gi.cprintf(ent, PRINT_HIGH, "You can't talk for %d more seconds\n",
-				(int)(cl->flood_locktill - level.time));
-            return;
-        }
-        i = cl->flood_whenhead - flood_msgs->value + 1;
-        if (i < 0)
-            i = (sizeof(cl->flood_when)/sizeof(cl->flood_when[0])) + i;
-		if (cl->flood_when[i] && 
-			level.time - cl->flood_when[i] < flood_persecond->value) {
-			cl->flood_locktill = level.time + flood_waitdelay->value;
-			gi.cprintf(ent, PRINT_CHAT, "Flood protection:  You can't talk for %d seconds.\n",
-				(int)flood_waitdelay->value);
-            return;
-        }
-		cl->flood_whenhead = (cl->flood_whenhead + 1) %
-			(sizeof(cl->flood_when)/sizeof(cl->flood_when[0]));
-		cl->flood_when[cl->flood_whenhead] = level.time;
+	if (flood_msgs->value)
+	{
+		if (!CheckFlood(ent))
+			return;
 	}
 
 	if (dedicated->value)
