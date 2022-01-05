@@ -625,13 +625,14 @@ void monster_think (edict_t *self)
 	//if(self->s.frame >= 294 && self->s.frame <= 348)
 	//	gi.bprintf(PRINT_HIGH, "frame num = %i\n", self->s.frame);
 
-	/*if (self->svflags & SVF_GRENADE)
-	{
-		//self->think = monster_think;
-		//self->nextthink = level.time + FRAMETIME;
-		gi.bprintf(PRINT_HIGH, "DEBUG: MONSTER frame is = %i, origin = %s, oldorg2 = %s, id = %i\n", self->s.frame, vtos(self->s.origin), vtos(self->old_origin2), self->dmg);
-		
-	}*/
+	//if (self->svflags & SVF_GRENADE)
+	//{
+	//	self->think = monster_think;
+	//	self->nextthink = level.time + FRAMETIME;
+	//	gi.bprintf(PRINT_HIGH, "DEBUG: MONSTER frame is = %i, origin = %s, oldorg2 = %s, id = %i\n", self->s.frame, vtos(self->s.origin), vtos(self->old_origin2), self->dmg);
+	//	
+	//}
+
 	M_MoveFrame (self);
 
 	if (self->linkcount != self->monsterinfo.linkcount)
@@ -1289,7 +1290,7 @@ void M_retreat(edict_t *self)
 	}
 
 
-	gi.bprintf(PRINT_HIGH, "DEBUG: MONSTER IS RETREATING!\n");
+	//gi.bprintf(PRINT_HIGH, "DEBUG: MONSTER IS RETREATING!\n");
 	self->monsterinfo.aiflags |= AI_COMBAT_POINT;
 	self->monsterinfo.last_retreat = level.time + MONSTER_RETREAT_DEBOUNCE;
 }

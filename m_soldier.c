@@ -984,7 +984,7 @@ void soldier_duck_up (edict_t *self)
 			VectorNormalize(dir);
 			VectorMA(self->velocity, 100, dir, self->velocity);
 			self->velocity[2] += 100;
-			gi.bprintf(PRINT_HIGH, "DEBUG: TRYING TO UNSTUCK WITH GLOBAL FOWARD VELOCITY!\n");
+			//gi.bprintf(PRINT_HIGH, "DEBUG: TRYING TO UNSTUCK WITH GLOBAL FOWARD VELOCITY!\n");
 			return;
 		}
 		else if(tr.fraction < frac)

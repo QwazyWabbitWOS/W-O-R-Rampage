@@ -29,10 +29,10 @@ INTERMISSION
 ======================================================================
 */
 
-void MoveClientToIntermission(edict_t *ent)
+void MoveClientToIntermission(edict_t* ent)
 {
 	//if (deathmatch->value || coop->value)
-		ent->client->showscores = true;
+	ent->client->showscores = true;
 	VectorCopy(level.intermission_origin, ent->s.origin);
 	ent->client->ps.pmove.origin[0] = level.intermission_origin[0] * 8;
 	ent->client->ps.pmove.origin[1] = level.intermission_origin[1] * 8;
@@ -62,22 +62,19 @@ void MoveClientToIntermission(edict_t *ent)
 
 	// add the layout
 
-
-		if (coop->value || !deathmatch->value)
-			IntermissionScoreboardMessage(ent);
-		else
-			DeathmatchScoreboardMessage(ent, NULL);
-		gi.unicast(ent, true);
-	
-
+	if (coop->value || !deathmatch->value)
+		IntermissionScoreboardMessage(ent);
+	else
+		DeathmatchScoreboardMessage(ent, NULL);
+	gi.unicast(ent, true);
 }
 
-void think_intermission(edict_t *self)
+void think_intermission(edict_t* self)
 {
 	int i;
-	edict_t *ent;
+	edict_t* ent;
 
-	if(!self->count)
+	if (!self->count)
 		level.row_dmg_received = STRING_GREEN;
 
 	if (self->count == 1)
@@ -156,27 +153,29 @@ void think_intermission(edict_t *self)
 			if (!ent->inuse)
 				continue;
 
-			ent->client->resp.score_total = ent->client->resp.score_dmg_received +
-												ent->client->resp.score_dmg_dealt +
-												ent->client->resp.score_dmg_saved +
-												ent->client->resp.score_kills +
-												ent->client->resp.score_item_pickup +
-												ent->client->resp.score_item_usage +
-												ent->client->resp.score_health_bonus +
-												ent->client->resp.score_objectives +
-												ent->client->resp.score_secrets;
-				ent->client->resp.score_dmg_received = 0;
-				ent->client->resp.score_dmg_dealt = 0;
-				ent->client->resp.score_dmg_saved = 0;
-				ent->client->resp.score_kills = 0;
-				ent->client->resp.score_item_pickup = 0;
-				ent->client->resp.score_item_usage = 0;
-				ent->client->resp.score_health_bonus = 0;
-				ent->client->resp.score_objectives = 0;
-				ent->client->resp.score_secrets = 0;
+			ent->client->resp.score_total = 
+				ent->client->resp.score_dmg_received +
+				ent->client->resp.score_dmg_dealt +
+				ent->client->resp.score_dmg_saved +
+				ent->client->resp.score_kills +
+				ent->client->resp.score_item_pickup +
+				ent->client->resp.score_item_usage +
+				ent->client->resp.score_health_bonus +
+				ent->client->resp.score_objectives +
+				ent->client->resp.score_secrets;
+			
+			ent->client->resp.score_dmg_received = 0;
+			ent->client->resp.score_dmg_dealt = 0;
+			ent->client->resp.score_dmg_saved = 0;
+			ent->client->resp.score_kills = 0;
+			ent->client->resp.score_item_pickup = 0;
+			ent->client->resp.score_item_usage = 0;
+			ent->client->resp.score_health_bonus = 0;
+			ent->client->resp.score_objectives = 0;
+			ent->client->resp.score_secrets = 0;
 		}
-
 	}
+
 	if (self->count == 13)
 	{
 		gi.sound(self, CHAN_VOICE, gi.soundindex("weapons/RAILGF1A.WAV"), 1, ATTN_NORM, 0);
@@ -209,10 +208,10 @@ void think_intermission(edict_t *self)
 	self->count++;
 }
 
-void BeginIntermission(edict_t *targ)
+void BeginIntermission(edict_t* targ)
 {
 	int		i, n;
-	edict_t	*ent, *client;
+	edict_t* ent, * client;
 
 	if (level.intermissiontime)
 		return;		// already activated
@@ -304,7 +303,7 @@ DeathmatchScoreboardMessage
 
 ==================
 */
-void DeathmatchScoreboardMessage(edict_t *ent, edict_t *killer)
+void DeathmatchScoreboardMessage(edict_t* ent, edict_t* killer)
 {
 	char	entry[1024];
 	char	string[1400];
@@ -315,9 +314,9 @@ void DeathmatchScoreboardMessage(edict_t *ent, edict_t *killer)
 	int		score, total;
 	int		picnum;
 	int		x, y;
-	gclient_t	*cl;
-	edict_t		*cl_ent;
-	char	*tag;
+	gclient_t* cl;
+	edict_t* cl_ent;
+	char* tag;
 
 	// sort the clients by score
 	total = 0;
@@ -393,7 +392,7 @@ void DeathmatchScoreboardMessage(edict_t *ent, edict_t *killer)
 	gi.WriteString(string);
 }
 
-void IntermissionScoreboardMessage(edict_t *ent)
+void IntermissionScoreboardMessage(edict_t* ent)
 {
 	char	entry[1024];
 	char	string[1400];
@@ -404,19 +403,19 @@ void IntermissionScoreboardMessage(edict_t *ent)
 	int		score, total;
 	int		picnum;
 	int		x, y, x_base;
-	gclient_t	*cl;
-	edict_t		*cl_ent;
-	char	*tag;
-	char    *dmg_received;
-	char    *dmg_dealt;
-	char	*dmg_saved;
-	char	*kills;
-	char	*item_pickup;
-	char	*item_usage;
-	char	*health_bonus;
-	char	*objectives;
-	char	*secrets;
-	char	*total_score;
+	gclient_t* cl;
+	edict_t* cl_ent;
+	char* tag;
+	char* dmg_received;
+	char* dmg_dealt;
+	char* dmg_saved;
+	char* kills;
+	char* item_pickup;
+	char* item_usage;
+	char* health_bonus;
+	char* objectives;
+	char* secrets;
+	char* total_score;
 
 
 	if (level.row_dmg_received)
@@ -473,7 +472,7 @@ void IntermissionScoreboardMessage(edict_t *ent)
 		total_score = "string2";
 	else
 		total_score = "string";
-		
+
 	// sort the clients by score
 	total = 0;
 	for (i = 0; i < game.maxclients; i++)
@@ -547,7 +546,7 @@ void IntermissionScoreboardMessage(edict_t *ent)
 				x, y + 128, item_pickup, (int)cl_ent->client->resp.score_item_pickup * (level.show & SHOW_ITEM_PICKUP),
 				x, y + 146, item_usage, (int)cl_ent->client->resp.score_item_usage * (level.show & SHOW_ITEM_USAGE),
 				x, y + 162, health_bonus, (int)cl_ent->client->resp.score_health_bonus * (level.show & SHOW_HEALTH_BONUS),
-				x, y + 178, objectives, (int)(cl_ent->client->resp.score_objectives * 0.0078125 *(level.show & SHOW_OBJECTIVES)),
+				x, y + 178, objectives, (int)(cl_ent->client->resp.score_objectives * 0.0078125 * (level.show & SHOW_OBJECTIVES)),
 				x, y + 196, secrets, (int)(cl_ent->client->resp.score_secrets * 0.00390625 * (level.show & SHOW_SECRETS)),
 				x, y + 228, total_score, (int)(cl_ent->client->resp.score_total * 0.00390625 * (level.show & SHOW_TOTAL)))
 				;
@@ -614,13 +613,13 @@ Draw instead of help message.
 Note that it isn't that hard to overflow the 1400 byte message limit!
 ==================
 */
-void DeathmatchScoreboard(edict_t *ent)
+void DeathmatchScoreboard(edict_t* ent)
 {
 	DeathmatchScoreboardMessage(ent, ent->enemy);
 	gi.unicast(ent, true);
 }
 
-void IntermissionScoreboard(edict_t *ent)
+void IntermissionScoreboard(edict_t* ent)
 {
 	IntermissionScoreboardMessage(ent);
 	gi.unicast(ent, true);
@@ -633,7 +632,7 @@ Cmd_Score_f
 Display the scoreboard
 ==================
 */
-void Cmd_Score_f(edict_t *ent)
+void Cmd_Score_f(edict_t* ent)
 {
 	ent->client->showinventory = false;
 	ent->client->showhelp = false;
@@ -648,7 +647,7 @@ void Cmd_Score_f(edict_t *ent)
 	}
 
 	ent->client->showscores = true;
-	DeathmatchScoreboard (ent);
+	DeathmatchScoreboard(ent);
 }
 
 
@@ -659,10 +658,10 @@ HelpComputer
 Draw help computer.
 ==================
 */
-void HelpComputer(edict_t *ent)
+void HelpComputer(edict_t* ent)
 {
 	char	string[1024];
-	char	*sk;
+	char* sk;
 
 	if (skill->value == 0)
 		sk = "easy";
@@ -710,7 +709,7 @@ Cmd_Help_f
 Display the current help message
 ==================
 */
-void Cmd_Help_f(edict_t *ent)
+void Cmd_Help_f(edict_t* ent)
 {
 	// this is for backwards compatability
 	if (deathmatch->value)
@@ -741,9 +740,9 @@ void Cmd_Help_f(edict_t *ent)
 G_SetStats
 ===============
 */
-void G_SetStats(edict_t *ent)
+void G_SetStats(edict_t* ent)
 {
-	gitem_t		*item;
+	gitem_t* item;
 	int			index, cells;
 	int			power_armor_type;
 
@@ -965,10 +964,10 @@ void G_SetStats(edict_t *ent)
 G_CheckChaseStats
 ===============
 */
-void G_CheckChaseStats(edict_t *ent)
+void G_CheckChaseStats(edict_t* ent)
 {
 	int i;
-	gclient_t *cl;
+	gclient_t* cl;
 
 	for (i = 1; i <= maxclients->value; i++) {
 		cl = g_edicts[i].client;
@@ -984,9 +983,9 @@ void G_CheckChaseStats(edict_t *ent)
 G_SetSpectatorStats
 ===============
 */
-void G_SetSpectatorStats(edict_t *ent)
+void G_SetSpectatorStats(edict_t* ent)
 {
-	gclient_t *cl = ent->client;
+	gclient_t* cl = ent->client;
 
 	if (!cl->chase_target)
 		G_SetStats(ent);

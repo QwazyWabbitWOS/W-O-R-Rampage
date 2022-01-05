@@ -491,12 +491,12 @@ void predict_shot(edict_t *self, vec3_t origin, float proj_speed, vec3_t end, in
 	dot = DotProduct(forward, dir_prediction);
 	//UNFINISHED CODE THAT WOULD CHECK THE DIFFERENCE BETWEEN ANGLE AND PREDICTED DIR
 
-	gi.bprintf(PRINT_HIGH, "DEBUG: PREDICT DOT PRODUCT = %f\n", dot);
+	//gi.bprintf(PRINT_HIGH, "DEBUG: PREDICT DOT PRODUCT = %f\n", dot);
 	if (dot < 0.75)
 	{
 		
 		difference = diff(dot, 0.75);
-		gi.bprintf(PRINT_HIGH, "DEBUG: DOING A CORRECTION!, difference = %f\n", difference);
+		//gi.bprintf(PRINT_HIGH, "DEBUG: DOING A CORRECTION!, difference = %f\n", difference);
 		VectorMA(origin, get_dist_point(origin, end), forward, correction_end);
 		VectorScale(end, difference, end);
 		VectorMA(end, 0.75 - difference, correction_end, end);

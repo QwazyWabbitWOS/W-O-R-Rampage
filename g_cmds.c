@@ -33,7 +33,7 @@ char* ClientTeam(edict_t* ent)
 	if (!ent->client)
 		return value;
 
-	strcpy(value, Info_ValueForKey(ent->client->pers.userinfo, "skin"));
+	Q_strncpyz(value, sizeof value, Info_ValueForKey(ent->client->pers.userinfo, "skin"));
 	p = strchr(value, '/');
 	if (!p)
 		return value;
@@ -56,8 +56,8 @@ qboolean OnSameTeam(edict_t* ent1, edict_t* ent2)
 	if (!((int)(dmflags->value) & (DF_MODELTEAMS | DF_SKINTEAMS)))
 		return false;
 
-	strcpy(ent1Team, ClientTeam(ent1));
-	strcpy(ent2Team, ClientTeam(ent2));
+	Q_strncpyz(ent1Team, sizeof ent1Team, ClientTeam(ent1));
+	Q_strncpyz(ent2Team, sizeof ent2Team, ClientTeam(ent2));
 
 	if (strcmp(ent1Team, ent2Team) == 0)
 		return true;
@@ -70,7 +70,8 @@ void Cmd_PositionPrint(edict_t* ent)
 	AngleVectors(ent->client->v_angle, forward, NULL, NULL);
 	VectorMA(ent->s.origin, 8192, forward, end);
 	tr = gi.trace(ent->s.origin, NULL, NULL, end, ent, CONTENTS_SOLID);
-	gi.bprintf(PRINT_HIGH, "DEBUG: POS = %s, DEST = %s END POS = %s, DIST = %f, HIT = %s\n", vtos(ent->s.origin), vtos(end), vtos(tr.endpos), get_dist_point(ent->s.origin, tr.endpos), tr.ent->classname);
+	//gi.bprintf(PRINT_HIGH, "DEBUG: POS = %s, DEST = %s END POS = %s, DIST = %f, HIT = %s\n",
+	//	vtos(ent->s.origin), vtos(end), vtos(tr.endpos), get_dist_point(ent->s.origin, tr.endpos), tr.ent->classname);
 }
 void Cmd_jumpa(edict_t* ent)
 {
@@ -90,6 +91,7 @@ void Cmd_duckb(edict_t* ent)
 {
 	ent->client->buttonsx &= ~BUTTON_DUCK;
 }
+
 void SelectNextItem(edict_t* ent, int itflags)
 {
 	gclient_t* cl;

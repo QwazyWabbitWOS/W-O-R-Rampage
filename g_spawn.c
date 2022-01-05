@@ -491,17 +491,17 @@ char *ED_ParseEdict (char *data, edict_t *ent)
 		if (com_token[0] == '}')
 			break;
 		if (!data)
-			gi.error ("%s: EOF without closing brace", __func__);
+			GameError("%s: EOF without closing brace", __func__);
 
 		strncpy (keyname, com_token, sizeof(keyname)-1);
 		
 	// parse value	
 		com_token = COM_Parse (&data);
 		if (!data)
-			gi.error ("%s: EOF without closing brace", __func__);
+			GameError("%s: EOF without closing brace", __func__);
 
 		if (com_token[0] == '}')
-			gi.error ("%s: closing brace without data", __func__);
+			GameError("%s: closing brace without data", __func__);
 
 		init = true;	
 
@@ -630,8 +630,7 @@ void SpawnEntities (char *mapname, char *entities, char *spawnpoint)
 		if (!entities)
 			break;
 		if (com_token[0] != '{') {
-			gi.error ("ED_LoadFromFile: found %s when expecting {",com_token);
-			return; //QW// never executes.
+			GameError("ED_LoadFromFile: found %s when expecting {",com_token);
 		}
 
 		if (!ent)
@@ -1190,7 +1189,7 @@ void precache_test()
 void world_think(edict_t *ent)
 {
 	//gi.bprintf(PRINT_HIGH, "LEVELNAME = %s", level.mapname);
-	if (strcmp(level.mapname, "city3"))
+	if (Q_stricmp(level.mapname, "city3"))
 	{
 		gi.modelindex("#w_blaster.md2");
 		gi.modelindex("#w_shotgun.md2");
@@ -1209,6 +1208,7 @@ void world_think(edict_t *ent)
 		gi.modelindex("#w_hyperblaster_dw.md2");
 	}
 }
+
 void SP_worldspawn (edict_t *ent)
 {
 	ent->movetype = MOVETYPE_PUSH;

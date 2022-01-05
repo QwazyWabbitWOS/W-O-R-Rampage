@@ -769,6 +769,16 @@ void Touch_Item (edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *surf
 //
 // g_utils.c
 //
+
+#if defined _WIN32
+//
+// Define a noreturn wrapper for gi.error
+//
+__declspec(noreturn) void GameError(char* fmt, ...);
+#else
+__attribute__((noreturn)) void GameError(char* fmt, ...);
+#endif
+
 qboolean	KillBox (edict_t *ent);
 void	G_ProjectSource (vec3_t point, vec3_t distance, vec3_t forward, vec3_t right, vec3_t result);
 edict_t *G_Find (edict_t *from, int fieldofs, char *match);
@@ -784,7 +794,7 @@ void	G_FreeEdict (edict_t *e);
 void	G_TouchTriggers (edict_t *ent);
 void	G_TouchSolids (edict_t *ent);
 
-char	*G_CopyString (char *in);
+char	*G_CopyString (const char *in);
 
 float	*tv (float x, float y, float z);
 char	*vtos (vec3_t v);

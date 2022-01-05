@@ -2228,7 +2228,7 @@ void SP_monster_commander_body (edict_t *self)
 	self->model = "models/monsters/commandr/tris.md2";
 	self->s.modelindex = gi.modelindex (self->model);
 	VectorSet (self->mins, -32, -32, 0);
-	VectorSet (self->maxs, 32, 32, 48);
+	VectorSet(self->maxs, 32, 32, 48);
 	self->use = commander_body_use;
 	self->takedamage = DAMAGE_YES;
 	self->flags = FL_GODMODE;

@@ -178,12 +178,6 @@ extern vec3_t vec3_origin;
 
 #define	IS_NAN(x) (((*(int *)&x)&nanmask)==nanmask)
 
-#if !defined C_ONLY && !defined __linux__ && !defined __sgi
-extern long Q_ftol( float f );
-#else
-#define Q_ftol( f ) ( long ) (f)
-#endif
-
 #define DotProduct(x,y)			(x[0]*y[0]+x[1]*y[1]+x[2]*y[2])
 #define VectorSubtract(a,b,c)	(c[0]=a[0]-b[0],c[1]=a[1]-b[1],c[2]=a[2]-b[2])
 #define VectorAdd(a,b,c)		(c[0]=a[0]+b[0],c[1]=a[1]+b[1],c[2]=a[2]+b[2])
@@ -261,8 +255,14 @@ void Com_PageInMemory (byte *buffer, int size);
 
 //=============================================
 
+int Q_tolower(int c);
+
 // portable case insensitive compare
-int	Q_stricmp(const char* s1, const char* s2);
+int Q_stricmp(const char* s1, const char* s2);
+int Q_strnicmp(const char* s1, const char* s2, size_t count);
+size_t Q_strncpyz(char* dst, size_t dstSize, const char* src);
+size_t Q_strncatz(char* dst, size_t dstSize, const char* src);
+void Com_sprintf(char* dest, int size, char* fmt, ...);
 
 //=============================================
 
@@ -1162,14 +1162,17 @@ typedef enum
 #define	DF_NO_ITEMS			0x00000002	// 2
 #define	DF_WEAPONS_STAY		0x00000004	// 4
 #define	DF_NO_FALLING		0x00000008	// 8
+
 #define	DF_INSTANT_ITEMS	0x00000010	// 16
 #define	DF_SAME_LEVEL		0x00000020	// 32
 #define DF_SKINTEAMS		0x00000040	// 64
 #define DF_MODELTEAMS		0x00000080	// 128
+
 #define DF_NO_FRIENDLY_FIRE	0x00000100	// 256
 #define	DF_SPAWN_FARTHEST	0x00000200	// 512
 #define DF_FORCE_RESPAWN	0x00000400	// 1024
 #define DF_NO_ARMOR			0x00000800	// 2048
+
 #define DF_ALLOW_EXIT		0x00001000	// 4096
 #define DF_INFINITE_AMMO	0x00002000	// 8192
 #define DF_QUAD_DROP		0x00004000	// 16384
@@ -1247,14 +1250,19 @@ ROGUE - VERSIONS
 #define	CS_MAPCHECKSUM		31		// for catching cheater maps
 
 #define	CS_MODELS			32
-#define	CS_SOUNDS			(CS_MODELS+MAX_MODELS)
-#define	CS_IMAGES			(CS_SOUNDS+MAX_SOUNDS)
-#define	CS_LIGHTS			(CS_IMAGES+MAX_IMAGES)
-#define	CS_ITEMS			(CS_LIGHTS+MAX_LIGHTSTYLES)
-#define	CS_PLAYERSKINS		(CS_ITEMS+MAX_ITEMS)
-#define CS_GENERAL			(CS_PLAYERSKINS+MAX_CLIENTS)
-#define	MAX_CONFIGSTRINGS	(CS_GENERAL+MAX_GENERAL)
+#define	CS_SOUNDS           (CS_MODELS + MAX_MODELS)        //288
+#define	CS_IMAGES           (CS_SOUNDS + MAX_SOUNDS)        //544
+#define	CS_LIGHTS           (CS_IMAGES + MAX_IMAGES)        //800
+#define	CS_ITEMS            (CS_LIGHTS + MAX_LIGHTSTYLES)   //1056
+#define	CS_PLAYERSKINS      (CS_ITEMS + MAX_ITEMS)          //1312
+#define	CS_GENERAL          (CS_PLAYERSKINS + MAX_CLIENTS)  //1568
+#define	MAX_CONFIGSTRINGS   (CS_GENERAL + MAX_GENERAL)      //2080
 
+
+//QW// The 2080 magic number comes from q_shared.h of the original game.
+#if (MAX_CONFIGSTRINGS > 2080)
+#error MAX_CONFIGSTRINGS > 2080
+#endif
 
 //==============================================
 

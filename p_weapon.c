@@ -354,7 +354,7 @@ qboolean Pickup_Weapon(edict_t *ent, edict_t *other)
 
 		if (!(ent->spawnflags & DROPPED_PLAYER_ITEM))
 		{
-			if (deathmatch->value)
+			if (deathmatch->value || coop->value)
 			{
 				if ((int)(dmflags->value) & DF_WEAPONS_STAY)
 					ent->flags |= FL_RESPAWN;

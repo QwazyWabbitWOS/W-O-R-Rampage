@@ -413,6 +413,7 @@ void search_for_entity()
 			gi.bprintf(PRINT_HIGH, "DEBUG: MUZZLEFLASH EXISTS, frame = %i, count = %i\n", e->s.frame, e->count);
 	}
 }
+
 void G_RunFrame (void)
 {
 	int		i;
@@ -445,17 +446,17 @@ void G_RunFrame (void)
 			continue;
 		
 		
-	/*	if (DEBRIS_EXISTS == 1 && !VectorCompare(DEBRIS_EDICT->velocity, DEBRIS_VELOCITY) && !GOT_IT)
-		{
-			//gi.bprintf(PRINT_HIGH, "SV PHYSICS TOSS, DEBRIS_EXISTS = %i\n", DEBRIS_EXISTS);
-			//gi.bprintf(PRINT_HIGH, "SV PHYSICS TOSS, DEBRIS: cp = %s, co = %s, cc = %s, vel1 = %s, vel2 = %s\n", old_ent->classname, oldclassname, ent->classname, vtos(DEBRIS_EDICT->velocity), vtos(DEBRIS_VELOCITY));
-			GOT_IT = 1;
-		}
-		old_ent = ent;
-		oldclassname = ent->classname;
-		*/
-		level.current_entity = ent;
+		//if (DEBRIS_EXISTS == 1 && !VectorCompare(DEBRIS_EDICT->velocity, DEBRIS_VELOCITY) && !GOT_IT)
+		//{
+		//	gi.bprintf(PRINT_HIGH, "SV PHYSICS TOSS, DEBRIS_EXISTS = %i\n", DEBRIS_EXISTS);
+		//	gi.bprintf(PRINT_HIGH, "SV PHYSICS TOSS, DEBRIS: cp = %s, co = %s, cc = %s, vel1 = %s, vel2 = %s\n",
+		//		old_ent->classname, oldclassname, ent->classname, vtos(DEBRIS_EDICT->velocity), vtos(DEBRIS_VELOCITY));
+		//	GOT_IT = 1;
+		//}
+		//old_ent = ent;
+		//oldclassname = ent->classname;
 
+		level.current_entity = ent;
 
 		if (!ent->client)
 			VectorCopy(ent->s.origin, ent->s.old_origin); //this is returning current origin when needed, wtf?

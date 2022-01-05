@@ -93,7 +93,6 @@ Killed
 */
 void Killed (edict_t *targ, edict_t *inflictor, edict_t *attacker, int damage, vec3_t point)
 {
-	//gi.bprintf(PRINT_HIGH, "KILLED: targ = %s, inflictor = %s, attacker = %s, damage = %i, point = %s\n", targ->classname, inflictor->classname, attacker->classname, damage, vtos(point));
 	if (targ->health < -999)
 		targ->health = -999;
 
@@ -112,23 +111,21 @@ void Killed (edict_t *targ, edict_t *inflictor, edict_t *attacker, int damage, v
 				targ->owner = attacker;
 		}
 	}
-	//gi.bprintf(PRINT_HIGH, "%s killed with %s by %s\n", targ->classname, inflictor->classname, attacker->classname);
-	
 
 	if (targ->movetype == MOVETYPE_PUSH || targ->movetype == MOVETYPE_STOP || targ->movetype == MOVETYPE_NONE)
 	{	// doors, triggers, etc
-		
 		targ->die (targ, inflictor, attacker, damage, point);
 		return;
 	}
+
 	if ((targ->svflags & SVF_MONSTER) && (targ->deadflag != DEAD_DEAD))
 	{
 		targ->touch = NULL;
 		monster_death_use (targ);
 	}
 	
-	if(targ->die)
-	targ->die (targ, inflictor, attacker, damage, point);
+	if (targ->die)
+		targ->die (targ, inflictor, attacker, damage, point);
 }
 
 
