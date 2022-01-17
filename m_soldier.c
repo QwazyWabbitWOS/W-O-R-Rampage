@@ -559,7 +559,7 @@ void update_move_dir(edict_t *self)
 			gi.sound(self, CHAN_WEAPON, sound_alarm_debug, 1, ATTN_IDLE, 0);
 
 		}
-		gi.bprintf(PRINT_HIGH, "DEBUG: MONSTER HAS BUGGED MAXS!!!\n");
+		gi.bprintf(PRINT_HIGH, "DEBUG: SOLDIER HAS BUGGED MAXS!!!\n");
 	}
 
 	

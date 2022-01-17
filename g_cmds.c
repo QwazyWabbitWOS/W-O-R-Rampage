@@ -1056,7 +1056,7 @@ void Cmd_debug_attack(edict_t* self)
 		if (tr.ent->s.effects & EF_FLAG1) //cancel selection
 		{
 			debug_attack_ent = NULL;
-			gi.cprintf(self, PRINT_HIGH, "DEBUG ATTACK: Cancelling sellection");
+			gi.cprintf(self, PRINT_HIGH, "DEBUG ATTACK: Cancelling selection");
 		}
 		else //mark and save the attacker
 		{

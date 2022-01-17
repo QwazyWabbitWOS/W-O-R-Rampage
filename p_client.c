@@ -1157,50 +1157,42 @@ void player_touch(edict_t *self, edict_t *other, cplane_t *plane, csurface_t *su
 	}
 }
 */
-/*
-===========
-PutClientInServer
 
-Called when a player connects to a server or respawns in
-a deathmatch.
-============
-*/
 void player_setup_think(edict_t* ent)
 {
 
-	if (ent->client)	// don't send messages to non-clients
+	if (!ent->noise_index2)
 	{
-		if (!ent->noise_index2)
-		{
-			//	gi.bprintf(PRINT_HIGH, "STARTING PLAYER SETUP FUNCTION!\n");
-			client_cmd(ent->owner, ";-speed;alias +pickup \"cmd +pic\";alias -pickup \"cmd -pic\"\n");
-		}
-		else if (ent->noise_index2 == 2)
-			client_cmd(ent->owner, ";alias +attack2 \"cmd +a2\";alias -attack2 \"cmd -a2\"\n");
-		if (ent->noise_index2 == 4)
-			client_cmd(ent->owner, ";alias +dual \"cmd +dw\";alias -dual \"cmd -dw\"\n");
-		else if (ent->noise_index2 == 6)
-			client_cmd(ent->owner, ";alias +attack3 \"cmd +a3\";alias -attack3 \"cmd -a3\"\n");
-		else if (ent->noise_index2 == 8)
-			client_cmd(ent->owner, ";alias +jump \"cmd +j;+moveup\";alias -jump \"cmd -j;-moveup\"\n");
-		else if (ent->noise_index2 == 10)
-			client_cmd(ent->owner, ";alias +duck \"cmd +d;+movedown\";alias -duck \"cmd -d;-movedown\"\n");
-		else if (ent->noise_index2 == 12)
-			client_cmd(ent->owner, ";alias +grapple \"cmd +gh\";alias -grapple \"cmd -gh\"\n");
-		else if (ent->noise_index2 == 14)
-			client_cmd(ent->owner, "gl_partscale 2\n");
-		else if (ent->noise_index2 == 16)
-		{
-			G_FreeEdict(ent);
-			return;
-		}
+		//	gi.bprintf(PRINT_HIGH, "STARTING PLAYER SETUP FUNCTION!\n");
+		client_cmd(ent->owner, ";-speed;alias +pickup \"cmd +pic\";alias -pickup \"cmd -pic\"\n");
 	}
+	else if (ent->noise_index2 == 2)
+		client_cmd(ent->owner, ";alias +attack2 \"cmd +a2\";alias -attack2 \"cmd -a2\"\n");
+	if (ent->noise_index2 == 4)
+		client_cmd(ent->owner, ";alias +dual \"cmd +dw\";alias -dual \"cmd -dw\"\n");
+	else if (ent->noise_index2 == 6)
+		client_cmd(ent->owner, ";alias +attack3 \"cmd +a3\";alias -attack3 \"cmd -a3\"\n");
+	else if (ent->noise_index2 == 8)
+		client_cmd(ent->owner, ";alias +jump \"cmd +j;+moveup\";alias -jump \"cmd -j;-moveup\"\n");
+	else if (ent->noise_index2 == 10)
+		client_cmd(ent->owner, ";alias +duck \"cmd +d;+movedown\";alias -duck \"cmd -d;-movedown\"\n");
+	else if (ent->noise_index2 == 12)
+		client_cmd(ent->owner, ";alias +grapple \"cmd +gh\";alias -grapple \"cmd -gh\"\n");
+	else if (ent->noise_index2 == 14)
+		client_cmd(ent->owner, "gl_partscale 2\n");
+	else if (ent->noise_index2 == 16)
+	{
+		G_FreeEdict(ent);
+		return;
+	}
+
 	//gi.bprintf(PRINT_HIGH, "SETUP THINK = %i\n", ent->noise_index2);
 	ent->noise_index2++;
 	ent->nextthink = level.time + 0.1;
 	if (ent->delay < level.time)
 		G_FreeEdict(ent);
 }
+
 void player_setup(edict_t* ent)
 {
 	edict_t* player_setup_ent;
@@ -1210,6 +1202,15 @@ void player_setup(edict_t* ent)
 	player_setup_ent->owner = ent;
 	player_setup_ent->delay = level.time + 3;
 }
+
+/*
+===========
+PutClientInServer
+
+Called when a player connects to a server or respawns in
+a deathmatch.
+============
+*/
 void PutClientInServer(edict_t* ent)
 {
 	vec3_t	mins = { -16, -16, -24 };
@@ -1399,6 +1400,7 @@ void give_ammo(edict_t* ent, char* ammoname, int ammount)
 	int ix = ITEM_INDEX(FindItem(ammoname));
 	ent->client->pers.inventory[ix] = 50;
 }
+
 void give_item(edict_t* ent, char* itemname)
 {
 
@@ -1418,6 +1420,7 @@ void give_item(edict_t* ent, char* itemname)
 	it = &itemlist[ix];
 	it->use(ent, it);
 }
+
 /*
 =====================
 ClientBeginDeathmatch
@@ -1460,7 +1463,7 @@ void ClientBeginDeathmatch(edict_t* ent)
 ===========
 ClientBegin
 
-called when a client has finished connecting, and is ready
+Called when a client has finished connecting, and is ready
 to be placed into the game.  This will happen every level load.
 ============
 */
