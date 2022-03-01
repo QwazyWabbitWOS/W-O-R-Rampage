@@ -655,6 +655,7 @@ extern	cvar_t	*dedicated;
 
 extern	cvar_t	*filterban;
 extern	cvar_t	*flashlightmode; //QW/ mode for flashlight code.
+extern	cvar_t	*g_allowgrapple; //QW// allows grapple use
 
 extern	cvar_t	*sv_gravity;
 extern	cvar_t	*sv_maxvelocity;

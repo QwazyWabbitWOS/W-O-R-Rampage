@@ -195,6 +195,7 @@ void  InitGame (void)
 	needpass = gi.cvar ("needpass", "0", CVAR_SERVERINFO);
 	filterban = gi.cvar ("filterban", "1", 0);
 	flashlightmode = gi.cvar("flashlightmode", "1", 0);
+	g_allowgrapple = gi.cvar("g_allowgrapple", "0", 0);
 
 	g_select_empty = gi.cvar ("g_select_empty", "0", CVAR_ARCHIVE);
 
@@ -226,7 +227,6 @@ void  InitGame (void)
 	InitItems ();
 
 	Com_sprintf (game.helpmessage1, sizeof(game.helpmessage1), "");
-
 	Com_sprintf (game.helpmessage2, sizeof(game.helpmessage2), "");
 
 	// initialize all entities for this game

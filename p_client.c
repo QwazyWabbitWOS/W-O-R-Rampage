@@ -2384,7 +2384,9 @@ void ClientThink(edict_t* ent, usercmd_t* ucmd)
 			UpdateChaseCam(other);
 	}
 
-	grapple_func(ent);
+	if (g_allowgrapple->value) //QW// cvar allows grapple use
+		grapple_func(ent);
+	
 	//if(abs(ucmd->forwardmove) != 400 && ucmd->forwardmove)
 	//	gi.bprintf(PRINT_HIGH, "DEBUG: FORWARDMOVE = %i\n", client->ucmd->forwardmove);
 
