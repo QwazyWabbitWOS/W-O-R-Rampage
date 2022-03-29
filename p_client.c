@@ -2332,7 +2332,11 @@ void ClientThink(edict_t* ent, usercmd_t* ucmd)
 	//if (client->buttons & BUTTON_DUAL)
 	//	ucmd->buttons |= BUTTON_DUAL;
 
-
+	//QW// Quick fix for +attack2 for KMQ2 clients.
+	if (ucmd->buttons & 4) // KMQ2 sends attack2 as 4 in buttons
+		Cmd_attack2a(ent);
+	else if (client->oldbuttons & 4)
+		Cmd_attack2b(ent);
 
 	client->buttons = ucmd->buttons;
 	client->latched_buttons |= client->buttons & ~client->oldbuttons;
