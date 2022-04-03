@@ -1067,6 +1067,71 @@ void Cmd_debug_attack(edict_t* self)
 	}
 }
 
+int CountSpectators(void)
+{
+	int n;
+	int count = 0;
+	edict_t* player;
+
+	for (n = 1; n <= maxclients->value; n++)
+	{
+		player = &g_edicts[n];
+		if (player->inuse && player->client->pers.spectator)
+			count++;
+	}
+	return(count);
+}
+
+void Cmd_Spectator_f(edict_t* ent)
+{
+	int i = 0;
+
+	if (gi.argc() > 1)
+	{
+		i = atoi(gi.argv(1));
+	}
+
+	if (ent->client->resp.spectator == 1)
+	{
+		if (i != 0)
+		{
+			gi.cprintf(ent, PRINT_HIGH, "You are already a spectator!\n");
+			return;
+		}
+		else
+		{
+			ent->client->resp.spectator = 0;
+			ent->client->pers.spectator = 0;
+			PutClientInServer(ent);
+			return;
+		}
+	}
+
+	if ((CountSpectators() >= (maxspectators->value)))
+	{
+		gi.cprintf(ent, PRINT_HIGH, "Too many spectators already\n");
+		return;
+	}
+
+	if (ent->client->flashlight)
+	{
+		G_FreeEdict(ent->client->flashlight);
+		ent->client->flashlight = NULL;
+	}
+
+	ent->client->resp.score = 0;
+	ent->movetype = MOVETYPE_NOCLIP;
+	ent->solid = SOLID_NOT;
+	ent->svflags |= SVF_NOCLIENT;
+	ent->client->ps.pmove.pm_flags &= PMF_NO_PREDICTION;
+	ent->client->ps.pmove.pm_type = PM_SPECTATOR;
+	ent->client->ps.gunindex = 0;
+	ent->client->resp.spectator = 1;
+	ent->client->pers.spectator = 1;
+
+	gi.bprintf(PRINT_HIGH, "%s has become a spectator.\n", ent->client->pers.netname);
+}
+
 /*
 =================
 ClientCommand
@@ -1187,6 +1252,12 @@ void ClientCommand(edict_t* ent)
 		Cmd_Kill_f(ent);
 	else if (Q_stricmp(cmd, "putaway") == 0)
 		Cmd_PutAway_f(ent);
+	else if (Q_stricmp(cmd, "spectate") == 0
+		|| (Q_stricmp(cmd, "observe") == 0)
+		|| (Q_stricmp(cmd, "observer") == 0))
+	{
+		Cmd_Spectator_f(ent);
+	}
 	else if (Q_stricmp(cmd, "wave") == 0)
 		Cmd_Wave_f(ent);
 	else if (Q_stricmp(cmd, "playerlist") == 0)
