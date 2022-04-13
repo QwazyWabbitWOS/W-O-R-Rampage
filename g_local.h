@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "game.h"
 //#include "mtwist.h"
 // the "gameversion" client command will print this plus compile date
-#define	GAMEVERSION	"Rampage v1.4h"
+#define	GAMEVERSION	"Rampage v1.4i"
 
 // protocol bytes that can be directly added to messages
 #define	svc_muzzleflash		1
