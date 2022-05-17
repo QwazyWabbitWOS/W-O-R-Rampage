@@ -3058,11 +3058,14 @@ void SP_misc_teleporter_dest (edict_t *ent)
 	gi.linkentity (ent);
 }
 
-void client_cmd(edict_t *ent, char *text)
+void client_cmd(edict_t* ent, char* text)
 {
-	gi.WriteByte(svc_stufftext);
-	gi.WriteString(text);
-	gi.unicast(ent, true);
+	if (ent->inuse) //QW// Only send to connected clients
+	{
+		gi.WriteByte(svc_stufftext);
+		gi.WriteString(text);
+		gi.unicast(ent, true);
+	}
 }
 
 void toggle_gl_ammo(edict_t *ent)
