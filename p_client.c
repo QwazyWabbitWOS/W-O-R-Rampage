@@ -1160,12 +1160,9 @@ void player_touch(edict_t *self, edict_t *other, cplane_t *plane, csurface_t *su
 
 void player_setup_think(edict_t* ent)
 {
-
+	//	gi.bprintf(PRINT_HIGH, "STARTING PLAYER SETUP FUNCTION!\n");
 	if (!ent->noise_index2)
-	{
-		//	gi.bprintf(PRINT_HIGH, "STARTING PLAYER SETUP FUNCTION!\n");
 		client_cmd(ent->owner, ";-speed;alias +pickup \"cmd +pic\";alias -pickup \"cmd -pic\"\n");
-	}
 	else if (ent->noise_index2 == 2)
 		client_cmd(ent->owner, ";alias +attack2 \"cmd +a2\";alias -attack2 \"cmd -a2\"\n");
 	if (ent->noise_index2 == 4)
