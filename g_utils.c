@@ -462,7 +462,7 @@ edict_t* G_Spawn(void)
 
 		}
 
-		else if (!e->inuse && (e->freetime < 2 || level.time - e->freetime > 0.5f))
+		else if (!e->inuse && (e->freetime <= 2 || level.time - e->freetime >= 0.5f))
 		{
 			G_InitEdict(e);
 			return e;
@@ -488,12 +488,12 @@ edict_t* G_Spawn(void)
 			e = 0;
 			goto retry;
 		}
-
-
-		e -= 1;
-		i -= 1;
-		goto low_priority_ent;
-
+		else
+		{
+			e -= 1;
+			i -= 1;
+			goto low_priority_ent;
+		}
 	}
 
 	if (i == game.maxentities)
@@ -501,7 +501,7 @@ edict_t* G_Spawn(void)
 
 	globals.num_edicts++;
 	G_InitEdict(e);
-	//gi.dprintf("globals.num_edicts++ = %i\n", globals.num_edicts);
+	gi.dprintf("%s globals.num_edicts is %i\n", __func__, globals.num_edicts);
 	return e;
 }
 
