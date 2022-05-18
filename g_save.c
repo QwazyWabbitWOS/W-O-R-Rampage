@@ -159,6 +159,10 @@ is loaded.
 */
 void  InitGame (void)
 {
+#ifdef	_WIN32
+	_CrtMemCheckpoint(&startup1);
+#endif
+
 	gi.dprintf ("==== InitGame %s ====\n", GAMEVERSION);
 	gi.cvar_forceset("g_features", va("%d", G_FEATURES));
 	gun_x = gi.cvar ("gun_x", "0", 0);

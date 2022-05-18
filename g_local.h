@@ -19,6 +19,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 // g_local.h -- local definitions for game module
 
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN	//non-MFC
+#include <windows.h>
+#include <crtdbg.h>
+#define _CRTDBG_MAP_ALLOC
+_CrtMemState startup1;	// memory diagnostics
+#else
+#define OutputDebugString	//not doing Windows
+#endif
+
 #include "q_shared.h"
 
 // define GAME_INCLUDE so that game.h does not define the
