@@ -572,10 +572,9 @@ void ThrowGib(edict_t *self, char *gibname, int damage, int type)
 	gib->avelocity[1] = random() * 600;
 	gib->avelocity[2] = random() * 600;
 
-
-
 	gi.linkentity(gib);
 }
+
 void ThrowHead_exp(edict_t *self, char *gibname, int damage, int type)
 {
 	vec3_t	vd;
@@ -625,6 +624,7 @@ void ThrowHead_exp(edict_t *self, char *gibname, int damage, int type)
 
 	gi.linkentity(self);
 }
+
 void ThrowHead (edict_t *self, char *gibname, int damage, int type)
 {
 	vec3_t	vd;
@@ -3126,11 +3126,11 @@ void head_die(edict_t *self, int damage, vec3_t point)
 	self->takedamage = DAMAGE_PUSH;
 	self->s.modelindex = 0;
 	G_FreeEdict(self);
-	gi.linkentity(self);
 	return;
 	//self->takedamage = DAMAGE_NO;
 	//self->solid = SOLID_NOT;
 }
+
 void head_diepain(edict_t *self, edict_t *inflictor, edict_t *attacker, int damage, vec3_t point)
 {
 	/*int i;
@@ -3161,12 +3161,13 @@ void indicator(edict_t *ent)
 	ent->nextthink = level.time + 0.1;
 	//gi.bprintf(PRINT_HIGH, "(think)indicator origin = %s", vtos(ent->s.origin));
 }
-void create_bloodsplat(edict_t *self)
+
+void create_bloodsplat(edict_t* self)
 {
-	edict_t *bloodsp;
+	edict_t* bloodsp;
 	trace_t tr;
 	vec3_t start, dest;
-	
+
 	VectorCopy(self->s.origin, start);
 	VectorCopy(self->s.origin, dest);
 	start[2] += 1;
@@ -3206,37 +3207,34 @@ void create_bloodsplat(edict_t *self)
 
 			droptofloorx(bloodsp);
 			gi.linkentity(bloodsp);
-			
+
 			if (!i)
 			{
 				i++;
 				goto make_bloodsplat;
-
 			}
-			
 		}
 	}
-	
-	
 }
+
 void droptofloorx(edict_t *self)
 {
 	trace_t tr;
-	vec3_t dest;
+	vec3_t dest = { 0 };
 	VectorSet(dest, 0, 0, -10000);
 	VectorAdd(self->s.origin, dest, dest);
 
 	tr = gi.trace(self->s.origin, self->mins, self->maxs, dest, self, MASK_SOLID);
 	if (tr.startsolid)
 	{
-		//gi.dprintf("droptofloor: %s startsolid at %s\n", ent->classname, vtos(ent->s.origin));
+		//gi.bprintf(PRINT_HIGH, "%s: %s startsolid at %s\n", __func__, self->classname, vtos(self->s.origin));
 		G_FreeEdict(self);
+		//gi.bprintf(PRINT_HIGH, "%s globals.num_edicts is %i\n", __func__, globals.num_edicts);
 		return;
 	}
-
 	VectorCopy(tr.endpos, self->s.origin);
-
 }
+
 void gib_target(edict_t *self, int damage, int type, vec3_t point)
 {
 	int n;
