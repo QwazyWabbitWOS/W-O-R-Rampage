@@ -69,15 +69,14 @@ void soldier_jump_detail(edict_t *self);
 
 qboolean check_run(edict_t *self)
 {
-
 	// THERE IS A BUG HERE SOMEWHERE THAT FIRES A SINGLE CHECK NEAR WALLS RANDOMLY??? I'M GONNA
 	// LEAVE THIS FOR NOW, NOT THAT IMPORTANT - THIS FUNCTION IS ABOUT 1/7 CRIPPLED BY THIS, FAIR ENOUGH
 	vec3_t forward;
-	vec3_t angles;
-	vec3_t end;
-	vec3_t start;
-	vec3_t start_down;
-	vec3_t down;
+	vec3_t angles = { 0 };
+	vec3_t end = { 0 };
+	vec3_t start = { 0 };
+	vec3_t start_down = { 0 };
+	vec3_t down = { 0 };
 	down[2] = -1;
 	trace_t tr;
 	int num = 1;
@@ -113,7 +112,6 @@ qboolean check_run(edict_t *self)
 	//spawn_explosion(tr.endpos, TE_ROCKET_EXPLOSION_WATER);
 	if (get_dist_point(start_down, tr.endpos) > 17)
 	{
-		
 		//gi.bprintf(PRINT_HIGH, "DEBUG: there is a hole, down dist = %f, forward dist = %i, num = %i\n", tr.fraction* 17, num * 16, num);
 		return false;
 	}
@@ -549,23 +547,24 @@ void soldier_run (edict_t *self)
 
 	}
 }
+
 void update_move_dir(edict_t *self)
 {
-	if ( self->maxs[2] < 4)
-	{
-		if (level.time < self->pain_debounce_time)
-		{
-			self->pain_debounce_time = level.time + 2;
-			gi.sound(self, CHAN_WEAPON, sound_alarm_debug, 1, ATTN_IDLE, 0);
-
-		}
-		gi.bprintf(PRINT_HIGH, "DEBUG: SOLDIER HAS BUGGED MAXS!!!\n");
-	}
-
+	//QW// I'm not sure why this is checking maxs[2] but
+	// every time the message hits it shows 0, which
+	// is a legal value. Elide the whole block.
+	//if (self->maxs[2] < 4)
+	//{
+	//	if (level.time < self->pain_debounce_time)
+	//	{
+	//		self->pain_debounce_time = level.time + 2;
+	//		gi.sound(self, CHAN_WEAPON, sound_alarm_debug, 1, ATTN_IDLE, 0);
+	//	}
+	//	gi.bprintf(PRINT_HIGH, "DEBUG: SOLDIER HAS BUGGED MAXS!!!\n");
+	//}
 	
 	if (self->monsterinfo.next_dir_change > level.time)
 		return;
-
 		
 	if (self->monsterinfo.move_dir == MOVE_LEFT)
 	{
@@ -579,7 +578,6 @@ void update_move_dir(edict_t *self)
 			self->monsterinfo.currentmove = &soldier_move_run_l;
 			update_move_frame(self);
 		}
-
 	}
 	if (self->monsterinfo.move_dir == MOVE_RIGHT)
 	{
@@ -2364,11 +2362,13 @@ void death4_loop(edict_t *self)
 		self->monsterinfo.nextframe = FRAME_death418 - rand() % 3;
 	}
 }
+
 void death4_maxs(edict_t *self)
 {
 	self->maxs[2] = -4;
 	gi.linkentity(self);
 }
+
 void death4_shoot(edict_t *self)
 {
 	//if (rand % 2)

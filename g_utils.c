@@ -501,7 +501,7 @@ edict_t* G_Spawn(void)
 
 	globals.num_edicts++;
 	G_InitEdict(e);
-	gi.dprintf("%s globals.num_edicts is %i\n", __func__, globals.num_edicts);
+	//gi.dprintf("%s globals.num_edicts is %i\n", __func__, globals.num_edicts);
 	return e;
 }
 
