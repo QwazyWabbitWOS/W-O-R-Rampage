@@ -276,68 +276,6 @@ ED_CallSpawn
 Finds the spawn function for the entity and calls it
 ===============
 */
-void ED_CallSpawnn (edict_t *ent)
-{
-	spawn_t	*s;
-	gitem_t	*item;
-	int		i;
-
-	if (!ent->classname)
-	{
-		gi.dprintf ("ED_CallSpawn: NULL classname\n");
-		return;
-	}
-	int random;
-	// check item spawn functions
-	for (i=0,item=itemlist ; i<game.num_items ; i++,item++)
-	{
-		if (!item->classname)
-			continue;
-		
-		//gi.dprintf("ED_CallSpawn: random = %i\n", random);
-		if (strcmp(ent->classname, "ammo_grenades") == 0 && mt_lrand() > 0.75)
-		{
-			ent->classname = "ammo_cgrenades";
-			gi.dprintf("ED_CallSpawn: CHANGING TO C GRENADES\n");
-
-		}		
-		if (!strcmp(item->classname, ent->classname))
-		{	// found it
-
-
-
-
-			//gi.dprintf("ED_CallSpawn: classname = %s\n", ent->classname);
-
-			SpawnItem(ent, item);
-			return;
-		}
-	}
-
-	// check normal spawn functions
-	for (s=spawns ; s->name ; s++)
-	{
-		if (!strcmp(s->name, ent->classname))
-		{	// found it
-
-			//gi.dprintf("Spawning %s.\n", ent->classname);
-			if (!strcmp(ent->classname, "func_wall"))
-				return;
-			s->spawn (ent);
-			return;
-		}
-	}
-
-	gi.dprintf ("%s doesn't have a spawn function pos: %s\n", ent->classname, vtos(ent->s.origin));
-	create_bloodsplat(ent);
-}
-/*
-===============
-ED_CallSpawn
-
-Finds the spawn function for the entity and calls it
-===============
-*/
 void ED_CallSpawn(edict_t *ent)
 {
 	spawn_t	*s;
@@ -367,9 +305,10 @@ void ED_CallSpawn(edict_t *ent)
 			return;
 		}
 	}
-	gi.dprintf("%s doesn't have a spawn function pos: %s\n", ent->classname, vtos(ent->s.origin));
-	create_bloodsplat(ent);
+	gi.dprintf("%s: %s doesn't have a spawn function pos: %s\n", __func__, ent->classname, vtos(ent->s.origin));
+	create_bloodsplat(ent); //QW// This needs to be implemented as a spawn function.
 }
+
 /*
 =============
 ED_NewString
@@ -640,13 +579,13 @@ void SpawnEntities (char *mapname, char *entities, char *spawnpoint)
 		entities = ED_ParseEdict (entities, ent);
 		if (!strcmp(ent->classname, "ammo_grenades"))
 		{
-			//gi.dprintf("ED_CallSpawn: found %s\n", ent->classname);
+			//gi.dprintf("%s: found %s\n", __func__, ent->classname);
 
 			float random = mt_ldrand();
 			if (random > 0.5)
 			{
 				ent->classname = "ammo_cgrenades";
-				gi.dprintf("ED_CallSpawn: CHANGING TO CLUSTER GRENADES\n");
+				//gi.dprintf("%s: CHANGING GRENADES TO CLUSTER GRENADES\n", __func__);
 
 			}
 		}
@@ -707,111 +646,6 @@ void SpawnEntities (char *mapname, char *entities, char *spawnpoint)
 	SpawnSun();
 	PlayerTrail_Init ();
 }
-
-//void SpawnEntitiess(char *mapname, char *entities, char *spawnpoint)
-//{
-//	edict_t		*ent;
-//	int			inhibit;
-//	char		*com_token;
-//	int			i;
-//	float		skill_level;
-//
-//	skill_level = floor(skill->value);
-//	if (skill_level < 0)
-//		skill_level = 0;
-//	if (skill_level > 3)
-//		skill_level = 3;
-//	if (skill->value != skill_level)
-//		gi.cvar_forceset("skill", va("%f", skill_level));
-//
-//	SaveClientData();
-//
-//	gi.FreeTags(TAG_LEVEL);
-//
-//	memset(&level, 0, sizeof(level));
-//	memset(g_edicts, 0, game.maxentities * sizeof(g_edicts[0]));
-//
-//	strncpy(level.mapname, mapname, sizeof(level.mapname) - 1);
-//	strncpy(game.spawnpoint, spawnpoint, sizeof(game.spawnpoint) - 1);
-//
-//	// set client fields on player ents
-//	for (i = 0; i < game.maxclients; i++)
-//		g_edicts[i + 1].client = game.clients + i;
-//
-//	ent = NULL;
-//	inhibit = 0;
-//
-//	// parse ents
-//	while (1)
-//	{
-//		// parse the opening brace	
-//		com_token = COM_Parse(&entities);
-//		if (!entities)
-//			break;
-//		if (com_token[0] != '{')
-//			gi.error("ED_LoadFromFile: found %s when expecting {", com_token);
-//
-//		if (!ent)
-//			ent = g_edicts;
-//		else
-//			ent = G_Spawn();
-//		entities = ED_ParseEdict(entities, ent);
-//
-//		// yet another map hack
-//		if (ent && !Q_stricmp(level.mapname, "command") && 
-//			!Q_stricmp(ent->classname, "trigger_once") && 
-//			!Q_stricmp(ent->model, "*27"))
-//			ent->spawnflags &= ~SPAWNFLAG_NOT_HARD;
-//
-//		// remove things (except the world) from different skill levels or deathmatch
-//		if (ent != g_edicts)
-//		{
-//			if (deathmatch->value)
-//			{
-//				if (ent->spawnflags & SPAWNFLAG_NOT_DEATHMATCH)
-//				{
-//					//G_FreeEdict(ent);
-//					//inhibit++;
-//					continue;
-//				}
-//			}
-//			else
-//			{
-//				if ( /* ((coop->value) && (ent->spawnflags & SPAWNFLAG_NOT_COOP)) || */
-//					((skill->value == 0) && (ent->spawnflags & SPAWNFLAG_NOT_EASY)) ||
-//					((skill->value == 1) && (ent->spawnflags & SPAWNFLAG_NOT_MEDIUM)) ||
-//					(((skill->value == 2) || (skill->value == 3)) && (ent->spawnflags & SPAWNFLAG_NOT_HARD))
-//					)
-//				{
-//					//G_FreeEdict(ent);
-//					//inhibit++;
-//					continue;
-//				}
-//			}
-//
-//			ent->spawnflags &= ~(SPAWNFLAG_NOT_EASY | SPAWNFLAG_NOT_MEDIUM | SPAWNFLAG_NOT_HARD | SPAWNFLAG_NOT_COOP | SPAWNFLAG_NOT_DEATHMATCH);
-//		}
-//
-//		ED_CallSpawn(ent);
-//	}
-//
-//	gi.dprintf("%i entities inhibited\n", inhibit);
-//
-//#ifdef DEBUG
-//	i = 1;
-//	ent = EDICT_NUM(i);
-//	while (i < globals.num_edicts) {
-//		if (ent->inuse != 0 || ent->inuse != 1)
-//			Com_DPrintf("Invalid entity %d\n", i);
-//		i++, ent++;
-//	}
-//#endif
-//
-//	G_FindTeams();
-//
-//	PlayerTrail_Init();
-//}
-
 
 //===================================================================
 
@@ -1445,8 +1279,4 @@ void SP_worldspawn (edict_t *ent)
 
 	// 63 testing
 	gi.configstring(CS_LIGHTS+63, "a");
-
-
-
 }
-

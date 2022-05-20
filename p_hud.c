@@ -992,7 +992,7 @@ void G_SetSpectatorStats(edict_t* ent)
 
 	cl->ps.stats[STAT_SPECTATOR] = 1;
 
-	// layouts are independant in spectator
+	// layouts are independent in spectator
 	cl->ps.stats[STAT_LAYOUTS] = 0;
 	if (cl->pers.health <= 0 || level.intermissiontime || cl->showscores)
 		cl->ps.stats[STAT_LAYOUTS] |= 1;

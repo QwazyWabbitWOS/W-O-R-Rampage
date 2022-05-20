@@ -63,6 +63,7 @@ qboolean OnSameTeam(edict_t* ent1, edict_t* ent2)
 		return true;
 	return false;
 }
+
 void Cmd_PositionPrint(edict_t* ent)
 {
 	trace_t tr;
@@ -73,6 +74,7 @@ void Cmd_PositionPrint(edict_t* ent)
 	//gi.bprintf(PRINT_HIGH, "DEBUG: POS = %s, DEST = %s END POS = %s, DIST = %f, HIT = %s\n",
 	//	vtos(ent->s.origin), vtos(end), vtos(tr.endpos), get_dist_point(ent->s.origin, tr.endpos), tr.ent->classname);
 }
+
 void Cmd_jumpa(edict_t* ent)
 {
 	ent->client->buttonsx |= BUTTON_JUMP;
@@ -82,6 +84,7 @@ void Cmd_jumpb(edict_t* ent)
 {
 	ent->client->buttonsx &= ~BUTTON_JUMP;
 }
+
 void Cmd_ducka(edict_t* ent)
 {
 	ent->client->buttonsx |= BUTTON_DUCK;
@@ -167,6 +170,7 @@ void ValidateSelectedItem(edict_t* ent)
 
 	SelectNextItem(ent, -1);
 }
+
 void Cmd_MonsterPrint(edict_t* ent)
 {
 	vec3_t forward;

@@ -486,7 +486,7 @@ LookAtKiller
 */
 void LookAtKiller(edict_t* self, edict_t* inflictor, edict_t* attacker)
 {
-	vec3_t		dir;
+	vec3_t		dir = { 0 };
 
 	if (attacker && attacker != world && attacker != self)
 	{
@@ -744,7 +744,7 @@ float	PlayersRangeFromSpot(edict_t* spot)
 {
 	edict_t* player;
 	float	bestplayerdistance;
-	vec3_t	v;
+	vec3_t	v = { 0 };
 	int		n;
 	float	playerdistance;
 
@@ -1548,8 +1548,8 @@ void ClientUserinfoChanged(edict_t* ent, char* userinfo)
 
 	// set spectator
 	s = Info_ValueForKey(userinfo, "spectator");
-	// spectators are only supported in deathmatch
-	if (deathmatch->value && *s && strcmp(s, "0"))
+	//QW// Changed this. Allow specs in coop too.
+	if (deathmatch->value || coop->value && *s && strcmp(s, "0"))
 		ent->client->pers.spectator = true;
 	else
 		ent->client->pers.spectator = false;
@@ -2431,7 +2431,7 @@ void ClientBeginServerFrame(edict_t* ent)
 	client = ent->client;
 	if (level.framenum & 4)
 		count_current_entities();
-	if (deathmatch->value &&
+	if (deathmatch->value || coop->value &&
 		client->pers.spectator != client->resp.spectator &&
 		(level.time - client->respawn_time) >= 5) {
 		spectator_respawn(ent);
@@ -2473,9 +2473,10 @@ void ClientBeginServerFrame(edict_t* ent)
 	}
 
 	// add player trail so monsters can follow
-	if (!deathmatch->value)
+	if (!deathmatch->value && (ent->movetype != MOVETYPE_NOCLIP))
+	{
 		if (!visible(ent, PlayerTrail_LastSpot()))
 			PlayerTrail_Add(ent->s.old_origin);
-
+	}
 	client->latched_buttons = 0;
 }
