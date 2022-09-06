@@ -449,20 +449,12 @@ edict_t* G_Spawn(void)
 	int			i;
 	edict_t* e;
 
-	int retry_num = 0;
 	e = &g_edicts[(int)maxclients->value + 1];
-	int replace_gib = 0;
 	for (i = maxclients->value + 1; i < globals.num_edicts; i++, e++)
 	{
 		// the first couple seconds of server time can involve a lot of
 		// freeing and allocating, so relax the replacement policy
-	retry:
-		if (replace_gib)
-		{
-
-		}
-
-		else if (!e->inuse && (e->freetime <= 2 || level.time - e->freetime >= 0.5f))
+		if (!e->inuse && (e->freetime < 2 || level.time - e->freetime > 0.5f))
 		{
 			G_InitEdict(e);
 			return e;
@@ -470,40 +462,16 @@ edict_t* G_Spawn(void)
 	}
 
 	if (i == game.maxentities)
-	{
-		gi.bprintf(PRINT_HIGH, "DEBUG: HIT ENTITY LIMIT!\n");
-		if (retry_num > 10000)
-		{
-			gi.bprintf(PRINT_HIGH, "DEBUG: entity creation failed!\n");
-			return e;
-		}
-
-	low_priority_ent:
-		retry_num++;
-
-		if (next_spawn_is_gib)
-		{
-			replace_gib = 1;
-			i = 0;
-			e = 0;
-			goto retry;
-		}
-		else
-		{
-			e -= 1;
-			i -= 1;
-			goto low_priority_ent;
-		}
-	}
-
-	if (i == game.maxentities)
-		gi.error("ED_Alloc: no free edicts");
+		GameError("%s: no free edicts", __func__);
 
 	globals.num_edicts++;
 	G_InitEdict(e);
-	//gi.dprintf("%s globals.num_edicts is %i\n", __func__, globals.num_edicts);
+	//don't report during worldspawn
+	//if (level.time)
+	//gi.dprintf("%s num_edicts is %d\n", __func__, globals.num_edicts);
 	return e;
 }
+
 
 /*
 =================

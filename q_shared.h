@@ -32,6 +32,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #pragma warning(disable : 6244)		// local declaration of <variable> hides previous declaration at <line> of <file>
 #endif
 
+#include "performance.h" //QW//
+
 #include <assert.h>
 #include <math.h>
 #include <stdio.h>

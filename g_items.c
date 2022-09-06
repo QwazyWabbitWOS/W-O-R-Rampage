@@ -131,12 +131,6 @@ void DoRespawn(edict_t* ent)
 		unsigned	count;
 		unsigned	choice;
 
-		if (ent == NULL)
-		{
-			gi.dprintf("NULL ent passed to %s\n", __func__);
-			return;
-		}
-
 		master = ent->teammaster;
 		if (master == NULL)
 			return;

@@ -38,7 +38,7 @@ _CrtMemState startup1;	// memory diagnostics
 #include "game.h"
 //#include "mtwist.h"
 // the "gameversion" client command will print this plus compile date
-#define	GAMEVERSION	"Rampage v1.4k"
+#define	GAMEVERSION	"Rampage v1.4m"
 
 // protocol bytes that can be directly added to messages
 #define	svc_muzzleflash		1

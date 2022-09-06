@@ -270,6 +270,7 @@
     <ClCompile Include="m_soldier.c" />
     <ClCompile Include="m_supertank.c" />
     <ClCompile Include="m_tank.c" />
+    <ClCompile Include="performance.c" />
     <ClCompile Include="p_client.c" />
     <ClCompile Include="p_hud.c" />
     <ClCompile Include="p_trail.c" />
@@ -304,6 +305,7 @@
     <ClInclude Include="m_soldier.h" />
     <ClInclude Include="m_supertank.h" />
     <ClInclude Include="m_tank.h" />
+    <ClInclude Include="performance.h" />
     <ClInclude Include="q_shared.h" />
   </ItemGroup>
   <ItemGroup>
