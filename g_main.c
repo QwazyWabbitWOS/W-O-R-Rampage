@@ -426,7 +426,7 @@ void G_RunFrame(void)
 {
 	int		i;
 	edict_t* ent, * old_ent;
-	char* oldclassname;
+	//char* oldclassname;
 	level.framenum++;
 	level.time = level.framenum * FRAMETIME;
 

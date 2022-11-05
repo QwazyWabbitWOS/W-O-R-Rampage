@@ -33,10 +33,10 @@ explosions and melee attacks.
 
 qboolean CanDamage (edict_t *targ, edict_t *inflictor)
 {
-	vec3_t	dest;
+	vec3_t	dest = { 0 };
 	trace_t	trace;
 
-// bmodels need special checking because their origin is 0,0,0
+	// bmodels need special checking because their origin is 0,0,0
 	if (targ->movetype == MOVETYPE_PUSH)
 	{
 		VectorAdd (targ->absmin, targ->absmax, dest);
@@ -80,7 +80,6 @@ qboolean CanDamage (edict_t *targ, edict_t *inflictor)
 	trace = gi.trace (inflictor->s.origin, vec3_origin, vec3_origin, dest, inflictor, MASK_SOLID);
 	if (trace.fraction == 1.0)
 		return true;
-
 
 	return false;
 }
@@ -136,8 +135,8 @@ SpawnDamage
 */
 void SpawnDamage (int type, vec3_t origin, vec3_t normal, int damage)
 {
-	vec3_t origin_org;
-	vec3_t normal2;
+	vec3_t origin_org = { 0 };
+	vec3_t normal2 = { 0 };
 	//gi.bprintf(PRINT_HIGH, "NORMAL = %s", vtos(normal));
 	if (!normal)
 		VectorSet(normal2, crandom(), crandom(), crandom());
@@ -216,10 +215,10 @@ static int CheckPowerArmor (edict_t *ent, vec3_t point, vec3_t normal, int damag
 	gclient_t	*client;
 	int			save;
 	int			power_armor_type;
-	int			index;
+	int			index = 0;
 	int			damagePerCell;
 	int			pa_te_type;
-	int			power;
+	int			power = 0;
 	int			power_used;
 
 	if (!damage)
@@ -254,7 +253,7 @@ static int CheckPowerArmor (edict_t *ent, vec3_t point, vec3_t normal, int damag
 
 	if (power_armor_type == POWER_ARMOR_SCREEN)
 	{
-		vec3_t		vec;
+		vec3_t		vec = { 0 };
 		float		dot;
 		vec3_t		forward;
 
@@ -300,7 +299,6 @@ static int CheckPowerArmor (edict_t *ent, vec3_t point, vec3_t normal, int damag
 		}
 		else
 			SpawnDamage(pa_te_type, point, normal, save);
-
 	}
 
 	ent->powerarmor_time = level.time + 0.2;
@@ -444,6 +442,7 @@ qboolean CheckTeamDamage(edict_t *targ, edict_t *attacker)
 	// if ((ability to damage a teammate == OFF) && (targ's team == attacker's team))
 	return false;
 }
+
 //==============================================================
 // AQC Scale damage amount by location of hit on player's body..
 //==============================================================
@@ -459,7 +458,7 @@ qboolean CheckTeamDamage(edict_t *targ, edict_t *attacker)
 float location_scaling(edict_t *targ, vec3_t point, float damage, int  mod, int headshot) 
 {
 	float z_rel, height;
-	edict_t *ent;
+	//edict_t *ent;
 	//int mod2 = mod;
 	meansOfDeath = mod;
 	if (!(targ->flags&FL_GODMODE))
@@ -528,8 +527,8 @@ float location_scaling(edict_t *targ, vec3_t point, float damage, int  mod, int 
 			} // Normal Damage if hit anywhere else
 
 	return 1.0; // keep damage the same..
-
 }
+
 qboolean can_gib(edict_t *targ, int mod)
 {
 	if (!real_gibbing->value)
@@ -545,14 +544,15 @@ qboolean can_gib(edict_t *targ, int mod)
 	}
 	return false;
 }
+
 void T_Damage (edict_t *targ, edict_t *inflictor, edict_t *attacker, vec3_t dir, vec3_t point, vec3_t normal, int damage, int knockback, int dflags, int mod)
 {
-	gclient_t	*client;
+	gclient_t	*client = NULL;
 	int			take, temp_take;
 	int			save;
 	int			asave;
 	int			psave;
-	int			te_sparks;
+	int			te_sparks = TE_BLASTER;
 	int			had_hp = targ->health;
 	//gi.bprintf(PRINT_HIGH, "T_DAMAGE CALL");
 	if (!targ->takedamage)
@@ -612,8 +612,7 @@ void T_Damage (edict_t *targ, edict_t *inflictor, edict_t *attacker, vec3_t dir,
 
 	VectorNormalize(dir);
 	
-// bonus damage for suprising a monster
-	
+	// bonus damage for suprising a monster
 	if (!(dflags & DAMAGE_RADIUS) && (targ->svflags & SVF_MONSTER) && (attacker->movetype == MOVETYPE_WALK) && (!targ->enemy) && (targ->health > 0))
 		damage *= 1.25;
 	
@@ -621,7 +620,7 @@ knockback:
 	if (targ->flags & FL_NO_KNOCKBACK)
 		knockback = 0;
 
-// figure momentum add
+	// figure momentum add
 	if (!(dflags & DAMAGE_NO_KNOCKBACK))
 	{
 		if ((knockback) && (targ->movetype != MOVETYPE_NONE) && (targ->movetype != MOVETYPE_BOUNCE) && (targ->movetype != MOVETYPE_PUSH) && (targ->movetype != MOVETYPE_STOP))
@@ -643,7 +642,6 @@ knockback:
 				{
 					VectorScale(dir, 500.0 * (float)knockback / mass, kvel);
 					damage *= 0.01;
-
 				}
 				else
 				{
@@ -661,6 +659,7 @@ knockback:
 			VectorAdd (targ->velocity, kvel, targ->velocity);
 		}
 	}
+
 	if (targ->takedamage == DAMAGE_PUSH)
 		return;
 	//gi.bprintf(PRINT_HIGH, "damage take = %i", take);
@@ -699,9 +698,6 @@ knockback:
 
 			}
 
-
-
-
 			if (targ->pain_debounce_time < level.time)
 			{
 				gi.sound(targ, CHAN_ITEM, gi.soundindex("items/protect4.wav"), 1, ATTN_IDLE, 0);
@@ -721,9 +717,9 @@ knockback:
 	}
 	if (targ->svflags & SVF_MONSTER)// && targ->mins[0] > -60)// && targ->health > 0)
 	{
-		vec3_t add_punch;
-		VectorClear(add_punch);
-		int pdmg = take - ((take + fabs(targ->mins[0]) * 2.0f) * 0.5);
+		vec3_t add_punch = { 0 };
+
+		int pdmg = take - ((take + fabsf(targ->mins[0]) * 2.0f) * 0.5);
 		pdmg = clamp(pdmg, 45, 0);
 		//if (mod == MOD_SHOTGUN || MOD_SSHOTGUN)
 		//	pdmg *= 0.25;
@@ -731,9 +727,6 @@ knockback:
 		add_punch[0] += pdmg * (0.5 + (random() * 0.5)); //UPDOWN
 		add_punch[1] += pdmg * (0.5 + (random() * 0.5)); //SIDE
 		add_punch[2] += pdmg * (0.5 + (random() * 0.5));
-
-		
-
 
 		if (rand() & 1)
 			add_punch[0] *= -1;
@@ -745,7 +738,6 @@ knockback:
 		targ->s.angles[0] = targ->s.angles[0] + add_punch[0];
 		targ->s.angles[1] = targ->s.angles[1] + add_punch[1];
 		targ->s.angles[2] = targ->s.angles[2] + add_punch[2];
-		//return;
 	}
 	
 	psave = CheckPowerArmor (targ, point, normal, take, dflags, mod);
@@ -889,8 +881,8 @@ void T_RadiusDamage (edict_t *inflictor, edict_t *attacker, float damage, edict_
 {
 	float	points;
 	edict_t	*ent = NULL;
-	vec3_t	v;
-	vec3_t	dir;
+	vec3_t	v = { 0 };
+	vec3_t	dir = { 0 };
 	radius *= 0.55f;
 	
 	//gi.bprintf(PRINT_HIGH, "T_RadiusDamage\n");
@@ -931,18 +923,22 @@ void T_RadiusDamage (edict_t *inflictor, edict_t *attacker, float damage, edict_
 	 spawn_shockwave(inflictor, attacker, damage * 0.5, radius * 4, mod); 
 
 }
+
 void shockwave_think(edict_t *self)
 {
 	self->nextthink = level.time + FRAMETIME;
 	trace_t tr;
 	edict_t *ent;
-	vec3_t dir, vel_add, frame_vel;
+	vec3_t dir = { 0 };
+	//vec3_t	vel_add;
+	vec3_t	frame_vel = { 0 };
 	float points;
 	float kick;
 	float radius = (self->dmg_radius / 3) * (self->count + 1);
 	float inner_radius = (self->dmg_radius / 4) * self->count;
 	ent = NULL;
-	vec3_t normal, point;
+	vec3_t normal = { 0 };
+	vec3_t	point = { 0 };
 
 	while ((ent = findradius(ent, self->s.origin, radius)) != NULL)
 	{
@@ -1093,6 +1089,7 @@ void shockwave_think(edict_t *self)
 		G_FreeEdict(self);
 
 }
+
 void spawn_shockwave(edict_t *inflictor, edict_t *attacker, int damage, int radius, int mod)
 {
 	
@@ -1110,6 +1107,7 @@ void spawn_shockwave(edict_t *inflictor, edict_t *attacker, int damage, int radi
 	shockwave_think(swave);
 	
 }
+
 qboolean check_knockback(edict_t *self)
 {
 	if (strcmp(self->classname, "gibx") == 0)
@@ -1145,7 +1143,8 @@ qboolean check_knockback(edict_t *self)
 
 qboolean CanDamageSphere(vec3_t start, edict_t *targ, float radius)
 {
-	vec3_t point, point_org;
+	vec3_t	point = { 0 };
+	vec3_t	point_org = { 0 };
 	trace_t trace;
 	int point_num = 0;
 	VectorCopy(targ->s.origin, point_org);

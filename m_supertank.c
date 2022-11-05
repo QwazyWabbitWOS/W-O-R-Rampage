@@ -605,7 +605,6 @@ void supertank_dead (edict_t *self)
 void BossExplode (edict_t *self)
 {
 	vec3_t	org;
-	int		n;
 
 	self->think = BossExplode;
 	VectorCopy (self->s.origin, org);

@@ -401,7 +401,6 @@ void IntermissionScoreboardMessage(edict_t* ent)
 	int		sorted[MAX_CLIENTS];
 	int		sortedscores[MAX_CLIENTS];
 	int		score, total;
-	int		picnum;
 	int		x, y, x_base;
 	gclient_t* cl;
 	edict_t* cl_ent;
@@ -743,7 +742,7 @@ G_SetStats
 void G_SetStats(edict_t* ent)
 {
 	gitem_t* item;
-	int			index, cells;
+	int			index, cells = 0;
 	int			power_armor_type;
 
 	//

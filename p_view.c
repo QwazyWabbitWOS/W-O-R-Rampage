@@ -470,10 +470,12 @@ SV_CalcBlend
 */
 void SV_CheckSun(edict_t *ent)
 {
-	if (level.sun == NULL)
-		return;
 	vec3_t angles, offset, start, forward, right, origin;
 	trace_t tr;
+
+	if (level.sun == NULL)
+		return;
+
 	VectorCopy(ent->client->v_angle, angles);
 	AngleVectors(angles, forward, right, NULL);
 	VectorSet(offset, 0, 0, ent->viewheight);
@@ -1014,7 +1016,7 @@ void P_WorldEffects(void)
 						PlayerNoise(current_player, current_player->s.origin, PNOISE_SELF);
 
 						//FIXME: release a bubble? // SURE!!!
-						vec3_t start, pos, end;
+						vec3_t start;
 						VectorCopy(current_player->s.origin, start);
 						start[2] += current_player->viewheight;
 						spawn_bubble(current_player, start);
@@ -1057,7 +1059,7 @@ void P_WorldEffects(void)
 					add_sp_score(current_player, 10, SCORE_ITEM_USAGE);
 
 					//FIXME: release a bubble? // SURE!!!
-					vec3_t start, pos, end;
+					vec3_t start;
 					VectorCopy(current_player->s.origin, start);
 					start[2] += current_player->viewheight;
 					spawn_bubble(current_player, start);

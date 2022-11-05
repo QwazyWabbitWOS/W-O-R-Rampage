@@ -881,9 +881,8 @@ mmove_t	tank_move_death = {FRAME_death101, FRAME_death132, tank_frames_death1, t
 
 void tank_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damage, vec3_t point)
 {
-	int		n;
 
-// check for gib
+	// check for gib
 	if (self->health <= self->gib_health)
 	{
 		gib_target(self, 100, (GIB_BIG | GIB_MECH), point);
@@ -894,13 +893,12 @@ void tank_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damage,
 	if (self->deadflag == DEAD_DEAD)
 		return;
 
-// regular death
+	// regular death
 	gi.sound(self, CHAN_VOICE, sound_die, 1, ATTN_NORM, 0);
 	self->deadflag = DEAD_DEAD;
 	self->takedamage = DAMAGE_YES;
 
 	self->monsterinfo.currentmove = &tank_move_death;
-	
 }
 
 

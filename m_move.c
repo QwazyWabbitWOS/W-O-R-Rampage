@@ -680,21 +680,20 @@ qboolean M_walkmove (edict_t *ent, float yaw, float dist)
 
 void M_addslide(edict_t *self, vec3_t move)
 {
-	return;
-	if (!self->enemy || !self->groundentity)
-		return;
-	vec3_t oldmove_org, oldmove;
-	float difference;
-	VectorSubtract(self->old_origin2, self->s.origin, oldmove);
-	VectorCopy(oldmove, oldmove_org);
-	//oldmove[2] = 0;
-	//move[2] = 0;
-	VectorNormalize(oldmove);
-	VectorNormalize(move);
+	//if (!self->enemy || !self->groundentity)
+	//	return;
+	//vec3_t oldmove_org, oldmove;
+	//float difference;
+	//VectorSubtract(self->old_origin2, self->s.origin, oldmove);
+	//VectorCopy(oldmove, oldmove_org);
+	////oldmove[2] = 0;
+	////move[2] = 0;
+	//VectorNormalize(oldmove);
+	//VectorNormalize(move);
 
-	difference = DotProduct(oldmove, move);
-	
-	VectorScale(oldmove, 10, oldmove);
-	VectorAdd(oldmove, self->velocity, self->velocity);
+	//difference = DotProduct(oldmove, move);
+	//
+	//VectorScale(oldmove, 10, oldmove);
+	//VectorAdd(oldmove, self->velocity, self->velocity);
 	//gi.bprintf(PRINT_HIGH, "DEBUG: oldmove = %s, move = %s, difference = %f\n", vtos(oldmove), vtos(move), difference);
 }

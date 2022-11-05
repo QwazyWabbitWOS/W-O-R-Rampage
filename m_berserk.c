@@ -475,8 +475,6 @@ mmove_t berserk_move_death2 = {FRAME_deathc1, FRAME_deathc8, berserk_frames_deat
 
 void berserk_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damage, vec3_t point)
 {
-	int		n;
-
 	if (self->health <= self->gib_health)
 	{
 		gib_target(self, damage, GIB_MED, point);

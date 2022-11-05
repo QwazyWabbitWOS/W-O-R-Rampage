@@ -552,9 +552,8 @@ void hover_dead (edict_t *self)
 
 void hover_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damage, vec3_t point)
 {
-	int		n;
 
-// check for gib
+	// check for gib
 	if (self->health <= self->gib_health)
 	{
 		gib_target(self, damage, GIB_SMA, point);
@@ -565,7 +564,7 @@ void hover_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damage
 	if (self->deadflag == DEAD_DEAD)
 		return;
 
-// regular death
+	// regular death
 	if (!(self->flags & FL_HEADSHOT))
 	{
 		if (random() < 0.5)

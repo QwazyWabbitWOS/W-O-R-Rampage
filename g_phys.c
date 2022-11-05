@@ -128,14 +128,12 @@ Two entities have touched, so run their touch functions
 void SV_Impact (edict_t *e1, trace_t *trace)
 {
 	edict_t		*e2;
-//	cplane_t	backplane;
-	vec3_t normal;
-	trace_t *trace_copy;
+
 	e2 = trace->ent;
 	
 	if (e1->touch && e1->solid != SOLID_NOT)
 		e1->touch (e1, e2, &trace->plane, trace->surface);
-	//trace_copy = trace;
+	//trace_t *trace_copy = trace;
 	//VectorNegate(trace_copy->plane.normal, trace_copy->plane.normal);
 	if (e2->touch && e2->solid != SOLID_NOT)
 		e2->touch (e2, e1, NULL, NULL);
@@ -197,11 +195,13 @@ int SV_FlyMove (edict_t *ent, float time, int mask)
 	vec3_t		dir;
 	float		d;
 	int			numplanes;
-	vec3_t		planes[MAX_CLIP_PLANES];
-	vec3_t		primal_velocity, original_velocity, new_velocity;
+	vec3_t		planes[MAX_CLIP_PLANES] = { 0 };
+	vec3_t		primal_velocity = { 0 };
+	vec3_t		original_velocity = { 0 };
+	vec3_t		new_velocity;
 	int			i, j;
 	trace_t		trace;
-	vec3_t		end;
+	vec3_t		end = { 0 };
 	float		time_left;
 	int			blocked;
 	
@@ -378,8 +378,8 @@ trace_t SV_PushEntity (edict_t *ent, vec3_t push)
 {
 
 	trace_t	trace;
-	vec3_t	start;
-	vec3_t	end;
+	vec3_t	start = { 0 };
+	vec3_t	end = { 0 };
 	int		mask;
 	edict_t *ignore = ent;
 	int bolt_retry = 0;
@@ -480,7 +480,7 @@ Borrowed from Lazarus g_phys.c
 void SV_RealBoundingBox (edict_t *ent, vec3_t mins, vec3_t maxs)
 {
 	vec3_t	forward, left, up, f1, l1, u1;
-	vec3_t	p[8];
+	vec3_t	p[8] = { 0 };
 	int		i, j, k, j2, k4;
 
 	for (k=0; k<2; k++)
@@ -544,12 +544,15 @@ otherwise riders would continue to slide.
 */
 qboolean SV_Push (edict_t *pusher, vec3_t move, vec3_t amove)
 {
-	int			i, e;
-	edict_t		*check, *block;
-	vec3_t		mins, maxs;
+	int		i, e;
+	edict_t	*check, *block;
+	vec3_t	mins = { 0 }, maxs = { 0 };
 	pushed_t	*p;
-	vec3_t		org, org2, move2, forward, right, up;
-	vec3_t		realmins, realmaxs;	// Knightmare added
+	vec3_t	org = { 0 };
+	vec3_t	org2 = { 0 };
+	vec3_t	move2 = { 0 };
+	vec3_t	forward, right, up;
+	vec3_t	realmins, realmaxs;	// Knightmare added
 
 	if (!pusher)
 		return false;
@@ -832,7 +835,7 @@ void SV_Physics_Toss(edict_t *ent)
 	edict_t		*slave;
 	qboolean	wasinwater;
 	qboolean	isinwater;
-	vec3_t		old_origin;
+	vec3_t		old_origin = { 0 };
 
 	// regular thinking
 	SV_RunThink(ent);

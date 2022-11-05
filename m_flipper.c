@@ -335,9 +335,7 @@ void flipper_sight (edict_t *self, edict_t *other)
 
 void flipper_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damage, vec3_t point)
 {
-	int		n;
-
-// check for gib
+	// check for gib
 	if (self->health <= self->gib_health)
 	{
 		gib_target(self, damage, (GIB_SMA | GIB_NOCHEST), point);
@@ -348,7 +346,7 @@ void flipper_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int dama
 	if (self->deadflag == DEAD_DEAD)
 		return;
 
-// regular death
+	// regular death
 	if (!(self->flags & FL_HEADSHOT))
 	{
 		gi.sound(self, CHAN_VOICE, sound_death, 1, ATTN_NORM, 0);

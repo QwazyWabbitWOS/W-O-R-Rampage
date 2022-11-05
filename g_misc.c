@@ -215,7 +215,9 @@ void gib_think(edict_t* self)
 
 void gib_touch(edict_t* self, edict_t* other, cplane_t* plane, csurface_t* surf)
 {
-	vec3_t	normal_angles, right, dir;
+	//vec3_t	normal_angles;
+	//vec3_t	right;
+	vec3_t	dir;
 
 	//if (!self->groundentity)
 	//	return;
@@ -779,8 +781,10 @@ void debris_touch(edict_t* self, edict_t* other, cplane_t* plane, csurface_t* su
 	{
 		damage = (int)(VectorLength(self->velocity) / 50);
 	}
+
 	VectorCopy(self->velocity, dir);
 	VectorNormalize(dir);
+
 	if (other->takedamage)
 	{
 		if (self->noise_index2)
@@ -797,13 +801,9 @@ void debris_touch(edict_t* self, edict_t* other, cplane_t* plane, csurface_t* su
 	else
 	{
 		int r = 1 + (rand() % 50);
-		char* l;
-
-
 		if (r < 4)
 			gi.sound(self, CHAN_BODY, gi.soundindex(va("world/ric%i.wav", r)), 1, ATTN_STATIC, 0);
 	}
-
 }
 
 void ThrowDebris(edict_t* self, char* modelname, float speed, vec3_t origin, vec3_t aimdir2, int spread)
@@ -853,10 +853,11 @@ void ThrowDebris(edict_t* self, char* modelname, float speed, vec3_t origin, vec
 	{
 		vec3_t dir, mod;
 		vec3_t forward, right, up, end;
-		VectorClear(mod);
-		float r, u;
-		float num = spread;
 		int tiers;
+		float num = spread;
+
+		VectorClear(mod);
+
 		vectoangles(aimdir2, dir); // there is a bug or something with this function, it gives inconsistant results in the same time
 		if ((int)num > 8)
 		{
@@ -1981,7 +1982,7 @@ void object_throw(edict_t* ent, int type)
 
 void scanner(edict_t* ent)
 {
-	vec3_t forward, right, start, offset, angles;
+	vec3_t forward, right, start, offset;
 
 	VectorSet(offset, 8, 8, ent->viewheight - 8);
 	AngleVectors(ent->client->v_angle, forward, right, NULL);
@@ -4482,10 +4483,10 @@ void add_sp_score(edict_t* self, int amount, double type)
 float scan_dir(edict_t* self, int dir, float dist, vec3_t result)
 {
 	trace_t tr;
-	vec3_t dirv;
-	vec3_t distance;
+	//vec3_t dirv;
+	//vec3_t distance;
 	vec3_t forward, right, up, end;
-	vec3_t angles;
+	//vec3_t angles;
 	//VectorCopy(self->s.angles, angles);
 
 
@@ -4527,7 +4528,7 @@ float diff(float a, float b)
 float get_angledifference(edict_t* ent, float angle)
 {
 	vec3_t dir, forward, angles;
-	float difference;
+	//float difference;
 	float dot;
 	VectorCopy(ent->s.angles, angles);
 	angles[1] += angle;

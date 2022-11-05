@@ -690,9 +690,8 @@ void makron_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damag
 {
 	edict_t *tempent;
 
-	int		n;
-
 	self->s.sound = 0;
+	
 	// check for gib
 	if (self->health <= self->gib_health)
 	{
@@ -704,7 +703,7 @@ void makron_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damag
 	if (self->deadflag == DEAD_DEAD)
 		return;
 
-// regular death
+	// regular death
 	gi.sound(self, CHAN_VOICE, sound_death, 1, ATTN_NONE, 0);
 	self->deadflag = DEAD_DEAD;
 	self->takedamage = DAMAGE_YES;

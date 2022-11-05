@@ -581,8 +581,6 @@ mmove_t mutant_move_death2 = {FRAME_death201, FRAME_death210, mutant_frames_deat
 
 void mutant_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damage, vec3_t point)
 {
-	int		n;
-
 	if (self->health <= self->gib_health)
 	{
 		gib_target(self, damage, GIB_BIG, point);

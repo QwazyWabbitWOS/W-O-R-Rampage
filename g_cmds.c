@@ -1034,7 +1034,9 @@ void Cmd_debug_attack(edict_t* self)
 {
 	trace_t tr;
 	vec3_t end;
-	vec3_t forward, right, start, offset, angles;
+	vec3_t forward, right;
+	vec3_t	offset;
+
 	VectorSet(offset, 0, 0, self->viewheight);
 	AngleVectors(self->client->v_angle, forward, right, NULL);
 	//P_ProjectSource(self->client, self->s.origin, offset , forward, right, start);

@@ -475,9 +475,8 @@ mmove_t parasite_move_death = {FRAME_death101, FRAME_death107, parasite_frames_d
 
 void parasite_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damage, vec3_t point)
 {
-	int		n;
 
-// check for gib
+	// check for gib
 	if (self->health <= self->gib_health)
 	{
 		gib_target(self, damage, GIB_SMA, point);
@@ -489,7 +488,7 @@ void parasite_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int dam
 	if (self->deadflag == DEAD_DEAD)
 		return;
 
-// regular death
+	// regular death
 	if (!(self->flags & FL_HEADSHOT))
 	{
 		gi.sound(self, CHAN_VOICE, sound_die, 1, ATTN_NORM, 0);

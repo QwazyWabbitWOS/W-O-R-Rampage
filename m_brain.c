@@ -606,8 +606,6 @@ void brain_dead (edict_t *self)
 
 void brain_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damage, vec3_t point)
 {
-	int		n;
-
 	self->s.effects = 0;
 	self->monsterinfo.power_armor_type = POWER_ARMOR_NONE;
 

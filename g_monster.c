@@ -1298,7 +1298,7 @@ void M_touch(edict_t *self, edict_t *other, cplane_t *plane, csurface_t *surf)
 {
 	if ((self->svflags & SVF_MONSTER) && (other->svflags & SVF_MONSTER))
 	{
-		float dist = get_dist2d(self, other);
+		//float dist = get_dist2d(self, other);
 		float distv = get_dist_v(self, other);
 		//if(distv > 0)
 		//	gi.bprintf(PRINT_HIGH, "DEBUG: MONSTER TOUCHED MONSTER AND NOT THE SAME ORIGIN!\n");

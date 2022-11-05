@@ -39,7 +39,7 @@ void SP_misc_teleporter_dest(edict_t* ent);
 static void SP_FixCoopSpots(edict_t* self)
 {
 	edict_t* spot;
-	vec3_t	d;
+	vec3_t	d = { 0 };
 
 	spot = NULL;
 
@@ -979,7 +979,6 @@ void InitBodyQue(void)
 
 void body_die(edict_t* self, edict_t* inflictor, edict_t* attacker, int damage, vec3_t point)
 {
-	int	n;
 
 	if (self->health < -40)
 	{
@@ -989,12 +988,14 @@ void body_die(edict_t* self, edict_t* inflictor, edict_t* attacker, int damage, 
 		self->takedamage = DAMAGE_YES;
 	}
 }
+
 void bodyque_think(edict_t* ent)
 {
 	ent->nextthink = level.time + FRAMETIME;
 	if (ent->s.frame < ent->count)
 		ent->s.frame++;
 }
+
 void CopyToBodyQue(edict_t* ent)
 {
 	edict_t* body;
@@ -1030,7 +1031,6 @@ void CopyToBodyQue(edict_t* ent)
 	body->nextthink = level.time + FRAMETIME;
 	gi.linkentity(body);
 }
-
 
 void respawn(edict_t* self)
 {
@@ -1222,8 +1222,9 @@ void PutClientInServer(edict_t* ent)
 	int		i;
 	client_persistant_t	saved;
 	client_respawn_t	resp;
+
 	// Knightmare- added fix to keep same player model
-	char				userinfo[MAX_INFO_STRING];
+	char	userinfo[MAX_INFO_STRING];
 
 	// find a spawn point
 	// do it before setting health back up, so farthest
@@ -1236,8 +1237,6 @@ void PutClientInServer(edict_t* ent)
 	// deathmatch wipes most client data every spawn
 	if (deathmatch->value)
 	{
-		char		userinfo[MAX_INFO_STRING];
-
 		resp = client->resp;
 		memcpy(userinfo, client->pers.userinfo, sizeof(userinfo));
 		InitClientPersistant(client);
@@ -1245,9 +1244,6 @@ void PutClientInServer(edict_t* ent)
 	}
 	else if (coop->value)
 	{
-		//		int			n;
-		char		userinfo[MAX_INFO_STRING];
-
 		resp = client->resp;
 		memcpy(userinfo, client->pers.userinfo, sizeof(userinfo));
 		// this is kind of ugly, but it's how we want to handle keys in coop
@@ -1267,6 +1263,7 @@ void PutClientInServer(edict_t* ent)
 	{
 		memset(&resp, 0, sizeof(resp));
 	}
+
 	// Knightmare- added fix to keep same player model
 	memcpy(userinfo, client->pers.userinfo, sizeof(userinfo));
 	ClientUserinfoChanged(ent, userinfo);
@@ -1960,12 +1957,11 @@ void random_effect(edict_t* ent)
 }
 void 	pickup_check(edict_t* ent)
 {
-	trace_t		tr;
-	vec3_t		forward, right, up, angles, start, offset;
-	vec3_t		v;
-	vec3_t		point;
-	float		range;
-	vec3_t		dir;
+	trace_t	tr;
+	vec3_t	forward, right;
+	vec3_t	angles = { 0 };
+	vec3_t	start;
+	vec3_t	offset = { 0 };
 
 	VectorAdd(ent->client->v_angle, ent->client->kick_angles, angles);
 	AngleVectors(angles, forward, right, NULL);
@@ -2262,7 +2258,7 @@ void ClientThink(edict_t* ent, usercmd_t* ucmd)
 
 			AngleVectors(ent->client->v_angle, forward, right, NULL);
 			VectorScale(forward, pm.cmd.forwardmove * 1.5, forward);
-			VectorScale(right, pm.cmd.sidemove / 2, right);
+			VectorScale(right, pm.cmd.sidemove / 2.0f, right);
 			ent->velocity[0] += forward[0];
 			ent->velocity[1] += forward[1];
 			ent->velocity[0] += right[0];

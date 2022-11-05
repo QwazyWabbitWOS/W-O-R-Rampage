@@ -37,13 +37,16 @@ void M_avoid_danger(edict_t *self)
 	if (!self)
 		return;
 
-	vec3_t point, prediction, dir;
+	vec3_t point, prediction;
+	vec3_t	dir = { 0 };
 	edict_t *ent;
 	int count = 0;
 	int i = 0;
 	edict_t *ignore;
 	trace_t tr;
-	vec3_t from, end, end_real;
+	vec3_t from = { 0 };
+	vec3_t	end;
+	vec3_t	end_real = { 0 };
 	float radius;
 
 	if (!self->dmg_radius)
@@ -96,7 +99,7 @@ void M_avoid_danger(edict_t *self)
 	if (get_dist_point(prediction, end_real) < radius)
 	{
 		VectorInverse(dir);
-		vec3_t prediction_backup;
+		vec3_t prediction_backup = { 0 };
 		VectorCopy(prediction, prediction_backup);
 		VectorMA(prediction, radius - (radius - get_dist_point(prediction, end_real)), dir, prediction);
 	//	gi.bprintf(PRINT_HIGH, "DEBUG: MONSTER AVOID DANGER: REACHED WALL WHEN GOING TO %s!!! BACKING OFF TO %s!!!\n", vtos(prediction_backup), vtos(end_real));
@@ -149,7 +152,9 @@ void monster_jump(edict_t *self)
 		return;
 	if (!self->groundentity)
 		return;
-	vec3_t left, right, jump_dir, back, front;
+	vec3_t left, right;
+	vec3_t	jump_dir = { 0 };
+	vec3_t	back, front;
 	float f_left, f_right, f_back, f_front;
 
 
@@ -280,10 +285,10 @@ qboolean ffire_radius_check(edict_t *self)
 }
 void predict_shot(edict_t *self, vec3_t origin, float proj_speed, vec3_t end, int type)
 {
-	vec3_t vel;
-	vec3_t vec;
-	vec3_t enemy_origin;
-	vec3_t spread;
+	vec3_t vel = { 0 };
+	vec3_t vec = { 0 };
+	vec3_t enemy_origin = { 0 };
+	vec3_t spread = { 0 };
 	float dist2d, dist;
 	float prediction;
 	float div;
@@ -471,40 +476,41 @@ void predict_shot(edict_t *self, vec3_t origin, float proj_speed, vec3_t end, in
 	//if (no_correction)
 		return;
 	//below should not be used when predicting monster angles!
-	float dot;
-	float difference;
-	vec3_t dir_prediction;
-	vec3_t forward;
-	vec3_t dir_actual;
-	vec3_t predicted_angles;
-	vec3_t aim_angles;
-	vec3_t correction_end;
+	//float dot;
+	//float difference;
+	//vec3_t dir_prediction;
+	//vec3_t forward;
+	//vec3_t dir_actual;
+	//vec3_t predicted_angles;
+	//vec3_t aim_angles;
+	//vec3_t correction_end;
 
-	VectorSubtract(end, origin, dir_prediction);
+	//VectorSubtract(end, origin, dir_prediction);
 	//vectoangles(dir_prediction, aim_angles);
 
 	//aim_angles[YAW] = self->s.angles[YAW];
-	AngleVectors(self->s.angles, forward, NULL, NULL);
+	//AngleVectors(self->s.angles, forward, NULL, NULL);
 	
-	VectorNormalize(dir_prediction);
-	forward[2] = dir_prediction[2]; // don't correct vertical prediction
-	dot = DotProduct(forward, dir_prediction);
+	//VectorNormalize(dir_prediction);
+	//forward[2] = dir_prediction[2]; // don't correct vertical prediction
+	//dot = DotProduct(forward, dir_prediction);
 	//UNFINISHED CODE THAT WOULD CHECK THE DIFFERENCE BETWEEN ANGLE AND PREDICTED DIR
 
 	//gi.bprintf(PRINT_HIGH, "DEBUG: PREDICT DOT PRODUCT = %f\n", dot);
-	if (dot < 0.75)
-	{
-		
-		difference = diff(dot, 0.75);
-		//gi.bprintf(PRINT_HIGH, "DEBUG: DOING A CORRECTION!, difference = %f\n", difference);
-		VectorMA(origin, get_dist_point(origin, end), forward, correction_end);
-		VectorScale(end, difference, end);
-		VectorMA(end, 0.75 - difference, correction_end, end);
-	}
+	//if (dot < 0.75)
+	//{
+	//	
+	//	difference = diff(dot, 0.75);
+	//	//gi.bprintf(PRINT_HIGH, "DEBUG: DOING A CORRECTION!, difference = %f\n", difference);
+	//	VectorMA(origin, get_dist_point(origin, end), forward, correction_end);
+	//	VectorScale(end, difference, end);
+	//	VectorMA(end, 0.75 - difference, correction_end, end);
+	//}
 	//VectorSubtract(origin, end, dir_prediction);
 	//else
 	//	gi.bprintf(PRINT_HIGH, "PREDICT SHOT: NO CHANGE, o1 = %s, o2 = %s\n", vtos(self->enemy->s.origin), vtos(self->enemy->s.old_origin));
 }
+
 qboolean FindTarget(edict_t *self);
 extern cvar_t	*maxclients;
 
@@ -526,9 +532,10 @@ returns 1 if the entity is visible to self, even if not infront ()
 */
 qboolean visible_shootable(edict_t *self, edict_t *other)
 {
-	vec3_t	spot1;
-	vec3_t	spot2;
+	vec3_t	spot1 = { 0 };
+	vec3_t	spot2 = { 0 };
 	trace_t	trace;
+
 	int got_enemy = 0;
 	if (self->enemy == other && self->enemy->client)
 		got_enemy = 1;
@@ -551,7 +558,8 @@ qboolean visible_shootable(edict_t *self, edict_t *other)
 		}
 		if (!strcmp(self->classname, "monster_makron") || !strcmp(self->classname, "monster_parasite") || !strcmp(self->classname, "monster_flipper"))
 			return true;
-		vec3_t forward, right, offset;
+		vec3_t forward, right;
+		vec3_t	offset = { 0 };
 		AngleVectors(self->s.angles, forward, right, NULL);
 		offset[0] = self->maxs[0];
 		G_ProjectSource(self->s.origin, offset, forward, right, spot1);
@@ -568,8 +576,8 @@ qboolean visible_shootable(edict_t *self, edict_t *other)
 
 qboolean visible(edict_t *self, edict_t *other)
 {
-	vec3_t	spot1;
-	vec3_t	spot2;
+	vec3_t	spot1 = { 0 };
+	vec3_t	spot2 = { 0 };
 	trace_t	trace;
 	int got_enemy = 0;
 
@@ -606,8 +614,8 @@ qboolean visible(edict_t *self, edict_t *other)
 
 qboolean visible_point(edict_t *self, edict_t *other, vec3_t point)
 {
-	vec3_t	spot1;
-	vec3_t	spot2;
+	vec3_t	spot1 = { 0 };
+	vec3_t	spot2 = { 0 };
 	trace_t	trace;
 
 	VectorCopy(self->s.origin, spot1);
@@ -639,7 +647,7 @@ returns 1 if the entity is in front (in sight) of self
 */
 qboolean infront(edict_t *self, edict_t *other)
 {
-	vec3_t	vec;
+	vec3_t	vec = { 0 };
 	float	dot;
 	vec3_t	forward;
 
@@ -655,7 +663,7 @@ qboolean infront(edict_t *self, edict_t *other)
 
 qboolean infront_aiming(edict_t *self, edict_t *other)
 {
-	vec3_t	vec;
+	vec3_t	vec = { 0 };
 	float	dot;
 	vec3_t	forward;
 
@@ -676,7 +684,7 @@ qboolean infront_aiming(edict_t *self, edict_t *other)
 
 qboolean infront_point_dir(edict_t *self, vec3_t point)
 {
-	vec3_t	vec;
+	vec3_t	vec = { 0 };
 	float	dot;
 	vec3_t	forward;
 
@@ -697,8 +705,8 @@ void check_move_dir(edict_t *self, vec3_t point)
 	float	ideal;
 	float	current;
 	float	move;
-	float	speed;
-	vec3_t temp;
+	//float	speed;
+	vec3_t temp = { 0 };
 	current = anglemod(self->s.angles[YAW]);
 
 	VectorSubtract(point, self->s.origin, temp);
@@ -777,7 +785,7 @@ void check_move_dir(edict_t *self, vec3_t point)
 
 qboolean infront_point(edict_t *self, vec3_t point)
 {
-	vec3_t	vec;
+	vec3_t	vec = { 0 };
 	float	dot;
 	vec3_t	forward;
 
@@ -790,6 +798,7 @@ qboolean infront_point(edict_t *self, vec3_t point)
 		return true;
 	return false;
 }
+
 /*
 =================
 AI_SetSightClient
@@ -841,8 +850,11 @@ void M_unstuck_body_from_wall(edict_t *self)
 	if (self->health > 0)
 		return;
 	trace_t tr;
-	vec3_t forward, backwards, end;
+	vec3_t forward;
+	vec3_t	backwards = { 0 };
+	vec3_t	end;
 	int mode = 0;
+
 	AngleVectors(self->s.angles, forward, NULL, NULL);
 	VectorMA(self->s.origin, fabsf(self->maxs[0]) + fabsf(self->maxs[1])*1.25, forward, end);
 	tr = gi.trace(self->s.origin, NULL, NULL, end, self, CONTENTS_SOLID);
@@ -897,7 +909,7 @@ Distance is for slight position adjustments needed by the animations
 */
 void ai_stand(edict_t *self, float dist)
 {
-	vec3_t	v;
+	vec3_t	v = { 0 };
 
 	if (dist)
 		M_walkmove(self, self->s.angles[YAW], dist);
@@ -989,10 +1001,10 @@ Use this call with a distnace of 0 to replace ai_face
 */
 void ai_charge(edict_t *self, float dist)
 {
-	vec3_t	v;
-	vec3_t temp;
+	vec3_t	v = { 0 };
+	//vec3_t temp;
 
-	qboolean enemy_vis = visible(self, self->enemy);
+	//qboolean enemy_vis = visible(self, self->enemy);
 	/*int enemy_infront = infront(self, self->enemy);
 	int enemy_range = range(self, self->enemy);
 	if (!enemy_vis)
@@ -1076,11 +1088,11 @@ returns the range catagorization of an entity reletive to self
 */
 int range(edict_t *self, edict_t *other)
 {
-	vec3_t	v;
+	vec3_t	v = { 0 };
 	float	len;
 	float melee_distance = (fabsf(self->mins[0]) + fabsf(self->mins[1]) + fabsf(other->mins[0]) + fabsf(other->mins[1]))* 0.75 ;
 	VectorSubtract(self->s.origin, other->s.origin, v);
-	v[2] *= 0.25;
+	v[2] *= 0.25f;
 	len = VectorLength(v);
 
 	if (len < melee_distance) // if (len < MELEE_DISTANCE)
@@ -1096,7 +1108,7 @@ int range(edict_t *self, edict_t *other)
 
 float range_units(edict_t *self, edict_t *other)
 {
-	vec3_t	v;
+	vec3_t	v = { 0 };
 	float	len;
 
 	VectorSubtract(self->s.origin, other->s.origin, v);
@@ -1112,7 +1124,7 @@ float range_units(edict_t *self, edict_t *other)
 
 void HuntTarget(edict_t *self)
 {
-	vec3_t	vec;
+	vec3_t	vec = { 0 };
 
 	self->goalentity = self->enemy;
 	if (self->monsterinfo.aiflags & AI_STAND_GROUND)
@@ -1321,7 +1333,7 @@ qboolean FindTarget(edict_t *self)
 	}
 	else	// heardit
 	{
-		vec3_t	temp;
+		vec3_t	temp = { 0 };
 
 		if (self->spawnflags & 1)
 		{
@@ -1390,8 +1402,14 @@ qboolean FacingIdeal(edict_t *self)
 //=============================================================================
 qboolean M_CheckClearShot(edict_t *self)
 {
-	vec3_t	spot1, spot2, dir, forward, right, angles, spot2backup;
-	float	chance, dist_mult;
+	vec3_t	spot1, spot2 = { 0 };
+	//vec3_t	dir;
+	vec3_t	forward;
+	vec3_t	right;
+	//vec3_t	angles;
+	vec3_t	spot2backup = { 0 };
+	//float	chance;
+	float	dist_mult;
 	trace_t	tr;
 	/*if (!self->enemy)
 		return false;
@@ -1542,9 +1560,9 @@ qboolean M_CheckClearShot(edict_t *self)
 }
 qboolean M_CheckAttack(edict_t *self)
 {
-	vec3_t	spot1, spot2;
+	//vec3_t	spot1, spot2;
 	float	chance;
-	trace_t	tr;
+	//trace_t	tr;
 	//gi.bprintf(PRINT_HIGH, "M_CheckAttack");
 	//if (self->enemy->health > 0)
 	//{
@@ -1724,7 +1742,7 @@ used by ai_run and ai_stand
 qboolean ai_checkattack(edict_t *self, float dist)
 {
 	
-	vec3_t		temp;
+	vec3_t		temp = { 0 };
 	qboolean	hesDeadJim;
 	//gi.bprintf(PRINT_HIGH, "ai_checkattack:\n");
 	// this causes monsters to run blindly to the combat point w/o firing
@@ -1886,7 +1904,7 @@ The monster has an enemy it is trying to kill
 */
 void ai_run(edict_t *self, float dist)
 {
-	vec3_t		v;
+	vec3_t		v = { 0 };
 	edict_t		*tempgoal;
 	edict_t		*save;
 	qboolean	new;
@@ -2053,7 +2071,7 @@ void ai_run(edict_t *self, float dist)
 			int back = 0;
 			float rnum = 1 + (rand() % 3) + self->monsterinfo.aggression;
 			// if retreating this will make the monster go forward, which is idk theoretically not wanted right? Is this working?? yeah i think so
-			if (self->max_health && random() - (self->monsterinfo.aggression * 0.25) + (((self->max_health - self->health) / self->max_health) * 0.25) > 0.5)
+			if (self->max_health && random() - (self->monsterinfo.aggression * 0.25f) + (((self->max_health - self->health) / self->max_health) * 0.25f) > 0.5f)
 				back = 1;
 
 			VectorSubtract(self->goalentity->s.origin, self->s.origin, v);

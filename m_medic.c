@@ -424,13 +424,11 @@ mmove_t medic_move_death = {FRAME_death1, FRAME_death30, medic_frames_death, med
 
 void medic_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damage, vec3_t point)
 {
-	int		n;
-
 	// if we had a pending patient, free him up for another medic
 	if ((self->enemy) && (self->enemy->owner == self))
 		self->enemy->owner = NULL;
 
-// check for gib
+	// check for gib
 	if (self->health <= self->gib_health)
 	{
 		gib_target(self, damage, GIB_MED, point);
@@ -442,7 +440,7 @@ void medic_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damage
 	if (self->deadflag == DEAD_DEAD)
 		return;
 
-// regular death
+	// regular death
 	if (!(self->flags & FL_HEADSHOT))
 	{
 		gi.sound(self, CHAN_VOICE, sound_die, 1, ATTN_NORM, 0);
