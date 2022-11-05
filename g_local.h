@@ -1410,7 +1410,7 @@ extern char *vmodel_backup;
 #define SECONDARY_GRENADES 2048
 #define BLASTER_MAX_CHARGE 50
 //#define BLASTER_CHARGE_CALC 
-float blaster_charge_calc(edict_t *ent, int charge);
+int blaster_charge_calc(edict_t *ent, int charge);
 #define SHOTGUN_GRENADE_SPEED 2500
 #define SSHOTGUN_ALTFIRE_COUNT 4
 #define IL_BLASTER 61

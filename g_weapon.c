@@ -859,12 +859,12 @@ void fire_blaster(edict_t* self, vec3_t start, vec3_t dir, int damage, int speed
 
 	if (self->movetype == MOVETYPE_STEP || self->movetype == MOVETYPE_WALK && self->client->pers.weapon == FindItem("blaster"))
 	{
-		damage = (int)(damage * blaster_charge_calc(self, charge));
+		damage = damage * blaster_charge_calc(self, charge);
 	}
 
 	if (charge)
 	{
-		speed = (int)(speed * blaster_charge_calc(self, charge));
+		speed = speed * blaster_charge_calc(self, charge);
 		bolt->s.modelindex = gi.modelindex("models/objects/laser/tris_c.md2");
 		bolt->s.effects |= EF_GREENGIB;
 		bolt->s.effects |= EF_GRENADE;
@@ -2122,7 +2122,7 @@ void fire_bfg(edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, fl
 	bfg->s.modelindex = gi.modelindex("sprites/s_bfg1.sp2");
 	bfg->owner = self;
 	bfg->touch = bfg_touch;
-	bfg->nextthink = level.time + 8000 / speed;
+	bfg->nextthink = level.time + 8000.f / speed;
 	bfg->think = G_FreeEdict;
 	bfg->radius_dmg = damage;
 	bfg->dmg_radius = damage_radius;

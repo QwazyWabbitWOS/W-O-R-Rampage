@@ -600,8 +600,8 @@ qboolean KillBox(edict_t* ent)
 	return true;		// all clear
 }
 
-float blaster_charge_calc(edict_t* ent, int charge)
+int blaster_charge_calc(edict_t* ent, int charge)
 {
-	float num = 1 + (charge / (BLASTER_MAX_CHARGE / 2));
+	int num = 1 + (charge / (BLASTER_MAX_CHARGE / 2));
 	return num;
 }

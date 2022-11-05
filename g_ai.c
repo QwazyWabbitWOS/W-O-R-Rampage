@@ -1413,7 +1413,7 @@ qboolean M_CheckClearShot(edict_t *self)
 	// see if any entities are in the way of the shot
 	Origin_WOffset(self, spot1);
 	//VectorCopy(spot1, spot1);
-	spot1[2] += self->viewheight / 2;
+	spot1[2] += self->viewheight / 2.0f;
 	if(!self->monsterinfo.aiming_at[0] && !self->monsterinfo.aiming_at[1] && !self->monsterinfo.aiming_at[2])
 		VectorCopy(self->enemy->s.origin, spot2);
 	else
