@@ -2459,9 +2459,9 @@ void Weapon_Blaster_Fire(edict_t *ent)
 	int dual_counter = 0;
 	float s_offset = 0;
 
-	int volume = 1;
+	float volume = 1.0f;
 	if (is_silenced)
-		volume = 0;
+		volume = 0.1f;
 
 	int		hand = ent->client->pers.hand;
 	if (ent->client->ps.gunframe == 5 && !ent->client->pers.weapon_ext.scounter && ent->client->pers.weapon_ext.dual != WEAPON_DUAL_ACTIVE)
@@ -2651,9 +2651,9 @@ void Weapon_HyperBlaster_Fire(edict_t *ent)
 	vec3_t start2;
 	int current_mode = ent->client->pers.weapon_ext.mode;
 
-	int volume = 1;
+	float volume = 1.0f;
 	if (is_silenced)
-		volume = 0;
+		volume = 0.1f;
 
 	if (!ent->client->weapon_sound)
 		gi.sound(ent, CHAN_AUTO, gi.soundindex("weapons/Hyprbu1a.wav"), 1, ATTN_IDLE, 0);
@@ -3403,9 +3403,9 @@ void weapon_shotgun_fire(edict_t *ent)
 	if (deathmatch->value)
 		grenade_damage = 75;
 
-	int volume = 1;
+	float volume = 1.0f;
 	if (is_silenced)
-		volume = 0;
+		volume = 0.1f;
 
 	float s_offset = 0;
 	int fired_grenade = 0;
