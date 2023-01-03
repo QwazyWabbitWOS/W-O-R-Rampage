@@ -612,8 +612,8 @@ void SpawnEntities (char *mapname, char *entities, char *spawnpoint)
 				if ( /* ((coop->value) && (ent->spawnflags & SPAWNFLAG_NOT_COOP)) || */
 					((skill->value == 0) && (ent->spawnflags & SPAWNFLAG_NOT_EASY)) ||
 					((skill->value == 1) && (ent->spawnflags & SPAWNFLAG_NOT_MEDIUM)) ||
-					(((skill->value == 2) || (skill->value == 3)) && (ent->spawnflags & SPAWNFLAG_NOT_HARD) ||
-					(skill->value > 3) && !dm_items->value && ((ent->spawnflags & SPAWNFLAG_NOT_EASY) && 
+					((((skill->value == 2) || (skill->value == 3)) && (ent->spawnflags & SPAWNFLAG_NOT_HARD)) ||
+					((skill->value > 3) && !dm_items->value && ((ent->spawnflags & SPAWNFLAG_NOT_EASY)) && 
 					(ent->spawnflags & SPAWNFLAG_NOT_MEDIUM) && (ent->spawnflags & SPAWNFLAG_NOT_HARD)))
 					)
 					

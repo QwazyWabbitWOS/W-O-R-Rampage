@@ -834,7 +834,7 @@ void fire_blaster(edict_t* self, vec3_t start, vec3_t dir, int damage, int speed
 
 
 
-	if (self->movetype == MOVETYPE_STEP || self->movetype == MOVETYPE_WALK && self->client->pers.weapon == FindItem("blaster"))
+	if ((self->movetype == MOVETYPE_STEP || self->movetype == MOVETYPE_WALK) && self->client->pers.weapon == FindItem("blaster"))
 	{
 		damage = damage * blaster_charge_calc(self, charge);
 	}
@@ -1809,7 +1809,7 @@ void fire_rail(edict_t *self, vec3_t start, vec3_t aimdir, int damage, int kick)
 	water = false;
 	mask = MASK_SHOT | CONTENTS_SLIME | CONTENTS_LAVA;
 	//gi.bprintf(PRINT_HIGH, "DEBUG: dir original QRWA = %f %f %f\n", aimdir[0], aimdir[1], aimdir[2]);
-	if (self->client && self->client->buttonsx & BUTTON_ATTACK2 || (self->svflags & SVF_MONSTER) && (self->monsterinfo.aiflags & AI_SHOOTRAILGUNFLAK))
+	if ((self->client && self->client->buttonsx & BUTTON_ATTACK2) || ((self->svflags & SVF_MONSTER) && (self->monsterinfo.aiflags & AI_SHOOTRAILGUNFLAK)))
 	{
 		for (i = 1; i < 17; i++)
 		{
@@ -2211,35 +2211,31 @@ void emp_effect_spawn(edict_t *self)
 		VectorClear(emp_effect_ent->maxs);
 		emp_effect(emp_effect_ent);
 }
-void emp_think(edict_t *self)
+
+void emp_think(edict_t* self)
 {
 	self->s.angles[0] = crandom() * 180;
 	self->s.angles[1] = crandom() * 180;
 	self->s.angles[2] = crandom() * 180;
 	self->nextthink = level.time + 0.1;
-	if(self->count == 1)
+	if (self->count == 1)
 		gi.sound(self, CHAN_WEAPON, gi.soundindex("weapons/emp_x.wav"), 1, ATTN_IDLE, 0);
 
+	emp_effect_spawn(self);
+	emp_effect_spawn(self);
+	emp_effect_spawn(self);
+	emp_effect_spawn(self);
+	self->count++;
+	self->s.frame++;
 
-	
-		emp_effect_spawn(self);
-		emp_effect_spawn(self);
-		emp_effect_spawn(self);
-		emp_effect_spawn(self);
-		self->count++;
-		self->s.frame++;
-
-	
-		if (self->count == 4)
-		{
-			self->s.modelindex = 0; 
-			G_FreeEdict(self);
-		}
-
-		M_avoid_danger(self);
-
-
+	if (self->count == 4)
+	{
+		self->s.modelindex = 0;
+		G_FreeEdict(self);
+	}
+	M_avoid_danger(self);
 }
+
 void fire_emp(edict_t *self, vec3_t start, vec3_t aimdir, int damage)
 {
 	edict_t	*emp;

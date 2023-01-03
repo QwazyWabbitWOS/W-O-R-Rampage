@@ -31,13 +31,13 @@ vec3_t vec3_origin = {0,0,0};
 
 void RotatePointAroundVector( vec3_t dst, const vec3_t dir, const vec3_t point, float degrees )
 {
-	float	m[3][3];
+	float	m[3][3] = { 0 };
 	float	im[3][3];
 	float	zrot[3][3];
 	float	tmpmat[3][3];
 	float	rot[3][3];
 	int	i;
-	vec3_t vr, vup, vf;
+	vec3_t vr, vup, vf = { 0 };
 
 	vf[0] = dir[0];
 	vf[1] = dir[1];
@@ -130,7 +130,7 @@ void AngleVectors (vec3_t angles, vec3_t forward, vec3_t right, vec3_t up)
 void ProjectPointOnPlane( vec3_t dst, const vec3_t p, const vec3_t normal )
 {
 	float d;
-	vec3_t n;
+	vec3_t n = { 0 };
 	float inv_denom;
 
 	inv_denom = 1.0F / DotProduct( normal, normal );
@@ -154,7 +154,7 @@ void PerpendicularVector( vec3_t dst, const vec3_t src )
 	int	pos;
 	int i;
 	float minelem = 1.0F;
-	vec3_t tempvec;
+	vec3_t tempvec = { 0 };
 
 	/*
 	** find the smallest magnitude axially aligned vector
@@ -283,7 +283,7 @@ int BoxOnPlaneSide2 (vec3_t emins, vec3_t emaxs, struct cplane_s *p)
 	int		i;
 	float	dist1, dist2;
 	int		sides;
-	vec3_t	corners[2];
+	vec3_t	corners[2] = { 0 };
 
 	for (i=0 ; i<3 ; i++)
 	{
@@ -576,7 +576,7 @@ COM_FileExtension
 */
 char *COM_FileExtension (char *in)
 {
-	static char exten[8];
+	static char exten[8] = { 0 };
 	int		i;
 
 	while (*in && *in != '.')
@@ -1120,10 +1120,10 @@ key and returns the associated value, or an empty string.
 */
 char *Info_ValueForKey (char *s, char *key)
 {
-	char	pkey[512];
-	static	char value[2][512];	// use two buffers so compares
+	char	pkey[512] = { 0 };
+	static	char value[2][512] = { "" };	// use two buffers so compares
 								// work without stomping on each other
-	static	int	valueindex;
+	static	int	valueindex = 1;
 	char	*o;
 	
 	valueindex ^= 1;
@@ -1163,8 +1163,8 @@ char *Info_ValueForKey (char *s, char *key)
 void Info_RemoveKey (char *s, char *key)
 {
 	char	*start;
-	char	pkey[512];
-	char	value[512];
+	char	pkey[512] = { 0 };
+	char	value[512] = { 0 };
 	char	*o;
 
 	if (strstr (key, "\\"))

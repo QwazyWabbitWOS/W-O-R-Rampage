@@ -164,7 +164,7 @@ void AttackFinished (edict_t *self, float time)
 
 void M_CheckGround (edict_t *ent)
 {
-	vec3_t		point;
+	vec3_t		point = { 0 };
 	trace_t		trace;
 
 	if (ent->flags & (FL_SWIM|FL_FLY))
@@ -206,7 +206,7 @@ void M_CheckGround (edict_t *ent)
 
 void M_CatagorizePosition (edict_t *ent)
 {
-	vec3_t		point;
+	vec3_t		point = { 0 };
 	int			cont;
 
 //
@@ -333,7 +333,7 @@ void M_WorldEffects (edict_t *ent)
 
 void M_droptofloor (edict_t *ent)
 {
-	vec3_t		end;
+	vec3_t		end = { 0 };
 	trace_t		trace;
 
 	ent->s.origin[2] += 1;
@@ -422,7 +422,7 @@ void M_MoveFrame (edict_t *self)
 		{
 			if (!(self->monsterinfo.aiflags & AI_HOLD_FRAME))
 			{
-				if (M_isrunningbackwards(self) && self->groundentity && self->health > 0 || self->monsterinfo.aiflags & AI_REVERSE_ANIM)
+				if ((M_isrunningbackwards(self) && self->groundentity && self->health > 0) || self->monsterinfo.aiflags & AI_REVERSE_ANIM)
 				{
 					self->s.frame--;
 					if (self->s.frame < move->firstframe)
@@ -595,7 +595,8 @@ void monster_think (edict_t *self)
 		if (self->enemy)
 		{
 			float dot;
-			vec3_t vel, oldvel;
+			vec3_t vel = { 0 };
+			vec3_t oldvel = { 0 };
 			if (self->enemy->client)
 			{
 				VectorCopy(self->enemy->velocity, vel);
@@ -828,7 +829,7 @@ qboolean monster_start (edict_t *self)
 
 void monster_start_go (edict_t *self)
 {
-	vec3_t	v;
+	vec3_t	v = { 0 };
 
 	if (self->health <= 0)
 		return;
@@ -1019,69 +1020,69 @@ qboolean M_isrunning(edict_t *self)
 
 	if (self->monsterinfo.monster_type == MONSTER_BERSERKER)
 	{
-	if (inbetw(self->s.frame, 36, 41) && !self->monsterinfo.nextframe || inbetw(self->monsterinfo.nextframe, 36, 41))
+	if ((inbetw(self->s.frame, 36, 41) && !self->monsterinfo.nextframe) || inbetw(self->monsterinfo.nextframe, 36, 41))
 		return true;
 	}
 	else if (self->monsterinfo.monster_type == MONSTER_JORG)
 	{
-		if (inbetw(self->s.frame, 163, 187) && !self->monsterinfo.nextframe || inbetw(self->monsterinfo.nextframe, 163, 187))
+		if ((inbetw(self->s.frame, 163, 187) && !self->monsterinfo.nextframe) || inbetw(self->monsterinfo.nextframe, 163, 187))
 			return true;
 	}
 	else if(self->monsterinfo.monster_type == MONSTER_RIDER)
 	{
-		if (inbetw(self->s.frame, 474, 490) && !self->monsterinfo.nextframe || inbetw(self->monsterinfo.nextframe, 474, 490))
+		if ((inbetw(self->s.frame, 474, 490) && !self->monsterinfo.nextframe) || inbetw(self->monsterinfo.nextframe, 474, 490))
 			return true;
 	}
 	else if (self->monsterinfo.monster_type == MONSTER_BRAIN)
 	{
-		if (inbetw(self->s.frame, 0, 52) && !self->monsterinfo.nextframe || inbetw(self->monsterinfo.nextframe, 0, 52))
+		if ((inbetw(self->s.frame, 0, 52) && !self->monsterinfo.nextframe) || inbetw(self->monsterinfo.nextframe, 0, 52))
 			return true;
 	}
 	else if (self->monsterinfo.monster_type == MONSTER_CHICK)
 	{
-		if (inbetw(self->s.frame, 181, 207) && !self->monsterinfo.nextframe || inbetw(self->monsterinfo.nextframe, 181, 207))
+		if ((inbetw(self->s.frame, 181, 207) && !self->monsterinfo.nextframe) || inbetw(self->monsterinfo.nextframe, 181, 207))
 			return true;
 	}
 	else if (self->monsterinfo.monster_type == MONSTER_GLADIATOR)
 	{
-		if (inbetw(self->s.frame, 23, 28) && !self->monsterinfo.nextframe || inbetw(self->monsterinfo.nextframe, 23, 28))
+		if ((inbetw(self->s.frame, 23, 28) && !self->monsterinfo.nextframe) || inbetw(self->monsterinfo.nextframe, 23, 28))
 			return true;
 	}
 	else if (self->monsterinfo.monster_type == MONSTER_GUNNER)
 	{
-		if (inbetw(self->s.frame, 94, 107) && !self->monsterinfo.nextframe || inbetw(self->monsterinfo.nextframe, 94, 107))
+		if ((inbetw(self->s.frame, 94, 107) && !self->monsterinfo.nextframe) || inbetw(self->monsterinfo.nextframe, 94, 107))
 			return true;
 	}
 	else if (self->monsterinfo.monster_type == MONSTER_INFANTRY)
 	{
-		if (inbetw(self->s.frame, 92, 99) && !self->monsterinfo.nextframe || inbetw(self->monsterinfo.nextframe, 92, 99))
+		if ((inbetw(self->s.frame, 92, 99) && !self->monsterinfo.nextframe) || inbetw(self->monsterinfo.nextframe, 92, 99))
 			return true;
 	}
 	else if (self->monsterinfo.monster_type == MONSTER_MEDIC)
 	{
-		if (inbetw(self->s.frame, 102, 107) && !self->monsterinfo.nextframe || inbetw(self->monsterinfo.nextframe, 102, 107))
+		if ((inbetw(self->s.frame, 102, 107) && !self->monsterinfo.nextframe) || inbetw(self->monsterinfo.nextframe, 102, 107))
 			return true;
 	}
 	else if (self->monsterinfo.monster_type == MONSTER_MUTANT)
 	{
-		if (inbetw(self->s.frame, 56, 61) && !self->monsterinfo.nextframe || inbetw(self->monsterinfo.nextframe, 56, 61))
+		if ((inbetw(self->s.frame, 56, 61) && !self->monsterinfo.nextframe) || inbetw(self->monsterinfo.nextframe, 56, 61))
 			return true;
 	}
 	else if (self->monsterinfo.monster_type == MONSTER_PARASITE)
 	{
-		if (inbetw(self->s.frame, 68, 82) && !self->monsterinfo.nextframe || inbetw(self->monsterinfo.nextframe, 68, 82))
+		if ((inbetw(self->s.frame, 68, 82) && !self->monsterinfo.nextframe) || inbetw(self->monsterinfo.nextframe, 68, 82))
 			return true;
 	}
 	else if (self->monsterinfo.monster_type == MONSTER_SOLDIER)
 	{
 		//if(self->enemy)
 		//	gi.bprintf(PRINT_HIGH, "DEBUG: DETECTED MONSTER IS SOLDIER! frame= %i, nframe= %i\n", self->s.frame, self->monsterinfo.nextframe);
-		if ((inbetw(self->s.frame, 475, 498) || inbetw(self->s.frame, 97, 108)) && !self->monsterinfo.nextframe || inbetw(self->monsterinfo.nextframe, 475, 498) || inbetw(self->monsterinfo.nextframe, 97, 108))
+		if (((inbetw(self->s.frame, 475, 498) || inbetw(self->s.frame, 97, 108)) && !self->monsterinfo.nextframe) || inbetw(self->monsterinfo.nextframe, 475, 498) || inbetw(self->monsterinfo.nextframe, 97, 108))
 			return true; 
 	}
 	else if (self->monsterinfo.monster_type == MONSTER_TANK)
 	{
-		if (inbetw(self->s.frame, 30, 54) && !self->monsterinfo.nextframe || inbetw(self->monsterinfo.nextframe, 30, 54))
+		if ((inbetw(self->s.frame, 30, 54) && !self->monsterinfo.nextframe) || inbetw(self->monsterinfo.nextframe, 30, 54))
 			return true;
 	}
 
@@ -1114,7 +1115,7 @@ void M_retreat_think(edict_t *self)
 	else
 		self->nextthink = level.time + FRAMETIME;
 
-	if (random() < 0.04 || visible(self->owner, self->owner->enemy) && infront(self->owner, self->owner->enemy) && visible(self->owner->enemy, self->owner) && infront_aiming(self->owner->enemy, self->owner))
+	if (random() < 0.04 || (visible(self->owner, self->owner->enemy) && infront(self->owner, self->owner->enemy) && visible(self->owner->enemy, self->owner) && infront_aiming(self->owner->enemy, self->owner)))
 	{
 		if (!(self->owner->monsterinfo.aiflags & AI_STAND_GROUND)) // make the monster stop for a second and shoot or something while retreating
 		{
@@ -1145,7 +1146,9 @@ void M_retreat_to(edict_t *self, vec3_t origin)
 		G_FreeEdict(self->monsterinfo.retreat_point);
 	}
 	trace_t tr;
-	vec3_t start, end, step;
+	vec3_t start = { 0 };
+	vec3_t end;
+	vec3_t step = { 0 };
 	edict_t *rpoint;
 	int stepnum = 0;
 	VectorCopy(self->s.origin, start);
@@ -1224,13 +1227,13 @@ void M_retreat(edict_t *self)
 	float percent_hp = (float)(self->max_health - self->health) / (float)self->max_health;
 	float chance = percent_hp + (random() * 0.25);
 	//gi.bprintf(PRINT_HIGH, "DEBUG: CHANCE TO RETREAT = %f, maxhp = %i, hp = %i, calc = %f", chance, self->max_health, self->health, percent_hp);
-	if ((chance > 0.6 + self->monsterinfo.aggression || percent_hp < 0.1 && self->monsterinfo.aggression < 0.9) && self->monsterinfo.last_retreat < level.time)
+	if ((chance > 0.6 + self->monsterinfo.aggression || (percent_hp < 0.1 && self->monsterinfo.aggression < 0.9)) && self->monsterinfo.last_retreat < level.time)
 	{
 		//gi.bprintf(PRINT_HIGH, "DEBUG: MONSTER WOULD RETREAT, BUT CHANCE CHECKS\n");
 		return;
 	}
 
-	vec3_t point1, point2, point3, dir;
+	vec3_t point1, point2 = { 0 }, point3 = { 0 }, dir = { 0 };
 	trace_t tr;
 	VectorCopy(self->s.origin, dir);
 	dir[2] = self->enemy->s.origin[2];
@@ -1308,7 +1311,7 @@ void M_touch(edict_t *self, edict_t *other, cplane_t *plane, csurface_t *surf)
 			if (distv > (fabsf(self->mins[2]) + fabsf(self->maxs[2]) * 0.45) + (fabsf(other->mins[2]) + fabsf(other->maxs[2]) * 0.45))
 			{
 				//gi.bprintf(PRINT_HIGH, "DEBUG: MONSTER HIGHER THEN OTHER!\n");
-				vec3_t dir;
+				vec3_t dir = { 0 };
 
 				if (self->s.origin[2] > other->s.origin[2])
 				{
@@ -1331,7 +1334,7 @@ void M_touch(edict_t *self, edict_t *other, cplane_t *plane, csurface_t *surf)
 }
 void M_calcvel(edict_t *self)
 {
-	vec3_t vel;
+	vec3_t vel = { 0 };
 	VectorSubtract(self->s.origin, self->old_origin2, vel);
 	VectorScale(vel, 1/FRAMETIME, vel);
 	VectorCopy(self->monsterinfo.velocity, self->monsterinfo.oldvelocity);
@@ -1351,7 +1354,11 @@ void M_save_enemy_pos(edict_t *self)
 
 void M_calcstrafepos(edict_t *self, vec3_t enemypos)
 {
-	vec3_t pos1, pos2, pos3, pos4, pos5;
+	vec3_t pos1 = { 0 };
+	vec3_t pos2 = { 0 };
+	vec3_t pos3 = { 0 };
+	vec3_t pos4 = { 0 };
+	vec3_t pos5 = { 0 };
 	VectorCopy(self->monsterinfo.enemy_pos5, pos5);
 	VectorCopy(self->monsterinfo.enemy_pos4, pos4);
 	VectorCopy(self->monsterinfo.enemy_pos3, pos3);
@@ -1368,6 +1375,7 @@ void M_calcstrafepos(edict_t *self, vec3_t enemypos)
 	VectorAdd(enemypos, pos4, enemypos);
 	VectorAdd(enemypos, pos5, enemypos);
 }
+
 void M_save_enemy_vel(edict_t *self)
 {
 	float diff;
@@ -1402,7 +1410,9 @@ void M_isplayerstrafing(edict_t *self)
 	M_save_enemy_vel(self);
 	//if (!self->enemy->client->forwardmove)
 
-	if (!self->enemy->client->forwardmove && (self->enemy->client->sidemove > 0 && self->enemy->client->oldsidemove <= 0 || self->enemy->client->sidemove < 0 && self->enemy->client->oldsidemove >= 0))
+	if (!self->enemy->client->forwardmove && 
+		((self->enemy->client->sidemove > 0 && self->enemy->client->oldsidemove <= 0) || 
+			(self->enemy->client->sidemove < 0 && self->enemy->client->oldsidemove >= 0)))
 	{
 		if (self->monsterinfo.last_enemy_strafe > level.time - MONSTER_STRAFE_MAX_TIME_DETECTION)
 		{

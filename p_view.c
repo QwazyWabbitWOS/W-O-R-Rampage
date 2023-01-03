@@ -73,7 +73,7 @@ void P_DamageFeedback(edict_t *player)
 	gclient_t	*client;
 	float	side;
 	float	realcount, count, kick;
-	vec3_t	v;
+	vec3_t	v = { 0 };
 	int		r, l;
 	static	vec3_t	power_color = { 0.0, 1.0, 0.0 };
 	static	vec3_t	acolor = { 1.0, 1.0, 1.0 };
@@ -194,8 +194,7 @@ void P_DamageFeedback(edict_t *player)
 		client->v_dmg_pitch = kick * side * 0.3 * ((skill->value / 2) + 1) * (random() + 1);
 		*/
 		side = DotProduct(v, right);
-		vec3_t kick_v;
-		VectorClear(kick_v);
+		vec3_t kick_v = { 0 };
 		kick_v[ROLL] += kick * side * 0.3f * ((skill->value / 2) + 1) * ((random() / 2) + 1);
 		kick_v[YAW] += kick * side * 0.3f * ((skill->value / 2) + 1) * ((random() / 2) + 1);
 
@@ -249,7 +248,7 @@ void SV_CalcViewOffset(edict_t *ent)
 	float		bob;
 	float		ratio;
 	float		delta;
-	vec3_t		v;
+	vec3_t		v = { 0 };
 
 
 	//===================================
@@ -470,7 +469,10 @@ SV_CalcBlend
 */
 void SV_CheckSun(edict_t *ent)
 {
-	vec3_t angles, offset, start, forward, right, origin;
+	vec3_t angles = { 0 };
+	vec3_t offset = { 0 };
+	vec3_t start, forward, right;
+	vec3_t origin = { 0 };
 	trace_t tr;
 
 	if (level.sun == NULL)
@@ -491,7 +493,7 @@ void SV_CheckSun(edict_t *ent)
 	VectorMA(start, 4096.0, forward, origin);
 	//gi.bprintf(PRINT_HIGH, "DEBUG: origin = %s, sun origin = %s diff = %f\n", vtos(origin), vtos(level.sun->s.origin), diff(ent->s.angles[1], -108));
 
-	vec3_t	vec;
+	vec3_t	vec = { 0 };
 	float	dot;
 	int inview = 0;
 	AngleVectors(ent->s.angles, forward, NULL, NULL);
@@ -508,7 +510,8 @@ void SV_CheckSun(edict_t *ent)
 void SV_CheckSky(edict_t *ent)
 {
 	int check_num = 0;
-	vec3_t offset[16], offset_sky;
+	vec3_t offset[16] = { 0 };
+	vec3_t offset_sky = { 0 };
 	int initialize = 0;
 
 	initialize_offset:
@@ -555,7 +558,8 @@ void SV_CheckSky(edict_t *ent)
 
 	VectorClear(offset_sky);
 	offset_sky[2] = 4096;
-	vec3_t origin, origin_sky;
+	vec3_t origin = { 0 };
+	vec3_t origin_sky = { 0 };
 	VectorCopy(ent->s.origin, origin);
 
 	SV_CheckSun(ent);
@@ -590,7 +594,7 @@ skyisnear:
 void SV_CalcBlend(edict_t *ent)
 {
 	int		contents;
-	vec3_t	vieworg;
+	vec3_t	vieworg = { 0 };
 	int		remaining;
 	//ent->client->pers.inventory[ITEM_INDEX(FindItem("item_quad"))] = 0;
 
@@ -830,7 +834,7 @@ void P_FallingDamage(edict_t *ent)
 {
 	float	delta;
 	int		damage;
-	vec3_t	dir;
+	vec3_t	dir = { 0 };
 
 	if (ent->s.modelindex != 255)
 		return;		// not in the player model
@@ -1016,7 +1020,7 @@ void P_WorldEffects(void)
 						PlayerNoise(current_player, current_player->s.origin, PNOISE_SELF);
 
 						//FIXME: release a bubble? // SURE!!!
-						vec3_t start;
+						vec3_t start = { 0 };
 						VectorCopy(current_player->s.origin, start);
 						start[2] += current_player->viewheight;
 						spawn_bubble(current_player, start);
@@ -1059,7 +1063,7 @@ void P_WorldEffects(void)
 					add_sp_score(current_player, 10, SCORE_ITEM_USAGE);
 
 					//FIXME: release a bubble? // SURE!!!
-					vec3_t start;
+					vec3_t start = { 0 };
 					VectorCopy(current_player->s.origin, start);
 					start[2] += current_player->viewheight;
 					spawn_bubble(current_player, start);

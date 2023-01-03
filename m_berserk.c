@@ -76,7 +76,7 @@ mframe_t berserk_frames_stand_fidget [] =
 	{ai_stand, 0, NULL},
 	{ai_stand, 0, NULL},
 	{ai_stand, 0, NULL},
-	ai_stand, 0, berserk_fidget_sound,
+	{ai_stand, 0, berserk_fidget_sound},
 	{ai_stand, 0, NULL},
 	{ai_stand, 0, NULL},
 	{ai_stand, 0, NULL},
@@ -192,7 +192,7 @@ void berserk_swing(edict_t *self)
 }
 void berserk_attack_club(edict_t *self)
 {
-	vec3_t	aim;
+	vec3_t	aim = { 0 };
 
 	VectorSet(aim, MELEE_DISTANCE, self->mins[0], -4);
 	if (skill->value > 3)
@@ -280,7 +280,7 @@ void berserk_run(edict_t *self)
 	else
 		self->monsterinfo.currentmove = &berserk_move_run1;
 
-	if (visible(self, self->enemy) && infront(self, self->enemy) && (skill->value > 3 && random() < DODGE_CHANCE * 0.25 || skill->value < 4 && random() < DODGE_CHANCE * 0.25))
+	if (visible(self, self->enemy) && infront(self, self->enemy) && ((skill->value > 3 && random() < DODGE_CHANCE * 0.25) || (skill->value < 4 && random() < DODGE_CHANCE * 0.25)))
 	{
 		self->monsterinfo.aiflags |= AI_JUMPDODGE;
 		berserk_dodge(self, self->enemy, 0);
@@ -550,16 +550,16 @@ void berserk_duck_up(edict_t *self)
 
 mframe_t berserk_frames_duck[] =
 {
-	ai_move, 5, berserk_duck_down,
-	ai_move, 0,  NULL,
-	ai_move, 0,  NULL,
-	ai_move, 0, berserk_duck_hold,
-	ai_move, 0, berserk_duck_hold,
-	ai_move, 5,  berserk_duck_up,
-	ai_move, 1,  NULL,
-	ai_move, 0,  NULL,
-	ai_move, 0,  NULL,
-	ai_move, 0,  NULL,
+	{ai_move, 5, berserk_duck_down},
+	{ai_move, 0,  NULL},
+	{ai_move, 0,  NULL},
+	{ai_move, 0, berserk_duck_hold},
+	{ai_move, 0, berserk_duck_hold},
+	{ai_move, 5,  berserk_duck_up},
+	{ai_move, 1,  NULL},
+	{ai_move, 0,  NULL},
+	{ai_move, 0,  NULL},
+	{ai_move, 0,  NULL}
 };
 mmove_t berserk_move_duck = { FRAME_duck1, FRAME_duck10, berserk_frames_duck, berserk_run };
 

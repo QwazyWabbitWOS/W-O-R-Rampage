@@ -75,10 +75,10 @@ StringToFilter
 */
 static qboolean StringToFilter (char *s, ipfilter_t *f)
 {
-	char	num[128];
+	char	num[128] = { 0 };
 	int		i, j;
-	byte	b[4];
-	byte	m[4];
+	byte	b[4] = { 0 };
+	byte	m[4] = { 0 };
 	
 	for (i=0 ; i<4 ; i++)
 	{
@@ -124,7 +124,7 @@ qboolean SV_FilterPacket (char *from)
 {
 	int		i;
 	unsigned	in;
-	byte m[4];
+	byte m[4] = { 0 };
 	char *p;
 
 	i = 0;
@@ -220,7 +220,7 @@ SV_ListIP_f
 void SVCmd_ListIP_f (void)
 {
 	int		i;
-	byte	b[4];
+	byte	b[4] = { 0 };
 
 	gi.cprintf (NULL, PRINT_HIGH, "Filter list:\n");
 	for (i=0 ; i<numipfilters ; i++)
@@ -239,7 +239,7 @@ void SVCmd_WriteIP_f (void)
 {
 	FILE	*f;
 	char	name[MAX_OSPATH];
-	byte	b[4];
+	byte	b[4] = { 0 };
 	int		i;
 	cvar_t	*game;
 

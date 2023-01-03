@@ -25,7 +25,7 @@ int DEBRIS_EXISTS;
 void P_ProjectSource(gclient_t* client, vec3_t point, vec3_t distance, vec3_t forward, vec3_t right, vec3_t result)
 {
 
-	vec3_t	_distance;
+	vec3_t	_distance = { 0 };
 
 	VectorCopy(distance, _distance);
 	if (client->pers.hand == LEFT_HANDED)
@@ -99,7 +99,7 @@ void ClipGibVelocity(edict_t* ent)
 void spawn_blood_dir(edict_t* self, vec3_t dir)
 {
 
-	vec3_t forward, right, result, distance;
+	vec3_t forward, right, result, distance = { 0 };
 	AngleVectors(self->s.angles, forward, right, NULL);
 	VectorSet(distance, -15, 0, 0);
 	G_ProjectSource(forward, distance, forward, right, result);
@@ -117,7 +117,7 @@ void spawn_blood_dir(edict_t* self, vec3_t dir)
 void spawn_blood_point(vec3_t point)
 {
 
-	vec3_t dir;
+	vec3_t dir = { 0 };
 	gi.WriteByte(svc_temp_entity);
 	gi.WriteByte(TE_SPLASH);
 	gi.WriteByte(50);
@@ -132,7 +132,7 @@ void spawn_blood_point(vec3_t point)
 void spawn_blood(edict_t* self)
 {
 
-	vec3_t dir;
+	vec3_t dir = { 0 };
 	gi.WriteByte(svc_temp_entity);
 	gi.WriteByte(TE_SPLASH);
 	gi.WriteByte(50);
@@ -217,7 +217,7 @@ void gib_touch(edict_t* self, edict_t* other, cplane_t* plane, csurface_t* surf)
 {
 	//vec3_t	normal_angles;
 	//vec3_t	right;
-	vec3_t	dir;
+	vec3_t	dir = { 0 };
 
 	//if (!self->groundentity)
 	//	return;
@@ -401,9 +401,9 @@ void ThrowGib_exp(edict_t* self, char* gibname, int damage, int type, vec3_t poi
 
 	edict_t* gib;
 	vec3_t	vd;
-	vec3_t	origin;
+	vec3_t	origin = { 0 };
 	vec3_t	size;
-	vec3_t gibdir;
+	vec3_t gibdir = { 0 };
 	float	vscale = 0;
 
 	VectorClear(gibdir);
@@ -512,7 +512,7 @@ void ThrowGib(edict_t* self, char* gibname, int damage, int type)
 {
 	edict_t* gib;
 	vec3_t	vd;
-	vec3_t	origin;
+	vec3_t	origin = { 0 };
 	vec3_t	size;
 	float	vscale;
 
@@ -763,7 +763,7 @@ void debris_touch(edict_t* self, edict_t* other, cplane_t* plane, csurface_t* su
 	if (self->style)
 		return;
 
-	vec3_t dir;
+	vec3_t dir = { 0 };
 	int damage;
 	//	gi.bprintf(PRINT_HIGH, "DEBRIS TOUCHED %s\n", other->classname);
 	//	if (strcmp(other->classname, "worldspawn") == 0)
@@ -809,7 +809,7 @@ void debris_touch(edict_t* self, edict_t* other, cplane_t* plane, csurface_t* su
 void ThrowDebris(edict_t* self, char* modelname, float speed, vec3_t origin, vec3_t aimdir2, int spread)
 {
 	edict_t* chunk;
-	vec3_t	v;
+	vec3_t	v = { 0 };
 
 	chunk = G_Spawn();
 	VectorCopy(origin, chunk->s.origin);
@@ -851,7 +851,8 @@ void ThrowDebris(edict_t* self, char* modelname, float speed, vec3_t origin, vec
 	}
 	else
 	{
-		vec3_t dir, mod;
+		vec3_t dir;
+		vec3_t mod = { 0 };
 		vec3_t forward, right, up, end;
 		int tiers;
 		float num = spread;
@@ -1011,7 +1012,7 @@ Pathtarget: gets used when an entity that has
 
 void path_corner_touch(edict_t* self, edict_t* other, cplane_t* plane, csurface_t* surf)
 {
-	vec3_t		v;
+	vec3_t		v = { 0 };
 	edict_t* next;
 
 	if (other->movetarget != self)
@@ -1407,8 +1408,8 @@ one small chunk per 25 of mass (up to 16).  So 800 gives the most.
 */
 void func_explosive_explode(edict_t* self, edict_t* inflictor, edict_t* attacker, int damage, vec3_t point)
 {
-	vec3_t	origin;
-	vec3_t	chunkorigin;
+	vec3_t	origin = { 0 };
+	vec3_t	chunkorigin = { 0 };
 	vec3_t	size;
 	int		count;
 	int		mass;
@@ -1535,9 +1536,9 @@ health (80), and dmg (150).
 
 void barrel_explode(edict_t* self)
 {
-	vec3_t	org;
+	vec3_t	org = { 0 };
 	float	spd;
-	vec3_t	save;
+	vec3_t	save = { 0 };
 	PlayerNoise(self, self->s.origin, PNOISE_IMPACT);
 	T_RadiusDamage(self, self->activator, self->radius_dmg, NULL, self->dmg_radius, MOD_BARREL);
 
@@ -1753,7 +1754,7 @@ void barrel_touch(edict_t* self, edict_t* other, cplane_t* plane, csurface_t* su
 
 		if (other->takedamage && (self->style == PICKUP_OBJECT_BARREL || self->style == PICKUP_OBJECT_GUARD))
 		{
-			vec3_t normal;
+			vec3_t normal = { 0 };
 			VectorSet(normal, random(), random(), random()); //bugfix
 
 			T_Damage(other, self, self->owner, self->velocity, self->s.origin, normal, self->dmg, 10, DAMAGE_NO, MOD_BARREL);
@@ -1775,7 +1776,7 @@ void barrel_touch(edict_t* self, edict_t* other, cplane_t* plane, csurface_t* su
 
 			gi.sound(self, CHAN_WEAPON, gi.soundindex("infantry/melee2.wav"), 1, ATTN_NORM, 0);
 			gib_target(self, 100, (GIB_SMA), self->s.origin);
-			vec3_t origin;
+			vec3_t origin = { 0 };
 			origin[0] = crandom() * 64;
 			origin[1] = crandom() * 64;
 			origin[2] = crandom() * 64;
@@ -1864,7 +1865,7 @@ void barrel_touch(edict_t* self, edict_t* other, cplane_t* plane, csurface_t* su
 void object_throw(edict_t* ent, int type)
 {
 	edict_t* object;
-	vec3_t forward, right, start, offset, angles;
+	vec3_t forward, right, start, offset = { 0 }, angles = { 0 };
 
 	object = G_Spawn();
 	int speed = 500;
@@ -1982,7 +1983,7 @@ void object_throw(edict_t* ent, int type)
 
 void scanner(edict_t* ent)
 {
-	vec3_t forward, right, start, offset;
+	vec3_t forward, right, start, offset = { 0 };
 
 	VectorSet(offset, 8, 8, ent->viewheight - 8);
 	AngleVectors(ent->client->v_angle, forward, right, NULL);
@@ -2300,7 +2301,7 @@ void spawn_at_deadsoldier(edict_t* ent)
 	VectorCopy(ent->s.origin, item->s.origin);
 	item->s.origin[2] += 17;
 	trace_t tr;
-	vec3_t end;
+	vec3_t end = { 0 };
 	VectorCopy(item->s.origin, end);
 	end[0] += 17;
 	tr = gi.trace(item->s.origin, NULL, NULL, end, item, CONTENTS_SOLID);
@@ -3380,7 +3381,7 @@ void CTFGrappleTouch(edict_t* self, edict_t* other, cplane_t* plane, csurface_t*
 		return;
 
 	//gi.bprintf(PRINT_HIGH, "GRAPPLE TOUCHING SOMETHING\n");
-	if (other == self->owner_solid || self->owner && self->owner->health <= 0)
+	if (other == self->owner_solid || (self->owner && self->owner->health <= 0))
 	{
 		GrappleDelete(self);
 		return;
@@ -3401,7 +3402,7 @@ void CTFGrappleTouch(edict_t* self, edict_t* other, cplane_t* plane, csurface_t*
 	self->owner->client->ctf_grapplestate = CTF_GRAPPLE_STATE_HANG;
 	PlayerNoise(self->owner, self->s.origin, PNOISE_IMPACT);
 
-	vec3_t normal;
+	vec3_t normal = { 0 };
 	//if (!plane->normal)
 		VectorSet(normal, random(), random(), random()); //bugfix
 	//else
@@ -3439,8 +3440,8 @@ void CTFGrappleTouch(edict_t* self, edict_t* other, cplane_t* plane, csurface_t*
 // draw beam between grapple and self
 void CTFGrappleDrawCable(edict_t* self)
 {
-	vec3_t	offset, start, end, f, r;
-	vec3_t	dir;
+	vec3_t	offset = { 0 }, start, end = { 0 }, f, r;
+	vec3_t	dir = { 0 };
 	edict_t* owner;
 	if (self->owner_solid)
 		owner = self->owner_solid;
@@ -3522,7 +3523,7 @@ void SV_AddGravity(edict_t* ent);
 // pull the player toward the grapple
 void CTFGrapplePull(edict_t* self)
 {
-	vec3_t hookdir, v;
+	vec3_t hookdir = { 0 }, v;
 	float vlen;
 
 	if (strcmp(self->owner->client->pers.weapon->classname, "weapon_grapple") == 0 &&
@@ -3711,7 +3712,7 @@ void CTFGrappleFire(edict_t* ent, vec3_t g_offset, int damage, int effect)
 {
 	vec3_t	forward, right;
 	vec3_t	start;
-	vec3_t	offset;
+	vec3_t	offset = { 0 };
 	float volume = 1.0;
 
 	//if (ent->client->ctf_grapplestate > CTF_GRAPPLE_STATE_FLY)
@@ -3769,7 +3770,7 @@ float NormalizeF(float f)
 
 void GrappleWind(edict_t* self, vec3_t offset)
 {
-	vec3_t dir;
+	vec3_t dir = { 0 };
 	edict_t* owner = NULL;
 	float dist;
 	float speed;
@@ -3914,7 +3915,7 @@ void bubble_think(edict_t* self)
 	VectorScale(self->velocity, 0.9f, self->velocity);
 	self->velocity[0] += crandom() * 5;
 	self->velocity[1] += crandom() * 5;
-	vec3_t end;
+	vec3_t end = { 0 };
 
 	VectorClear(end);
 	VectorAdd(self->velocity, end, end);
@@ -4386,14 +4387,15 @@ void spawn_m_muzzleflash(edict_t* self, vec3_t start, vec3_t dir, int flashtype)
 
 float get_dist(edict_t* self, edict_t* other)
 {
-	vec3_t dist;
+	vec3_t dist = { 0 };
 	VectorSubtract(self->s.origin, other->s.origin, dist);
 	return VectorLength(dist);
 }
 
 float get_dist2d(edict_t* self, edict_t* other)
 {
-	vec3_t dist, dest;
+	vec3_t dist = { 0 };
+	vec3_t dest = { 0 };
 	VectorCopy(other->s.origin, dest);
 	dest[2] = self->s.origin[2];
 	VectorSubtract(self->s.origin, dest, dist);
@@ -4402,7 +4404,8 @@ float get_dist2d(edict_t* self, edict_t* other)
 
 float get_dist2d_point(vec3_t point1, vec3_t point2)
 {
-	vec3_t dist, temp;
+	vec3_t dist = { 0 };
+	vec3_t temp = { 0 };
 	VectorCopy(point2, temp);
 	temp[2] = point1[2];
 	VectorSubtract(point1, temp, dist);
@@ -4411,7 +4414,8 @@ float get_dist2d_point(vec3_t point1, vec3_t point2)
 
 float get_dist_v(edict_t* self, edict_t* other)
 {
-	vec3_t dist, dest;
+	vec3_t dist = { 0 };
+	vec3_t dest = { 0 };
 	VectorCopy(other->s.origin, dest);
 	dest[2] = self->s.origin[2];
 	VectorSubtract(self->s.origin, dest, dist);
@@ -4420,7 +4424,7 @@ float get_dist_v(edict_t* self, edict_t* other)
 
 float get_dist_point(vec3_t point1, vec3_t point2)
 {
-	vec3_t dist;
+	vec3_t dist = { 0 };
 	VectorSubtract(point1, point2, dist);
 	return VectorLength(dist);
 }
@@ -4527,7 +4531,9 @@ float diff(float a, float b)
 
 float get_angledifference(edict_t* ent, float angle)
 {
-	vec3_t dir, forward, angles;
+	vec3_t dir = { 0 };
+	vec3_t forward;
+	vec3_t angles = { 0 };
 	//float difference;
 	float dot;
 	VectorCopy(ent->s.angles, angles);

@@ -799,17 +799,17 @@ SV_Physics_Noclip
 A moving object that doesn't obey physics
 =============
 */
-void SV_Physics_Noclip (edict_t *ent)
+void SV_Physics_Noclip(edict_t* ent)
 {
- //regular thinking
-	if (!SV_RunThink (ent))
-		return;
+    //regular thinking
+    if (!SV_RunThink(ent))
+        return;
 
-	
-		VectorMA(ent->s.angles, FRAMETIME, ent->avelocity, ent->s.angles);
-		VectorMA(ent->s.origin, FRAMETIME, ent->velocity, ent->s.origin);
-	
-	gi.linkentity (ent);
+
+    VectorMA(ent->s.angles, FRAMETIME, ent->avelocity, ent->s.angles);
+    VectorMA(ent->s.origin, FRAMETIME, ent->velocity, ent->s.origin);
+
+    gi.linkentity(ent);
 }
 
 /*

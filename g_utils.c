@@ -77,7 +77,7 @@ findradius (origin, radius)
 */
 edict_t* findradius(edict_t* from, vec3_t org, float rad)
 {
-	vec3_t	eorg;
+	vec3_t	eorg = { 0 };
 	int		j;
 
 	if (!from)
@@ -119,7 +119,7 @@ edict_t* G_PickTarget(char* targetname)
 {
 	edict_t* ent = NULL;
 	int		num_choices = 0;
-	edict_t* choice[MAXCHOICES];
+	edict_t* choice[MAXCHOICES] = { 0 };
 
 	if (!targetname)
 	{
@@ -265,7 +265,7 @@ for making temporary vectors for function calls
 */
 float* tv(float x, float y, float z)
 {
-	static	int		index;
+	static	int		index = 0;
 	static	vec3_t	vecs[8];
 	float* v;
 
@@ -292,8 +292,8 @@ for printing vectors
 */
 char* vtos(vec3_t v)
 {
-	static	int		index;
-	static	char	str[8][32];
+	static	int		index = 0;
+	static	char	str[8][32] = { 0 };
 	char* s;
 
 	// use an array so that multiple vtos won't collide

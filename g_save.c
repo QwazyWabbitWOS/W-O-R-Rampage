@@ -163,7 +163,7 @@ void  InitGame (void)
 	_CrtMemCheckpoint(&startup1);
 #endif
 
-	gi.dprintf ("==== InitGame %s ====\n", GAMEVERSION);
+	gi.dprintf ("==== InitGame %s %s ====\n", GAMEVERSION, GAMEDATE);
 	gi.cvar_forceset("g_features", va("%d", G_FEATURES));
 	gun_x = gi.cvar ("gun_x", "0", 0);
 	gun_y = gi.cvar ("gun_y", "0", 0);

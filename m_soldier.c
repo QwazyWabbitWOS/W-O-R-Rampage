@@ -52,14 +52,16 @@ static int	sound_death_ss;
 static int	sound_cock;
 
 
-vec3_t soldier_death4_angles_fire[] = { -27.169811f, -115.125000f, 0.0f,
-                                        -38.909775f, -124.266052f, 0.0f,
-                                        -47.423077f, -128.973206f, 0.0f,
-                                        -47.196f, -135.0f, 0.0f,
-                                        -46.451614f, -120.815216f, 0.0f,
-                                        -33.250000f, -130.178574f, 0.0f,
-                                        -27.486486f, -127.500000f, 0.0f,
-                                        -41.227543f, -123.500000f, 0.0f };
+vec3_t soldier_death4_angles_fire[] = {
+{ -27.169811f, -115.125000f, 0.0f },
+{ -38.909775f, -124.266052f, 0.0f },
+{ -47.423077f, -128.973206f, 0.0f },
+{ -47.196f, -135.0f, 0.0f },
+{ -46.451614f, -120.815216f, 0.0f },
+{ -33.250000f, -130.178574f, 0.0f },
+{ -27.486486f, -127.500000f, 0.0f },
+{ -41.227543f, -123.500000f, 0.0f }
+};
 
 //vec3_t soldier_death4_angles_fire1 = { -90.0, -135.0, 47.196 };
 //vec3_t soldier_death4_angles_fire1 = { 90.0, 0.0, 0.0 };
@@ -518,7 +520,7 @@ void soldier_run(edict_t* self)
         self->monsterinfo.currentmove = &soldier_move_stand1;
         return;
     }
-    if (skill->value > 3 && random() < DODGE_CHANCE * 0.25 || skill->value < 4 && random() < DODGE_CHANCE * 0.25)
+    if ((skill->value > 3 && random() < DODGE_CHANCE * 0.25) || (skill->value < 4 && random() < DODGE_CHANCE * 0.25))
     {
         self->monsterinfo.aiflags |= AI_JUMPDODGE;
         soldier_dodge(self, self->enemy, 0);
@@ -573,7 +575,7 @@ void update_move_dir(edict_t* self)
             self->monsterinfo.currentmove = &soldier_move_start_run_l;
             update_move_frame(self);
         }
-        else if (self->s.frame >= FRAME_run_r02 && self->s.frame <= FRAME_run_r08 || self->s.frame >= FRAME_run02 && self->s.frame <= FRAME_run08)
+        else if ((self->s.frame >= FRAME_run_r02 && self->s.frame <= FRAME_run_r08) || (self->s.frame >= FRAME_run02 && self->s.frame <= FRAME_run08))
         {
             self->monsterinfo.currentmove = &soldier_move_run_l;
             update_move_frame(self);
@@ -586,7 +588,7 @@ void update_move_dir(edict_t* self)
             self->monsterinfo.currentmove = &soldier_move_start_run_r;
             update_move_frame(self);
         }
-        else if (self->s.frame >= FRAME_run_l02 && self->s.frame <= FRAME_run_l08 || self->s.frame >= FRAME_run02 && self->s.frame <= FRAME_run08)
+        else if ((self->s.frame >= FRAME_run_l02 && self->s.frame <= FRAME_run_l08) || (self->s.frame >= FRAME_run02 && self->s.frame <= FRAME_run08))
         {
             self->monsterinfo.currentmove = &soldier_move_run_r;
             update_move_frame(self);
@@ -600,7 +602,7 @@ void update_move_dir(edict_t* self)
             update_move_frame(self);
         }
 
-        else if (self->s.frame >= FRAME_run_r02 && self->s.frame <= FRAME_run_r08 || self->s.frame >= FRAME_run_l02 && self->s.frame <= FRAME_run_l08)
+        else if ((self->s.frame >= FRAME_run_r02 && self->s.frame <= FRAME_run_r08) || (self->s.frame >= FRAME_run_l02 && self->s.frame <= FRAME_run_l08))
         {
             self->monsterinfo.currentmove = &soldier_move_run;
             update_move_frame(self);
@@ -783,7 +785,7 @@ void soldier_attack1_refire1(edict_t* self)
         return;
     }
 
-    if (((skill->value == 3) && (random() < 0.5) || range(self, self->enemy) == RANGE_MELEE || self->monsterinfo.aggression + random() < 1.75f && skill->value > 3))
+    if ((((skill->value == 3) && (random() < 0.5)) || range(self, self->enemy) == RANGE_MELEE || (self->monsterinfo.aggression + random() < 1.75f && skill->value > 3)))
         self->monsterinfo.nextframe = FRAME_attak102;
     else
     {
@@ -808,7 +810,7 @@ void soldier_attack1_refire2(edict_t* self)
         return;
     }
 
-    if (((skill->value == 3) && (random() < 0.5) || range(self, self->enemy) == RANGE_MELEE || self->monsterinfo.aggression + random() < 1.75f && skill->value > 3))
+    if ((((skill->value == 3) && (random() < 0.5)) || range(self, self->enemy) == RANGE_MELEE || (self->monsterinfo.aggression + random() < 1.75f && skill->value > 3)))
         self->monsterinfo.nextframe = FRAME_attak102;
 }
 void jump_skip_frame(edict_t* self)
@@ -878,7 +880,7 @@ void soldier_attack2_refire1(edict_t* self)
         return;
     }
 
-    if (((skill->value == 3) && (random() < 0.5) || range(self, self->enemy) == RANGE_MELEE || self->monsterinfo.aggression + random() < 1.75f && skill->value > 3))
+    if ((((skill->value == 3) && (random() < 0.5)) || range(self, self->enemy) == RANGE_MELEE || (self->monsterinfo.aggression + random() < 1.75f && skill->value > 3)))
         self->monsterinfo.nextframe = FRAME_attak204;
     else
         self->monsterinfo.nextframe = FRAME_attak218;
@@ -897,7 +899,7 @@ void soldier_attack2_refire2(edict_t* self)
         return;
     }
 
-    if (((skill->value == 3) && (random() < 0.5) || range(self, self->enemy) == RANGE_MELEE || self->monsterinfo.aggression + random() < 1.75f && skill->value > 3))
+    if ((((skill->value == 3) && (random() < 0.5)) || range(self, self->enemy) == RANGE_MELEE || (self->monsterinfo.aggression + random() < 1.75f && skill->value > 3)))
         self->monsterinfo.nextframe = FRAME_attak204;
 }
 
@@ -1052,7 +1054,7 @@ void soldier_attack3_refire(edict_t* self)
 {
     if (self->groundentity)
     {
-        if (self->monsterinfo.aiflags & AI_JUMPDODGE || self->monsterinfo.aiflags & AI_JUMPDODGEPROJ || visible(self->enemy, self) && (!infront_aiming(self->enemy, self) && random() > 0.95 || infront_aiming(self->enemy, self)))
+        if (self->monsterinfo.aiflags & AI_JUMPDODGE || self->monsterinfo.aiflags & AI_JUMPDODGEPROJ || (visible(self->enemy, self) && ((!infront_aiming(self->enemy, self) && random() > 0.95) || infront_aiming(self->enemy, self))))
         {
             soldier_jump(self);
             return;
@@ -1067,7 +1069,7 @@ void soldier_attack3_refire(edict_t* self)
         return;
     }
 
-    if (((skill->value == 3) && (random() < 0.5) || range(self, self->enemy) == RANGE_MELEE || (random() * 4) - self->monsterinfo.aggression > 1 && skill->value > 3))
+    if ((((skill->value == 3) && (random() < 0.5)) || range(self, self->enemy) == RANGE_MELEE || ((random() * 4) - self->monsterinfo.aggression > 1 && skill->value > 3)))
     {
         self->monsterinfo.nextframe = FRAME_attak303;
     }
@@ -1264,7 +1266,8 @@ void soldier_attack(edict_t* self)
     //	self->monsterinfo.currentmove = &soldier_move_attack6;
     //return;
     self->monsterinfo.burstnum = 0; //reset burst
-    if ((skill->value > 3 && random() < DODGE_CHANCE || skill->value < 4 && random() < DODGE_CHANCE) && infront(self->enemy, self) && visible(self->enemy, self))
+    if ((skill->value > 3 && random() < DODGE_CHANCE) ||
+        ((skill->value < 4 && random() < DODGE_CHANCE) && infront(self->enemy, self) && visible(self->enemy, self)))
     {
         soldier_dodge(self, self->enemy, 0);
         self->monsterinfo.aiflags |= AI_JUMPDODGE;
@@ -1653,7 +1656,8 @@ void soldier_fire(edict_t* self, int flash_number)
 
         if (flash_number == 8)
             return;
-        if (level.time >= self->monsterinfo.pausetime || !M_CheckClearShot(self) && self->health > 0 || self->count > 25 + 50 * random())
+        if (level.time >= self->monsterinfo.pausetime || 
+            (!M_CheckClearShot(self) && self->health > 0) || self->count > 25 + 50 * random())
             self->monsterinfo.aiflags &= ~AI_HOLD_FRAME;
         else
             self->monsterinfo.aiflags |= AI_HOLD_FRAME;
@@ -1993,31 +1997,35 @@ void soldier_death1_refire(edict_t* self)
     }
 
 }
+
 void check_fire(edict_t* self)
 {
-    if (!M_CheckClearShot(self))
-    {
-        if (self->s.frame == FRAME_death124)
-            self->monsterinfo.nextframe = FRAME_death114;
-        else
-            self->monsterinfo.nextframe = FRAME_death128;
-        search_for_player(self);
-        return;
-    }
-    if (((!visible(self, self->enemy) && !infront(self, self->enemy)) || (!visible(self, self->enemy) && infront(self, self->enemy))) && (self->count > 5 + (self->monsterinfo.aggression * 5) && self->s.skinnum <= 3 || self->count > 1 + (self->monsterinfo.aggression * 3) && self->s.skinnum >= 4))
-    {
-        if (self->s.frame == FRAME_death124)
-            self->monsterinfo.nextframe = FRAME_death114;
-        else
-            self->monsterinfo.nextframe = FRAME_death128;
-        search_for_player(self);
-        //gi.bprintf(PRINT_HIGH, "CHECK_FIRE: count = %i SKIPPING ATTACK\n", self->count);
-        return;
-    }
-    //gi.bprintf(PRINT_HIGH, "CHECK_FIRE: count = %i\n", self->count);
+	if (!M_CheckClearShot(self))
+	{
+		if (self->s.frame == FRAME_death124)
+			self->monsterinfo.nextframe = FRAME_death114;
+		else
+			self->monsterinfo.nextframe = FRAME_death128;
+		search_for_player(self);
+		return;
+	}
+	if (((!visible(self, self->enemy) && !infront(self, self->enemy)) ||
+		(((!visible(self, self->enemy) && infront(self, self->enemy))) && ((self->count > 5 + (self->monsterinfo.aggression * 5) && self->s.skinnum <= 3))) ||
+		(self->count > 1 + (self->monsterinfo.aggression * 3) && self->s.skinnum >= 4)))
+	{
+		if (self->s.frame == FRAME_death124)
+			self->monsterinfo.nextframe = FRAME_death114;
+		else
+			self->monsterinfo.nextframe = FRAME_death128;
+		search_for_player(self);
+		//gi.bprintf(PRINT_HIGH, "CHECK_FIRE: count = %i SKIPPING ATTACK\n", self->count);
+		return;
+	}
+	//gi.bprintf(PRINT_HIGH, "CHECK_FIRE: count = %i\n", self->count);
 
-    search_for_player(self);
+	search_for_player(self);
 }
+
 void death_reverse_anim_start_strict(edict_t* self)
 {
     if (self->monsterinfo.aiflags & AI_REVERSE_ANIM)
