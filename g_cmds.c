@@ -26,7 +26,7 @@ edict_t* debug_attack_ent;
 char* ClientTeam(edict_t* ent)
 {
 	char* p;
-	static char	value[512];
+	static char	value[512] = { 0 };
 
 	value[0] = 0;
 
@@ -807,8 +807,8 @@ void Cmd_Players_f(edict_t* ent)
 	int		i;
 	int		count;
 	char	small[64];
-	char	large[1280];
-	int		index[256];
+	char	large[1280] = { 0 };
+	int		index[256] = { 0 };
 
 	count = 0;
 	for (i = 0; i < maxclients->value; i++)
@@ -1004,7 +1004,7 @@ void Cmd_PlayerList_f(edict_t* ent)
 {
 	int i;
 	char string[80];
-	char text[1400];
+	char text[1400] = { 0 };
 	edict_t* e2;
 
 	// connect time, ping, score, name
@@ -1035,7 +1035,7 @@ void Cmd_debug_attack(edict_t* self)
 	trace_t tr;
 	vec3_t end;
 	vec3_t forward, right;
-	vec3_t	offset;
+	vec3_t	offset = { 0 };
 
 	VectorSet(offset, 0, 0, self->viewheight);
 	AngleVectors(self->client->v_angle, forward, right, NULL);
