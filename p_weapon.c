@@ -64,30 +64,30 @@ void Cmd_attack2b(edict_t * ent)
 	}
 	return;
 
-	//if (ent->client->pers.weapon == FindItem("shotgun"))
-	//{
-	//	ent->client->pers.secondary &= ~SECONDARY_SHOTGUN;
+	if (ent->client->pers.weapon == FindItem("shotgun"))
+	{
+		ent->client->pers.secondary &= ~SECONDARY_SHOTGUN;
 
-	//}
-	//else if (ent->client->pers.weapon == FindItem("railgun") && (ent->client->pers.secondary & SECONDARY_RAILGUN) && ent->client->weaponstate == WEAPON_FIRING)
-	//{
-	//	ent->client->pers.secondary &= ~SECONDARY_RAILGUN;
-	//}
-	//return;
-	//if (ent->client->pers.weapon == FindItem("grenade launcher"))
-	//{
-	//	ent->client->pers.secondary ^= SECONDARY_GRENADELAUNCHER;
-	//}
-	//else if (ent->client->pers.weapon == FindItem("rocket launcher"))
-	//{
-	//	ent->client->pers.secondary ^= SECONDARY_ROCKETLAUNCHER;
+	}
+	else if (ent->client->pers.weapon == FindItem("railgun") && (ent->client->pers.secondary & SECONDARY_RAILGUN) && ent->client->weaponstate == WEAPON_FIRING)
+	{
+		ent->client->pers.secondary &= ~SECONDARY_RAILGUN;
+	}
+	return;
+	if (ent->client->pers.weapon == FindItem("grenade launcher"))
+	{
+		ent->client->pers.secondary ^= SECONDARY_GRENADELAUNCHER;
+	}
+	else if (ent->client->pers.weapon == FindItem("rocket launcher"))
+	{
+		ent->client->pers.secondary ^= SECONDARY_ROCKETLAUNCHER;
 
-	//}
-	//else if (ent->client->pers.weapon == FindItem("grenades"))
-	//{
-	//	ent->client->pers.secondary ^= SECONDARY_GRENADES;
+	}
+	else if (ent->client->pers.weapon == FindItem("grenades"))
+	{
+		ent->client->pers.secondary ^= SECONDARY_GRENADES;
 
-	//}
+	}
 }
 
 void Cmd_DualWielda(edict_t * ent)
@@ -165,82 +165,82 @@ void Cmd_attack2a(edict_t * ent)
 			ent->client->pers.weapon_ext.mode = WEAPON_MODE_CHAINGUN_ACCELERATING;
 	}
 	return;
-	//char *msg;
-	//if (ent->client->pers.weapon == FindItem("blaster"))
-	//{
-	//	ent->client->pers.secondary ^= SECONDARY_BLASTER;
-	//}
-	//else if (ent->client->pers.weapon == FindItem("shotgun"))
-	//{
-	//	ent->client->pers.secondary ^= SECONDARY_SHOTGUN;
-	//}
-	//else if (ent->client->pers.weapon == FindItem("super shotgun") && !(ent->client->pers.secondary & SECONDARY_SUPERSHOTGUN) && ent->client->weaponstate != WEAPON_FIRING)
-	//{
-	//	ent->client->pers.secondary ^= SECONDARY_SUPERSHOTGUN;
-	//}
-	//else if (ent->client->pers.weapon == FindItem("machinegun") && ent->client->weaponstate == WEAPON_READY)
-	//{
-	//	ent->client->pers.secondary ^= SECONDARY_MACHINEGUN;
-	//}
+	char *msg;
+	if (ent->client->pers.weapon == FindItem("blaster"))
+	{
+		ent->client->pers.secondary ^= SECONDARY_BLASTER;
+	}
+	else if (ent->client->pers.weapon == FindItem("shotgun"))
+	{
+		ent->client->pers.secondary ^= SECONDARY_SHOTGUN;
+	}
+	else if (ent->client->pers.weapon == FindItem("super shotgun") && !(ent->client->pers.secondary & SECONDARY_SUPERSHOTGUN) && ent->client->weaponstate != WEAPON_FIRING)
+	{
+		ent->client->pers.secondary ^= SECONDARY_SUPERSHOTGUN;
+	}
+	else if (ent->client->pers.weapon == FindItem("machinegun") && ent->client->weaponstate == WEAPON_READY)
+	{
+		ent->client->pers.secondary ^= SECONDARY_MACHINEGUN;
+	}
 
-	//else if (ent->client->pers.weapon == FindItem("railgun") && !(ent->client->pers.secondary & SECONDARY_RAILGUN) && ent->client->weaponstate == WEAPON_READY)
-	//{
-	//	ent->client->pers.secondary ^= SECONDARY_RAILGUN;
-	//}
-	//else if (ent->client->pers.weapon == FindItem("bfg10k") && ent->client->weaponstate == WEAPON_READY)
-	//{
-	//	ent->client->pers.secondary ^= SECONDARY_BFG;
-	//}
-	//else if (ent->client->pers.weapon == FindItem("hyperblaster") && ent->client->weaponstate == WEAPON_READY)
-	//{
+	else if (ent->client->pers.weapon == FindItem("railgun") && !(ent->client->pers.secondary & SECONDARY_RAILGUN) && ent->client->weaponstate == WEAPON_READY)
+	{
+		ent->client->pers.secondary ^= SECONDARY_RAILGUN;
+	}
+	else if (ent->client->pers.weapon == FindItem("bfg10k") && ent->client->weaponstate == WEAPON_READY)
+	{
+		ent->client->pers.secondary ^= SECONDARY_BFG;
+	}
+	else if (ent->client->pers.weapon == FindItem("hyperblaster") && ent->client->weaponstate == WEAPON_READY)
+	{
 
-	//	ent->client->pers.secondary ^= SECONDARY_HYPERBLASTER;
+		ent->client->pers.secondary ^= SECONDARY_HYPERBLASTER;
 
-	//}
-	//return;
-	//if (ent->client->pers.weapon == FindItem("chaingun"))
-	//{
-	//	ent->client->pers.secondary ^= SECONDARY_CHAINGUN;
-	//	if (!(ent->client->pers.secondary & SECONDARY_CHAINGUN))
-	//	{
-	//		ent->client->pers.secondary ^= SECONDARY_CHAINGUN_DECCELERATE;
+	}
+	return;
+	if (ent->client->pers.weapon == FindItem("chaingun"))
+	{
+		ent->client->pers.secondary ^= SECONDARY_CHAINGUN;
+		if (!(ent->client->pers.secondary & SECONDARY_CHAINGUN))
+		{
+			ent->client->pers.secondary ^= SECONDARY_CHAINGUN_DECCELERATE;
 
-	//	}
-	//	if (ent->client->ps.pmove.pm_flags & PMF_DUCKED)
-	//	{
-	//		ent->s.frame = FRAME_crattak8 - 1;
-	//		ent->client->anim_end = FRAME_crattak9;
-	//	}
-	//	else
-	//	{
-	//		ent->s.frame = FRAME_attack6 - 1;
-	//		ent->client->anim_end = FRAME_attack8;
-	//	}
-	//}
+		}
+		if (ent->client->ps.pmove.pm_flags & PMF_DUCKED)
+		{
+			ent->s.frame = FRAME_crattak8 - 1;
+			ent->client->anim_end = FRAME_crattak9;
+		}
+		else
+		{
+			ent->s.frame = FRAME_attack6 - 1;
+			ent->client->anim_end = FRAME_attack8;
+		}
+	}
 
-	//else if (ent->client->pers.weapon == FindItem("shotgun"))
-	//{
-	//	ent->client->pers.secondary ^= SECONDARY_SHOTGUN;
-	//	if (!(ent->client->pers.secondary & SECONDARY_SHOTGUN))
-	//		msg = "SHOTGUN FULL AUTO MODE: OFF\n";
-	//	else
-	//		msg = "SHOTGUN FULL AUTO MODE: ON\n";
-	//	gi.cprintf(ent, PRINT_HIGH, msg);
-	//	gi.sound(ent, CHAN_VOICE, gi.soundindex("weapons/btnx.wav"), 0.5, ATTN_STATIC, 0);
-	//}
-	//else if (ent->client->pers.weapon == FindItem("rocket launcher"))
-	//{
-	//	ent->client->pers.secondary ^= SECONDARY_ROCKETLAUNCHER;
+	else if (ent->client->pers.weapon == FindItem("shotgun"))
+	{
+		ent->client->pers.secondary ^= SECONDARY_SHOTGUN;
+		if (!(ent->client->pers.secondary & SECONDARY_SHOTGUN))
+			msg = "SHOTGUN FULL AUTO MODE: OFF\n";
+		else
+			msg = "SHOTGUN FULL AUTO MODE: ON\n";
+		gi.cprintf(ent, PRINT_HIGH, msg);
+		gi.sound(ent, CHAN_VOICE, gi.soundindex("weapons/btnx.wav"), 0.5, ATTN_STATIC, 0);
+	}
+	else if (ent->client->pers.weapon == FindItem("rocket launcher"))
+	{
+		ent->client->pers.secondary ^= SECONDARY_ROCKETLAUNCHER;
 
-	//	//ent->client->ps.gunframe = 5;
+		//ent->client->ps.gunframe = 5;
 
 
-	//}
-	//else if (ent->client->pers.weapon == FindItem("grenades"))
-	//{
-	//	ent->client->pers.secondary ^= SECONDARY_GRENADES;
+	}
+	else if (ent->client->pers.weapon == FindItem("grenades"))
+	{
+		ent->client->pers.secondary ^= SECONDARY_GRENADES;
 
-	//}
+	}
 
 }
 

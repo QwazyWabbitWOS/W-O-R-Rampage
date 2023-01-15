@@ -26,7 +26,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #pragma warning(disable : 4244)	// conversion from 'type1' to 'type2', possible loss of data
 #pragma warning(disable : 4100)	// unreferenced formal parameter
 #pragma warning(disable : 4996)	// deprecated CRT functions (_CRT_SECURE_NO_WARNINGS).
-#pragma warning(disable : 4459)		// declaration of 'var' hides global declaration.
+#pragma warning(disable : 4459)	// declaration of 'var' hides global declaration.
+#pragma warning(disable : 4702)	// unreachable code (//QW// Some code has early returns.)
 #endif
 
 #include "performance.h" //QW//
