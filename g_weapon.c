@@ -834,7 +834,7 @@ void fire_blaster(edict_t* self, vec3_t start, vec3_t dir, int damage, int speed
 
 
 
-	if ((self->movetype == MOVETYPE_STEP || self->movetype == MOVETYPE_WALK) && self->client->pers.weapon == FindItem("blaster"))
+	if (self->movetype == MOVETYPE_STEP || (self->movetype == MOVETYPE_WALK && self->client->pers.weapon == FindItem("blaster")))
 	{
 		damage = damage * blaster_charge_calc(self, charge);
 	}
