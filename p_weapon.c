@@ -647,7 +647,8 @@ void check_pmodels(edict_t *ent)
 			i = ((ent->client->pers.weapon->weapmodel & 0xff) << 8);
 		else
 			i = 0;
-		ent->s.skinnum = (ent - g_edicts - 1) | i;
+		ent->s.skinnum = (ent - g_edicts - 1);
+		ent->s.skinnum |= i;
 	}
 	else
 		ent->client->pers.weapon->weapmodel = backup_model;
@@ -684,7 +685,8 @@ void ChangeWeapon(edict_t *ent)
 			i = ((ent->client->pers.weapon->weapmodel & 0xff) << 8);
 		else
 			i = 0;
-		ent->s.skinnum = (ent - g_edicts - 1) | i;
+		ent->s.skinnum = (ent - g_edicts - 1);
+		ent->s.skinnum |= i;
 	}
 
 	check_pmodels(ent);
