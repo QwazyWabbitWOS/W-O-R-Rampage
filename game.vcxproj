@@ -311,12 +311,16 @@
     <ClInclude Include="m_tank.h" />
     <ClInclude Include="performance.h" />
     <ClInclude Include="q_shared.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="game.def" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="GNUmakefile" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="game.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
