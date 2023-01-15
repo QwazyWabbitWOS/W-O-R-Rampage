@@ -88,16 +88,11 @@ game$(ARCH).real.$(SHLIBEXT) : $(GAME_OBJS)
 clean:
 	/bin/rm -f $(GAME_OBJS)
 
-depend:
-	$(CC) -MM $(GAME_OBJS:.o=.c)
-
 depends:
 	$(CC) $(CFLAGS) -MM *.c > dependencies
 
 all:
 	make clean
-	make depends
 	make
 
 -include dependencies
-
