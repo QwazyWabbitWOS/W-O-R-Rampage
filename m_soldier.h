@@ -520,6 +520,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define FRAME_run_r10           	496
 #define FRAME_run_r11           	497
 #define FRAME_run_r12           	498
+#define FRAME_runs_m01          	499
+#define FRAME_runs_m02          	500
+#define FRAME_runs_m03          	501
+#define FRAME_runs_m04          	502
+#define FRAME_runs_m05          	503
+#define FRAME_runs_m06          	504
+#define FRAME_runs_m07          	505
+#define FRAME_runs_m08          	506
+#define FRAME_runs_m09          	507
+#define FRAME_runs_m10          	508
+#define FRAME_runs_m11          	509
+#define FRAME_runs_m12          	510
+#define FRAME_runs_m13          	511
 
 #define MODEL_SCALE		1.000000
 

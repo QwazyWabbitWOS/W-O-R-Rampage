@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
- 
+
 See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "g_local.h"
 
-void Origin_WOffset(edict_t *self, vec3_t origin)
+void Origin_WOffset(edict_t* self, vec3_t origin)
 {
 	AngleVectors(self->s.angles, NULL, origin, NULL);
 	VectorMA(self->s.origin, self->monsterinfo.weapon_offset, origin, origin);
@@ -28,7 +28,7 @@ void Origin_WOffset(edict_t *self, vec3_t origin)
 	//spawn_m_muzzleflash(self, origin, self->s.origin, 0);
 }
 
-void M_avoid_danger(edict_t *self)
+void M_avoid_danger(edict_t* self)
 {
 	//gi.bprintf(PRINT_HIGH, "M_avoid_danger: FUNCTION START!\n");
 	if (deathmatch->value)
@@ -39,10 +39,10 @@ void M_avoid_danger(edict_t *self)
 
 	vec3_t point, prediction;
 	vec3_t	dir = { 0 };
-	edict_t *ent;
+	edict_t* ent;
 	int count = 0;
 	int i = 0;
-	edict_t *ignore;
+	edict_t* ignore;
 	trace_t tr;
 	vec3_t from = { 0 };
 	vec3_t	end;
@@ -59,7 +59,7 @@ void M_avoid_danger(edict_t *self)
 	VectorMA(self->s.origin, 8192, dir, end);
 
 
-	
+
 	VectorCopy(self->s.origin, from);
 
 
@@ -77,7 +77,7 @@ void M_avoid_danger(edict_t *self)
 			VectorCopy(tr.endpos, end_real);
 			ignore = NULL;
 		}
-			
+
 
 
 		VectorCopy(tr.endpos, from);
@@ -85,16 +85,16 @@ void M_avoid_danger(edict_t *self)
 	}
 
 	//gi.bprintf(PRINT_HIGH, "DEBUG: MONSTER AVOID DANGER: END POINT = %s!!!\n", vtos(end_real));
-	check:
+check:
 	ent = NULL;
 	if (count)
 		VectorMA(self->s.origin, radius, dir, prediction);
 	else
 	{
-	//	gi.bprintf(PRINT_HIGH, "DEBUG: MONSTER AVOID DANGER: STARTING!!! RADIUS = %f\n", radius);
+		//	gi.bprintf(PRINT_HIGH, "DEBUG: MONSTER AVOID DANGER: STARTING!!! RADIUS = %f\n", radius);
 		VectorCopy(self->s.origin, prediction);
 	}
-		
+
 
 	if (get_dist_point(prediction, end_real) < radius)
 	{
@@ -102,7 +102,7 @@ void M_avoid_danger(edict_t *self)
 		vec3_t prediction_backup = { 0 };
 		VectorCopy(prediction, prediction_backup);
 		VectorMA(prediction, radius - (radius - get_dist_point(prediction, end_real)), dir, prediction);
-	//	gi.bprintf(PRINT_HIGH, "DEBUG: MONSTER AVOID DANGER: REACHED WALL WHEN GOING TO %s!!! BACKING OFF TO %s!!!\n", vtos(prediction_backup), vtos(end_real));
+		//	gi.bprintf(PRINT_HIGH, "DEBUG: MONSTER AVOID DANGER: REACHED WALL WHEN GOING TO %s!!! BACKING OFF TO %s!!!\n", vtos(prediction_backup), vtos(end_real));
 	}
 
 	//spawn_explosion(prediction, TE_ROCKET_EXPLOSION);
@@ -115,15 +115,15 @@ void M_avoid_danger(edict_t *self)
 			continue;
 		if (!ent->monsterinfo.dodge)
 			continue;
-		
+
 		//so gunner doesn't dodge his own just launched grenade
-		if (self->owner_solid && self->owner_solid == ent && VectorLength(self->velocity) > 50) 
+		if (self->owner_solid && self->owner_solid == ent && VectorLength(self->velocity) > 50)
 		{
 			VectorMA(self->s.origin, 3, self->velocity, point);
 			VectorSubtract(self->owner_solid->s.origin, self->s.origin, point);
 			if (VectorLength(point) < self->dmg_radius * 1.5)
 				continue;
-			
+
 		}
 		if (!visible(ent, self) && random() > 0.25) //didn't hear, expand this at a later time
 			continue;
@@ -133,7 +133,7 @@ void M_avoid_danger(edict_t *self)
 		ent->monsterinfo.aiflags |= AI_JUMPDODGEPROJ;
 		ent->monsterinfo.aiflags |= AI_JUMPDODGE;
 		ent->monsterinfo.jump_ent = self;
-		
+
 		ent->monsterinfo.dodge(ent, self, 0);
 	}
 	if (count < 999 && count * radius < get_dist_point(self->s.origin, end_real) && VectorLength(self->velocity))
@@ -145,103 +145,253 @@ void M_avoid_danger(edict_t *self)
 		//gi.bprintf(PRINT_HIGH, "DEBUG: MONSTER AVOID DANGER: ENDED AT %i TRIES!!!\n", count);
 
 }
+int cmp(const void* v1, const void* v2) {
+	float f1 = *((float*)v1);
+	float f2 = *((float*)v2);
+	if (f1 > f2)
+		return -1;
+	else if (f1 < f2)
+		return 1;
+	return 0;
+}
+int cmp2(const void* v1, const void* v2) {
+	// Code need improvement to well handle Not-a-numbers.
+	const float* p1 = v1;
+	const float* p2 = v2;
+	if (p1[0] == p2[0]) {
+		return (p1[1] > p2[1]) - (p1[1] < p2[1]);
+	}
+	return (p1[0] > p2[0]) - (p1[0] < p2[0]);
+}
 
-void monster_jump(edict_t *self)
+void monster_jump(edict_t* self)
 {
-	if(!(self->monsterinfo.aiflags & AI_JUMPDODGE) && !(self->monsterinfo.aiflags & AI_JUMPDODGEPROJ))
+	if (!(self->monsterinfo.aiflags & AI_JUMPDODGE) && !(self->monsterinfo.aiflags & AI_JUMPDODGEPROJ))
 		return;
 	if (!self->groundentity)
 		return;
+
 	vec3_t left, right;
 	vec3_t	jump_dir = { 0 };
 	vec3_t	back, front;
-	float f_left, f_right, f_back, f_front;
 
+	float scan_fraction[NUM_J_DIRS][2] =
+	{
+		{0.0f, 0.0f},
+		{0.0f, 0.0f},
+		{0.0f, 0.0f},
+		{0.0f, 0.0f}
+	};
+
+	int fraction_order[NUM_J_DIRS] =
+	{
+		0, 0, 0, 0
+	};
+
+	int i = 0, each_tr_incomplete = 0, num_fullyenabled = 0, no_random_dir = 1, random_count = 0;
 
 
 	if (self->monsterinfo.aiflags & AI_JUMPDODGEPROJ && self->monsterinfo.jump_ent)
 	{
-		
-			VectorSubtract(self->s.origin, self->monsterinfo.jump_ent->s.origin, jump_dir);
-			//gi.bprintf(PRINT_HIGH, "monster_jump: should jump away from projectile!\n");
-			jump_dir[2] *= 0.25;
+
+		VectorSubtract(self->s.origin, self->monsterinfo.jump_ent->s.origin, jump_dir);
+		//gi.bprintf(PRINT_HIGH, "monster_jump: should jump away from projectile!\n");
+		jump_dir[2] *= 0.25;
+		VectorNormalize(jump_dir);
+		vec3_t end;
+		VectorMA(self->s.origin, 128, jump_dir, end);
+		trace_t tr = gi.trace(self->s.origin, NULL, NULL, end, self, MASK_SHOT);
+		if (tr.fraction != 1)
+		{
+			VectorInverse(jump_dir);
+			jump_dir[0] *= 1 + (crandom() * 0.25);
+			jump_dir[0] *= 1 + (crandom() * 0.25);
 			VectorNormalize(jump_dir);
-			vec3_t end;
-			VectorMA(self->s.origin, 128, jump_dir, end);
-			trace_t tr = gi.trace(self->s.origin, NULL, NULL, end, self, MASK_SHOT);
-			if (tr.fraction != 1)
-			{
-				VectorInverse(jump_dir);
-				jump_dir[0] *= 1 + (crandom() * 0.25);
-				jump_dir[0] *= 1 + (crandom() * 0.25);
-				VectorNormalize(jump_dir);
-				//gi.bprintf(PRINT_HIGH, "monster_jump: should jump away from projectile!, path is blocked, so go randomly towards projectile\n");
-			}
-			//else
-				//gi.bprintf(PRINT_HIGH, "monster_jump: should jump away from projectile!\n");
+			//gi.bprintf(PRINT_HIGH, "monster_jump: should jump away from projectile!, path is blocked, so go randomly towards projectile\n");
+		}
+		//else
+			//gi.bprintf(PRINT_HIGH, "monster_jump: should jump away from projectile!\n");
 
 	}
 	else
 	{
 		//gi.bprintf(PRINT_HIGH, "monster_jump: should jump away from danger!\n");
+		scan_fraction[FRAC_LEFT][FR_VAL] = scan_dir(self, SCAN_LEFT, 128, left);
+		scan_fraction[FRAC_RIGHT][FR_VAL] = scan_dir(self, SCAN_RIGHT, 128, right);
+		scan_fraction[FRAC_BACK][FR_VAL] = scan_dir(self, SCAN_BACKWARDS, 128, back);
+		scan_fraction[FRAC_FORWARD][FR_VAL] = scan_dir(self, SCAN_FORWARD, 128, front);
+		//gi.bprintf(PRINT_HIGH, "monster_jump: left = %f, right = %f, back = %f, forw = %f!\n", scan_fraction[FRAC_LEFT][FR_VAL], scan_fraction[FRAC_RIGHT][FR_VAL], scan_fraction[FRAC_BACK][FR_VAL], scan_fraction[FRAC_FORWARD][FR_VAL]);
 
-		f_left = scan_dir(self, SCAN_LEFT, 128, left);
-		f_right = scan_dir(self, SCAN_RIGHT, 128, right);
-		f_back = scan_dir(self, SCAN_BACKWARDS, 128, back);
-		f_front = scan_dir(self, SCAN_FORWARD, 128, front);
-		if (self->monsterinfo.aiflags & AI_JUMPATTACK)
+		if (scan_fraction[FRAC_LEFT][FR_VAL] != COMPLETE_TR_FRACTION && scan_fraction[FRAC_RIGHT][FR_VAL] != COMPLETE_TR_FRACTION && scan_fraction[FRAC_BACK][FR_VAL] != COMPLETE_TR_FRACTION && scan_fraction[FRAC_FORWARD][FR_VAL] != COMPLETE_TR_FRACTION)
+			each_tr_incomplete = 1;
+
+		if (scan_fraction[FRAC_LEFT][FR_VAL] == COMPLETE_TR_FRACTION)
+		{
+			num_fullyenabled++;
+			scan_fraction[FRAC_LEFT][FR_ENABLED] = ENABLED_FULLY;
+		}
+		if (scan_fraction[FRAC_RIGHT][FR_VAL] == COMPLETE_TR_FRACTION)
+		{
+			num_fullyenabled++;
+			scan_fraction[FRAC_RIGHT][FR_ENABLED] = ENABLED_FULLY;
+		}
+		if (scan_fraction[FRAC_BACK][FR_VAL] == COMPLETE_TR_FRACTION)
+		{
+			num_fullyenabled++;
+			scan_fraction[FRAC_BACK][FR_ENABLED] = ENABLED_FULLY;
+		}
+		if (scan_fraction[FRAC_FORWARD][FR_VAL] == COMPLETE_TR_FRACTION)
+		{
+			num_fullyenabled++;
+			scan_fraction[FRAC_FORWARD][FR_ENABLED] = ENABLED_FULLY;
+		}
+
+		if (self->monsterinfo.aiflags & AI_JUMPATTACK && scan_fraction[FRAC_FORWARD][FR_VAL] > 1.0f) //let's skip this for now
 		{
 			self->monsterinfo.aiflags &= ~AI_JUMPATTACK;
 			//gi.bprintf(PRINT_HIGH, "monster_jump: should jump forward!\n");
-			goto jump_attack;
-		}
-		//gi.bprintf(PRINT_HIGH, "monster_jump: left = %f, right = %f, back = %f, front = %f\n", f_left, f_right, f_back, f_front);
-		if (f_left < f_right && f_right > 0.5)
-		{
-		//	gi.bprintf(PRINT_HIGH, "monster_jump: JUMP LEFT\n");
-			VectorSubtract(self->s.origin, left, jump_dir);
-		}
-		else if (f_left > f_right && f_left > 0.5)
-		{
-		//	gi.bprintf(PRINT_HIGH, "monster_jump: JUMP RIGHT\n");
-			VectorSubtract(self->s.origin, right, jump_dir);
-		}
-		else if (f_back < f_front)
-		{
-		//	gi.bprintf(PRINT_HIGH, "monster_jump: JUMP BACK\n");
-			VectorSubtract(self->s.origin, back, jump_dir);
-		}
-		else if (f_back > f_front)
-		{
-			//gi.bprintf(PRINT_HIGH, "monster_jump: JUMP FRONT\n");
-			jump_attack:
+			//goto jump_attack;
 			VectorSubtract(self->s.origin, front, jump_dir);
 		}
 		else
 		{
-			switch (rand() % 4)
+			//gi.bprintf(PRINT_HIGH, "monster_jump: starting qsort!\n");
+			size_t element_count = sizeof scan_fraction / sizeof scan_fraction[0]; // or NUM_J_DIRS
+			size_t element_size = sizeof scan_fraction[0];
+			qsort(scan_fraction, element_count, element_size, cmp2);
+			for (i = 0; i < NUM_J_DIRS; i++)
 			{
-			case 0:
-				//gi.bprintf(PRINT_HIGH, "monster_jump: JUMP LEFT(RANDOM)\n");
-				VectorSubtract(self->s.origin, left, jump_dir);
-				break;
-			case 1:
-				//gi.bprintf(PRINT_HIGH, "monster_jump: JUMP RIGHT(RANDOM)\n");
-				VectorSubtract(self->s.origin, right, jump_dir);
-				break;
-			case 2:
-				//gi.bprintf(PRINT_HIGH, "monster_jump: JUMP BACK(RANDOM)\n");
-				VectorSubtract(self->s.origin, back, jump_dir);
-				break;
-			case 3:
-				//gi.bprintf(PRINT_HIGH, "monster_jump: JUMP FRONT(RANDOM)\n");
-				VectorSubtract(self->s.origin, front, jump_dir);
-				break;
+				//gi.bprintf(PRINT_HIGH, "monster_jump: running qsort! i = %i, (scan_fraction[i][FR_VAL] = %f, \n", i, (scan_fraction[i][FR_VAL]));
+
+				fraction_order[i] = i;
+				if (each_tr_incomplete)
+				{
+					//gi.bprintf(PRINT_HIGH, "monster_jump: each trace was incomplete\n", i);
+					scan_fraction[i][FR_ENABLED] = ENABLED_CONDITIONALLY;
+
+				}
+				else if (scan_fraction[i][FR_VAL] > 0.85f)
+					scan_fraction[i][FR_ENABLED] = ENABLED_FULLY;
+
+			}
+
+			//gi.bprintf(PRINT_HIGH, "monster_jump: ended qsort! %f %f %f %f\n", scan_fraction[fraction_order[0]][FR_VAL], scan_fraction[fraction_order[1]][FR_VAL], scan_fraction[fraction_order[2]][FR_VAL], scan_fraction[fraction_order[3]][FR_VAL]);
+
+			if (num_fullyenabled) //there is at least one direction that can be used
+			{
+			full_traces:
+				random_count++;
+				//gi.bprintf(PRINT_HIGH, "monster_jump: choosing from full traces, num = %i!\n", random_count);
+				if (random_count >= RANDOM_FR_MAX_COUNT)
+					goto random_direction;
+
+				switch (fraction_order[rand() % num_fullyenabled])
+				{
+				case FRAC_LEFT:
+					if (scan_fraction[FRAC_LEFT][FR_ENABLED] != ENABLED_FULLY)
+					{
+						//gi.bprintf(PRINT_HIGH, "monster_jump: LEFT is disabled, retry\n");
+						goto full_traces;
+					}
+					//gi.bprintf(PRINT_HIGH, "monster_jump: JUMP LEFT(FULL + RANDOM)\n");
+					VectorSubtract(self->s.origin, right, jump_dir);
+					break;
+				case FRAC_RIGHT:
+					if (scan_fraction[FRAC_RIGHT][FR_ENABLED] != ENABLED_FULLY)
+					{
+						//gi.bprintf(PRINT_HIGH, "monster_jump: RIGHT is disabled, retry\n");
+						goto full_traces;
+					}
+					//gi.bprintf(PRINT_HIGH, "monster_jump: JUMP RIGHT(FULL + RANDOM)\n");
+					VectorSubtract(self->s.origin, left, jump_dir);
+					break;
+				case FRAC_BACK:
+					if (scan_fraction[FRAC_BACK][FR_ENABLED] != ENABLED_FULLY)
+					{
+						//gi.bprintf(PRINT_HIGH, "monster_jump: BACK is disabled, retry\n");
+						goto full_traces;
+					}
+					//gi.bprintf(PRINT_HIGH, "monster_jump: JUMP BACK(FULL + RANDOM)\n");
+					VectorSubtract(self->s.origin, front, jump_dir);
+					break;
+				case FRAC_FORWARD:
+					if (scan_fraction[FRAC_FORWARD][FR_ENABLED] != ENABLED_FULLY)
+					{
+						//gi.bprintf(PRINT_HIGH, "monster_jump: FORWARD is disabled, retry\n");
+						goto full_traces;
+					}
+					//gi.bprintf(PRINT_HIGH, "monster_jump: JUMP FRONT(FULL + RANDOM)\n");
+					VectorSubtract(self->s.origin, back, jump_dir);
+					break;
+				}
+			}
+			else if (no_random_dir)
+			{
+
+			sorted_traces:
+
+				random_count++;
+				//gi.bprintf(PRINT_HIGH, "monster_jump: choosing from sorted, num = %i!\n", random_count);
+				if (random_count >= RANDOM_FR_MAX_COUNT)
+					goto random_direction;
+
+				switch (fraction_order[0])
+				{
+				case FRAC_LEFT:
+					if (!scan_fraction[FRAC_LEFT][FR_ENABLED])
+						goto sorted_traces;
+					//gi.bprintf(PRINT_HIGH, "monster_jump: JUMP LEFT(sorted + RANDOM)\n");
+					VectorSubtract(self->s.origin, right, jump_dir);
+					break;
+				case FRAC_RIGHT:
+					if (!scan_fraction[FRAC_RIGHT][FR_ENABLED])
+						goto sorted_traces;
+					//gi.bprintf(PRINT_HIGH, "monster_jump: JUMP RIGHT(sorted + RANDOM)\n");
+					VectorSubtract(self->s.origin, left, jump_dir);
+					break;
+				case FRAC_BACK:
+					if (!scan_fraction[FRAC_BACK][FR_ENABLED])
+						goto sorted_traces;
+					//gi.bprintf(PRINT_HIGH, "monster_jump: JUMP BACK(sorted + RANDOM)\n");
+					VectorSubtract(self->s.origin, front, jump_dir);
+					break;
+				case FRAC_FORWARD:
+					if (!scan_fraction[FRAC_FORWARD][FR_ENABLED])
+						goto sorted_traces;
+					//gi.bprintf(PRINT_HIGH, "monster_jump: JUMP FRONT(sorted + RANDOM)\n");
+					VectorSubtract(self->s.origin, back, jump_dir);
+					break;
+				}
+			}
+			else
+			{
+			random_direction:
+				//gi.bprintf(PRINT_HIGH, "monster_jump: choosing from random dir!\n");
+
+				switch (rand() % 4)
+				{
+				case FRAC_LEFT:
+					//gi.bprintf(PRINT_HIGH, "monster_jump: JUMP LEFT(RANDOM)\n");
+					VectorSubtract(self->s.origin, right, jump_dir);
+					break;
+				case FRAC_RIGHT:
+					//gi.bprintf(PRINT_HIGH, "monster_jump: JUMP RIGHT(RANDOM)\n");
+					VectorSubtract(self->s.origin, left, jump_dir);
+					break;
+				case FRAC_BACK:
+					//gi.bprintf(PRINT_HIGH, "monster_jump: JUMP BACK(RANDOM)\n");
+					VectorSubtract(self->s.origin, front, jump_dir);
+					break;
+				case FRAC_FORWARD:
+					//gi.bprintf(PRINT_HIGH, "monster_jump: JUMP FRONT(RANDOM)\n");
+					VectorSubtract(self->s.origin, back, jump_dir);
+					break;
+				}
 			}
 		}
 		VectorNormalize(jump_dir);
 	}
-	
+
 	VectorMA(self->velocity, 300 + (100 * random()), jump_dir, self->velocity);
 
 	self->velocity[2] += 150 + random() * 50;
@@ -249,17 +399,13 @@ void monster_jump(edict_t *self)
 	self->monsterinfo.aiflags &= ~AI_JUMPDODGEPROJ;
 	self->monsterinfo.aiflags &= ~AI_JUMPDODGE;
 
-
-
 	gi.sound(self, CHAN_AUTO, gi.soundindex(va("player/step%i.wav", rand() % 5)), 1, ATTN_IDLE, 0);
 	gi.sound(self, CHAN_AUTO, gi.soundindex(va("player/step%i.wav", rand() % 5)), 1, ATTN_IDLE, 0.05f);
-
-
 }
 
-qboolean ffire_radius_check(edict_t *self)
+qboolean ffire_radius_check(edict_t* self)
 {
-	edict_t *ent = NULL;
+	edict_t* ent = NULL;
 	if (!self->enemy)
 		return true;
 	while ((ent = findradius(ent, self->monsterinfo.aiming_at, MONSTER_RADIUSDMGAVOID_RADIUS)) != NULL)
@@ -283,7 +429,7 @@ qboolean ffire_radius_check(edict_t *self)
 
 	return false;
 }
-void predict_shot(edict_t *self, vec3_t origin, float proj_speed, vec3_t end, int type)
+void predict_shot(edict_t* self, vec3_t origin, float proj_speed, vec3_t end, int type)
 {
 	vec3_t vel = { 0 };
 	vec3_t vec = { 0 };
@@ -304,10 +450,10 @@ void predict_shot(edict_t *self, vec3_t origin, float proj_speed, vec3_t end, in
 		M_calcstrafepos(self, end);
 		//VectorCopy(end, self->enemy->s.origin);
 		//spawn_explosion(end, TE_GRENADE_EXPLOSION_WATER);
-		
+
 		return;
 	}
-	if(proj_speed == -1)
+	if (proj_speed == -1)
 	{
 		no_correction = 1;
 		proj_speed = 0;
@@ -330,12 +476,12 @@ void predict_shot(edict_t *self, vec3_t origin, float proj_speed, vec3_t end, in
 
 	if (self->enemy->health <= 0 || self->enemy->maxs[2] <= 8) //dead or crouched
 	{
-		if(self->enemy->maxs[2])
+		if (self->enemy->maxs[2])
 			enemy_origin[2] -= fabsf(self->enemy->maxs[2]) * 3;
 		else
 			enemy_origin[2] -= fabsf(self->enemy->mins[2]) * 0.5;
 	}
-		
+
 
 	else if (self->enemy->client && self->enemy->health >= 0)
 		enemy_origin[2] += self->viewheight * 0.5;
@@ -358,30 +504,34 @@ void predict_shot(edict_t *self, vec3_t origin, float proj_speed, vec3_t end, in
 		spread[0] *= clamp((32 - (skill->value * 3)), 32, 1);
 		spread[1] *= clamp((32 - (skill->value * 3)), 32, 1);
 		spread[2] *= clamp((16 - (skill->value * 2)), 16, 1);
-		
+
 		if (self->monsterinfo.monster_type == MONSTER_SOLDIER)
 		{
 			if (self->s.frame >= 109 && self->s.frame <= 126) // runshoot
 			{
+				VectorScale(spread, 2.0, spread);
+			}
+			else if (self->s.frame >= 1 && self->s.frame <= 9) // hipshot
+			{
 				VectorScale(spread, 1.5, spread);
 			}
-			if (self->s.frame >= 272 && self->s.frame <= 474) // dead
+			else if (self->s.frame >= 272 && self->s.frame <= 474) // dead
 			{
 				VectorScale(spread, 4.0, spread);
 			}
 		}
 		div = clamp((float)(self->max_health + 1) * 0.01, 9999, 1);
-		VectorScale(spread, 1 + clamp(((self->monsterinfo.temp_inaccuracy * TEMP_INACCURACY_DIVIDER) / div), MAX_TEMP_INACCURACY_MULTIPLIER,0), spread);
+		VectorScale(spread, 1 + clamp(((self->monsterinfo.temp_inaccuracy * TEMP_INACCURACY_DIVIDER) / div), MAX_TEMP_INACCURACY_MULTIPLIER, 0), spread);
 		VectorScale(spread, self->monsterinfo.aimdur, spread);
 		dist2d = clamp(get_dist2d(self, self->enemy), 9999, 0);
 		//gi.bprintf(PRINT_HIGH, "DEBUG: dist2d = %f\n", dist2d);
 		if (dist2d < PREDICT_SHOT_MIN_DIST)
 		{
-			VectorScale(spread, clamp(dist2d, 9999, 0) / (PREDICT_SHOT_MIN_DIST ), spread);
+			VectorScale(spread, clamp(dist2d, 9999, 0) / (PREDICT_SHOT_MIN_DIST), spread);
 		}
 		VectorCopy(spread, self->monsterinfo.spread);
 	}
-	
+
 
 	if (no_correction)
 	{
@@ -420,41 +570,41 @@ void predict_shot(edict_t *self, vec3_t origin, float proj_speed, vec3_t end, in
 			else
 				vel[2] *= 0.5 + (crandom() * 0.5); //if enemy is falling predict with half accuracy
 		}
-			
+
 
 		//if (self->s.skinnum < 2 && strcmp(self->classname, "monster_soldier_light") == 0 || proj_speed > 0) //why checking if it's only light guard???
 		//{
-		
+
 		if (proj_speed == 0)
 			prediction = 1;
-		else	
+		else
 		{
 			prediction = VectorLength(vec) / proj_speed;
-			prediction *= (1 / FRAMETIME) *2;
+			prediction *= (1 / FRAMETIME) * 2;
 		}
-				                                       
+
 		/*else if (proj_speed > VectorLength(vel))
 			prediction = VectorLength(vec) / (proj_speed - VectorLength(vel)); // diff(proj_speed, );
 		else
 			prediction = VectorLength(vec) / proj_speed;*/
-								
+
 			//prediction *= FRAMETIME * 10; //one frame, but old origin and old velocity, so two frames
 		//	if(skill->value > 3)
 			//	VectorScale(vel, prediction * (1.0 + (crandom() * clamp(0.5 - ((skill->value - 3) * 0.1), 0.5, 0.0))), vel);
 			//else
-			VectorScale(vel, prediction * self->monsterinfo.predict_skew, vel);
-			
-		//}
-			if (proj_speed > 500)
-			{
-				//gi.bprintf(PRINT_HIGH, "PREDICTION: vel = %s, classname = %s\n", vtos(vel), self->classname);
-				//gi.bprintf(PRINT_HIGH, "DEBUG: ENEMY = %s, Enemy predict = %s, start = %s, modifier = %s\n", vtos(self->enemy->s.origin), vtos(enemy_origin), vtos(origin), vtos(vec));
+		VectorScale(vel, prediction * self->monsterinfo.predict_skew, vel);
 
-			}
-			else
-			{
-				//gi.bprintf(PRINT_HIGH, "DEBUG: predict_skew = %f\n", self->monsterinfo.predict_skew);
-			}
+		//}
+		if (proj_speed > 500)
+		{
+			//gi.bprintf(PRINT_HIGH, "PREDICTION: vel = %s, classname = %s\n", vtos(vel), self->classname);
+			//gi.bprintf(PRINT_HIGH, "DEBUG: ENEMY = %s, Enemy predict = %s, start = %s, modifier = %s\n", vtos(self->enemy->s.origin), vtos(enemy_origin), vtos(origin), vtos(vec));
+
+		}
+		else
+		{
+			//gi.bprintf(PRINT_HIGH, "DEBUG: predict_skew = %f\n", self->monsterinfo.predict_skew);
+		}
 
 
 		//gi.bprintf(PRINT_HIGH, " vec vel frame = %s, vel frame = %f, predm = %f, pred = %s, predl = %f\n", vtos(vel_frame), VectorLength(vel_frame), prediction, vtos(vel), VectorLength(vel));
@@ -462,19 +612,19 @@ void predict_shot(edict_t *self, vec3_t origin, float proj_speed, vec3_t end, in
 		//VectorAdd(end, vel, end);
 		//debug_trail(self->s.origin, end);
 		//gi.bprintf(PRINT_HIGH, "PREDICT SHOT: CHANGE, o1 = %s, o2 = %s, vel = %s\n", vtos(self->enemy->s.origin), vtos(self->enemy->s.old_origin), vtos(vel));
-	
+
 		VectorAdd(end, vel, end);
 
 	}
-	
+
 	//if(self->monsterinfo.monster_type == MONSTER_GUNNER)
 		//gi.bprintf(PRINT_HIGH, "DEBUG: ENEMY = %s, Enemy predict = %s, start = %s, modifier = %s\n", vtos(self->enemy->s.origin), vtos(enemy_origin), vtos(origin), vtos(vec));
-	
+
 	VectorAdd(enemy_origin, end, end);
 	VectorCopy(end, self->monsterinfo.aiming_at);
 	//spawn_explosion(end, TE_ROCKET_EXPLOSION_WATER);
 	//if (no_correction)
-		return;
+	return;
 	//below should not be used when predicting monster angles!
 	//float dot;
 	//float difference;
@@ -490,7 +640,7 @@ void predict_shot(edict_t *self, vec3_t origin, float proj_speed, vec3_t end, in
 
 	//aim_angles[YAW] = self->s.angles[YAW];
 	//AngleVectors(self->s.angles, forward, NULL, NULL);
-	
+
 	//VectorNormalize(dir_prediction);
 	//forward[2] = dir_prediction[2]; // don't correct vertical prediction
 	//dot = DotProduct(forward, dir_prediction);
@@ -511,10 +661,10 @@ void predict_shot(edict_t *self, vec3_t origin, float proj_speed, vec3_t end, in
 	//	gi.bprintf(PRINT_HIGH, "PREDICT SHOT: NO CHANGE, o1 = %s, o2 = %s\n", vtos(self->enemy->s.origin), vtos(self->enemy->s.old_origin));
 }
 
-qboolean FindTarget(edict_t *self);
-extern cvar_t	*maxclients;
+qboolean FindTarget(edict_t* self);
+extern cvar_t* maxclients;
 
-qboolean ai_checkattack(edict_t *self, float dist);
+qboolean ai_checkattack(edict_t* self, float dist);
 
 qboolean	enemy_vis;
 qboolean	enemy_infront;
@@ -530,7 +680,7 @@ visible
 returns 1 if the entity is visible to self, even if not infront ()
 =============
 */
-qboolean visible_shootable(edict_t *self, edict_t *other)
+qboolean visible_shootable(edict_t* self, edict_t* other)
 {
 	vec3_t	spot1 = { 0 };
 	vec3_t	spot2 = { 0 };
@@ -574,7 +724,7 @@ qboolean visible_shootable(edict_t *self, edict_t *other)
 	return false;
 }
 
-qboolean visible(edict_t *self, edict_t *other)
+qboolean visible(edict_t* self, edict_t* other)
 {
 	vec3_t	spot1 = { 0 };
 	vec3_t	spot2 = { 0 };
@@ -612,7 +762,7 @@ qboolean visible(edict_t *self, edict_t *other)
 	return false;
 }
 
-qboolean visible_point(edict_t *self, edict_t *other, vec3_t point)
+qboolean visible_point(edict_t* self, edict_t* other, vec3_t point)
 {
 	vec3_t	spot1 = { 0 };
 	vec3_t	spot2 = { 0 };
@@ -645,7 +795,7 @@ infront
 returns 1 if the entity is in front (in sight) of self
 =============
 */
-qboolean infront(edict_t *self, edict_t *other)
+qboolean infront(edict_t* self, edict_t* other)
 {
 	vec3_t	vec = { 0 };
 	float	dot;
@@ -661,7 +811,7 @@ qboolean infront(edict_t *self, edict_t *other)
 	return false;
 }
 
-qboolean infront_aiming(edict_t *self, edict_t *other)
+qboolean infront_aiming(edict_t* self, edict_t* other)
 {
 	vec3_t	vec = { 0 };
 	float	dot;
@@ -672,17 +822,17 @@ qboolean infront_aiming(edict_t *self, edict_t *other)
 	VectorNormalize(vec);
 	dot = DotProduct(vec, forward);
 	float minval = 0.965 + (range_units(self, other) * 0.0001396);
-	
+
 	//gi.bprintf(PRINT_HIGH, "MONSTER THINK: DOT = %f, MINVAL = %f, MINVALMAX = %f, range = %f\n", dot, minval, clamp(minval, 0.9999, 0), range_units(self, other));
 	minval = clamp(minval, 0.9999f, 0);
-	if (dot  > minval)
+	if (dot > minval)
 		return true;
 
 
 	return false;
 }
 
-qboolean infront_point_dir(edict_t *self, vec3_t point)
+qboolean infront_point_dir(edict_t* self, vec3_t point)
 {
 	vec3_t	vec = { 0 };
 	float	dot;
@@ -698,7 +848,7 @@ qboolean infront_point_dir(edict_t *self, vec3_t point)
 	return false;
 }
 
-void check_move_dir(edict_t *self, vec3_t point)
+void check_move_dir(edict_t* self, vec3_t point)
 {
 	if (!self->enemy || self->svflags & SVF_NOANGLECHASE)
 		return;
@@ -708,7 +858,7 @@ void check_move_dir(edict_t *self, vec3_t point)
 	//float	speed;
 	vec3_t temp = { 0 };
 	current = anglemod(self->s.angles[YAW]);
-
+	//gi.bprintf(PRINT_HIGH, "DEBUG: CHECKING MOVE DIR!");
 	VectorSubtract(point, self->s.origin, temp);
 	ideal = vectoyaw(temp);
 	move = ideal - current;
@@ -726,6 +876,7 @@ void check_move_dir(edict_t *self, vec3_t point)
 	}
 	qboolean backwards = false;
 	float angle_difference = get_angledifference(self, ANGLE_FORWARD);
+	gi.bprintf(PRINT_HIGH, "DEBUG: CHECKING MOVE DIR!, angle_difference = %f\n", angle_difference);
 	if (angle_difference > 0.75 || angle_difference < -0.75)
 	{
 		self->monsterinfo.move_dir = MOVE_STRAIGHT;
@@ -762,7 +913,7 @@ void check_move_dir(edict_t *self, vec3_t point)
 
 
 	}
-	
+
 	/*if (infront_point_dir(self, point))
 	{
 		self->monsterinfo.move_dir = MOVE_STRAIGHT;
@@ -776,14 +927,14 @@ void check_move_dir(edict_t *self, vec3_t point)
 		self->monsterinfo.move_dir = MOVE_RIGHT;
 	}*/
 
-	
+
 	//gi.bprintf(PRINT_HIGH, "check_move_dir:  %i\n", self->monsterinfo.move_dir);
-	
+
 }
 
 
 
-qboolean infront_point(edict_t *self, vec3_t point)
+qboolean infront_point(edict_t* self, vec3_t point)
 {
 	vec3_t	vec = { 0 };
 	float	dot;
@@ -814,7 +965,7 @@ In coop games, sight_client will cycle between the clients.
 */
 void AI_SetSightClient(void)
 {
-	edict_t	*ent;
+	edict_t* ent;
 	int		start, check;
 
 	if (level.sight_client == NULL)
@@ -845,7 +996,7 @@ void AI_SetSightClient(void)
 }
 
 //============================================================================
-void M_unstuck_body_from_wall(edict_t *self)
+void M_unstuck_body_from_wall(edict_t* self)
 {
 	if (self->health > 0)
 		return;
@@ -856,7 +1007,7 @@ void M_unstuck_body_from_wall(edict_t *self)
 	int mode = 0;
 
 	AngleVectors(self->s.angles, forward, NULL, NULL);
-	VectorMA(self->s.origin, fabsf(self->maxs[0]) + fabsf(self->maxs[1])*1.25, forward, end);
+	VectorMA(self->s.origin, fabsf(self->maxs[0]) + fabsf(self->maxs[1]) * 1.25, forward, end);
 	tr = gi.trace(self->s.origin, NULL, NULL, end, self, CONTENTS_SOLID);
 	if (tr.fraction != 1)
 	{
@@ -864,7 +1015,7 @@ void M_unstuck_body_from_wall(edict_t *self)
 	}
 	VectorCopy(forward, backwards);
 	VectorInverse(backwards);
-	VectorMA(self->s.origin, fabsf(self->maxs[0]) + fabsf(self->maxs[1])*1.25, backwards, end);
+	VectorMA(self->s.origin, fabsf(self->maxs[0]) + fabsf(self->maxs[1]) * 1.25, backwards, end);
 	tr = gi.trace(self->s.origin, NULL, NULL, end, self, CONTENTS_SOLID);
 	if (tr.fraction != 1)
 	{
@@ -890,11 +1041,11 @@ Move the specified distance at current facing.
 This replaces the QC functions: ai_forward, ai_back, ai_pain, and ai_painforward
 ==============
 */
-void ai_move(edict_t *self, float dist)
+void ai_move(edict_t* self, float dist)
 {
-	if(!(self->monsterinfo.monster_type == MONSTER_SOLDIER && check_frames(self, Sol_death5_start, Sol_death5_end) &&
+	if (!(self->monsterinfo.monster_type == MONSTER_SOLDIER && check_frames(self, Sol_death5_start, Sol_death5_end) &&
 		!(self->monsterinfo.aiflags & AI_REVERSE_ANIM)))
-	M_walkmove(self, self->s.angles[YAW], dist);
+		M_walkmove(self, self->s.angles[YAW], dist);
 	M_unstuck_body_from_wall(self);
 }
 
@@ -907,7 +1058,7 @@ Used for standing around and looking for players
 Distance is for slight position adjustments needed by the animations
 ==============
 */
-void ai_stand(edict_t *self, float dist)
+void ai_stand(edict_t* self, float dist)
 {
 	vec3_t	v = { 0 };
 
@@ -945,7 +1096,7 @@ void ai_stand(edict_t *self, float dist)
 		return;
 	}
 
-	idle:
+idle:
 	if (!(self->spawnflags & 1) && (self->monsterinfo.idle) && (level.time > self->monsterinfo.idle_time))
 	{
 		if (self->monsterinfo.idle_time)
@@ -968,7 +1119,7 @@ ai_walk
 The monster is walking it's beat
 =============
 */
-void ai_walk(edict_t *self, float dist)
+void ai_walk(edict_t* self, float dist)
 {
 	M_MoveToGoal(self, dist);
 
@@ -999,7 +1150,7 @@ Turns towards target and advances
 Use this call with a distnace of 0 to replace ai_face
 ==============
 */
-void ai_charge(edict_t *self, float dist)
+void ai_charge(edict_t* self, float dist)
 {
 	vec3_t	v = { 0 };
 	//vec3_t temp;
@@ -1023,7 +1174,7 @@ void ai_charge(edict_t *self, float dist)
 	//gi.bprintf(PRINT_HIGH, "AI CHARGE, UPDATE IDEAL YAW\n");
 
 	M_ChangeYaw(self);
-	skip:
+skip:
 	if (dist)
 		M_walkmove(self, self->s.angles[YAW], dist);
 }
@@ -1037,7 +1188,7 @@ don't move, but turn towards ideal_yaw
 Distance is for slight position adjustments needed by the animations
 =============
 */
-void ai_turn(edict_t *self, float dist)
+void ai_turn(edict_t* self, float dist)
 {
 	if (dist)
 		M_walkmove(self, self->s.angles[YAW], dist);
@@ -1086,11 +1237,11 @@ returns the range catagorization of an entity reletive to self
 3	only triggered by damage
 =============
 */
-int range(edict_t *self, edict_t *other)
+int range(edict_t* self, edict_t* other)
 {
 	vec3_t	v = { 0 };
 	float	len;
-	float melee_distance = (fabsf(self->mins[0]) + fabsf(self->mins[1]) + fabsf(other->mins[0]) + fabsf(other->mins[1]))* 0.75 ;
+	float melee_distance = (fabsf(self->mins[0]) + fabsf(self->mins[1]) + fabsf(other->mins[0]) + fabsf(other->mins[1])) * 0.75f;
 	VectorSubtract(self->s.origin, other->s.origin, v);
 	v[2] *= 0.25f;
 	len = VectorLength(v);
@@ -1106,7 +1257,7 @@ int range(edict_t *self, edict_t *other)
 	return RANGE_VERYFAR;
 }
 
-float range_units(edict_t *self, edict_t *other)
+float range_units(edict_t* self, edict_t* other)
 {
 	vec3_t	v = { 0 };
 	float	len;
@@ -1115,14 +1266,14 @@ float range_units(edict_t *self, edict_t *other)
 	len = VectorLength(v);
 
 	return 	len;
-	
+
 }
 
 
 
 //============================================================================
 
-void HuntTarget(edict_t *self)
+void HuntTarget(edict_t* self)
 {
 	vec3_t	vec = { 0 };
 
@@ -1138,7 +1289,7 @@ void HuntTarget(edict_t *self)
 		AttackFinished(self, 0.1f);
 }
 
-void FoundTarget(edict_t *self)
+void FoundTarget(edict_t* self)
 {
 	// let other monsters see this monster for a while
 	if (self->enemy->client)
@@ -1148,7 +1299,7 @@ void FoundTarget(edict_t *self)
 		level.sight_entity->light_level = 128;
 	}
 	if (!(self->flags & FL_HEADSHOT))
-	self->show_hostile = level.time + 2;		// wake up other monsters //bughunt
+		self->show_hostile = level.time + 2;		// wake up other monsters //bughunt
 
 	VectorCopy(self->enemy->s.origin, self->monsterinfo.last_sighting);
 	self->monsterinfo.trail_time = level.time;
@@ -1198,9 +1349,9 @@ checked each frame.  This means multi player games will have slightly
 slower noticing monsters.
 ============
 */
-qboolean FindTarget(edict_t *self)
+qboolean FindTarget(edict_t* self)
 {
-	edict_t		*client;
+	edict_t* client;
 	qboolean	heardit;
 	int			r;
 
@@ -1228,7 +1379,7 @@ qboolean FindTarget(edict_t *self)
 	// but not weapon impact/explosion noises
 
 	heardit = false;
-	if ((level.sight_entity_framenum >= (level.framenum - 1)) && !(self->spawnflags & 1 && rand() %2))
+	if ((level.sight_entity_framenum >= (level.framenum - 1)) && !(self->spawnflags & 1 && rand() % 2))
 	{
 		client = level.sight_entity;
 		if (client->enemy == self->enemy)
@@ -1241,7 +1392,7 @@ qboolean FindTarget(edict_t *self)
 		client = level.sound_entity;
 		heardit = true;
 	}
-	else if (!(self->enemy) && (level.sound2_entity_framenum >= (level.framenum - 1)) && !(self->spawnflags & 1 ||  rand() % 2))
+	else if (!(self->enemy) && (level.sound2_entity_framenum >= (level.framenum - 1)) && !(self->spawnflags & 1 || rand() % 2))
 	{
 		client = level.sound2_entity;
 		heardit = true;
@@ -1387,7 +1538,7 @@ FacingIdeal
 
 ============
 */
-qboolean FacingIdeal(edict_t *self)
+qboolean FacingIdeal(edict_t* self)
 {
 	float	delta;
 
@@ -1400,7 +1551,7 @@ qboolean FacingIdeal(edict_t *self)
 
 
 //=============================================================================
-qboolean M_CheckClearShot(edict_t *self)
+qboolean M_CheckClearShot(edict_t* self)
 {
 	vec3_t	spot1, spot2 = { 0 };
 	//vec3_t	dir;
@@ -1420,7 +1571,7 @@ qboolean M_CheckClearShot(edict_t *self)
 	}*/
 
 	if (((!visible(self, self->enemy) || !infront(self, self->enemy)) && self->health > 0) && self->monsterinfo.attack_state != AS_MELEE)
-	{	
+	{
 		//gi.bprintf(PRINT_HIGH, "DON'T HAVE A CLEAR SHOT!!! not visible or not in front, or dead/dying! %f\n", level.time);
 		return false;
 
@@ -1432,7 +1583,7 @@ qboolean M_CheckClearShot(edict_t *self)
 	Origin_WOffset(self, spot1);
 	//VectorCopy(spot1, spot1);
 	spot1[2] += self->viewheight / 2.0f;
-	if(!self->monsterinfo.aiming_at[0] && !self->monsterinfo.aiming_at[1] && !self->monsterinfo.aiming_at[2])
+	if (!self->monsterinfo.aiming_at[0] && !self->monsterinfo.aiming_at[1] && !self->monsterinfo.aiming_at[2])
 		VectorCopy(self->enemy->s.origin, spot2);
 	else
 		VectorCopy(self->monsterinfo.aiming_at, spot2);
@@ -1444,10 +1595,10 @@ qboolean M_CheckClearShot(edict_t *self)
 
 	//gi.bprintf(PRINT_HIGH, "spot2 = %s, time = %f\n", vtos(spot2), level.time);
 	//debug_trail(spot1, spot2);
-	if ((strcmp(self->classname, "monster_soldier_light") == 0 || strcmp(self->classname, "monster_soldier") == 0 || strcmp(self->classname, "monster_soldier_ss") == 0) )
+	if ((strcmp(self->classname, "monster_soldier_light") == 0 || strcmp(self->classname, "monster_soldier") == 0 || strcmp(self->classname, "monster_soldier_ss") == 0))
 	{
-		if(self->s.frame >= 272 && self->s.frame <= 307)
-		spot1[2] -= 16.7f;
+		if (self->s.frame >= 272 && self->s.frame <= 307)
+			spot1[2] -= 16.7f;
 
 		AngleVectors(self->s.angles, forward, right, NULL);
 		G_ProjectSource(self->s.origin, monster_flash_offset[MZ2_SOLDIER_BLASTER_1], forward, right, spot1);
@@ -1553,12 +1704,12 @@ qboolean M_CheckClearShot(edict_t *self)
 		//gi.bprintf(PRINT_HIGH, "DON'T HAVE A CLEAR SHOT!!! 6 %f\n", level.time);
 		return false;
 	}
-	
+
 
 	//gi.bprintf(PRINT_HIGH, "M_CheckClearShot: CLEAR SHOT!, did all checks\n");
 	return true;
 }
-qboolean M_CheckAttack(edict_t *self)
+qboolean M_CheckAttack(edict_t* self)
 {
 	//vec3_t	spot1, spot2;
 	float	chance;
@@ -1579,10 +1730,10 @@ qboolean M_CheckAttack(edict_t *self)
 		if (tr.ent != self->enemy)
 			return false;*/
 
-			
-	
 
-	// melee attack
+
+
+			// melee attack
 	if (enemy_range == RANGE_MELEE)
 	{
 		// don't always melee in easy mode
@@ -1671,7 +1822,7 @@ ai_run_melee
 Turn and close until within an angle to launch a melee attack
 =============
 */
-void ai_run_melee(edict_t *self)
+void ai_run_melee(edict_t* self)
 {
 	self->ideal_yaw = enemy_yaw;
 	M_ChangeYaw(self);
@@ -1691,7 +1842,7 @@ ai_run_missile
 Turn in place until within an angle to launch a missile attack
 =============
 */
-void ai_run_missile(edict_t *self)
+void ai_run_missile(edict_t* self)
 {
 	self->ideal_yaw = enemy_yaw;
 	M_ChangeYaw(self);
@@ -1711,7 +1862,7 @@ ai_run_slide
 Strafe sideways, but stay at aproximately the same range
 =============
 */
-void ai_run_slide(edict_t *self, float distance)
+void ai_run_slide(edict_t* self, float distance)
 {
 	float	ofs;
 
@@ -1739,9 +1890,9 @@ Decides if we're going to attack or do something else
 used by ai_run and ai_stand
 =============
 */
-qboolean ai_checkattack(edict_t *self, float dist)
+qboolean ai_checkattack(edict_t* self, float dist)
 {
-	
+
 	vec3_t		temp = { 0 };
 	qboolean	hesDeadJim;
 	//gi.bprintf(PRINT_HIGH, "ai_checkattack:\n");
@@ -1839,9 +1990,9 @@ qboolean ai_checkattack(edict_t *self, float dist)
 		}
 	}
 	if (!(self->flags & FL_HEADSHOT))
-	self->show_hostile = level.time + 1;		// wake up other monsters
+		self->show_hostile = level.time + 1;		// wake up other monsters
 
-// check knowledge of enemy
+	// check knowledge of enemy
 	enemy_vis = visible(self, self->enemy);
 	if (enemy_vis)
 	{
@@ -1883,14 +2034,14 @@ qboolean ai_checkattack(edict_t *self, float dist)
 	{
 		if (rand() % 2)
 			return false;
-		else if(self->monsterinfo.attack)
+		else if (self->monsterinfo.attack)
 		{
 			self->monsterinfo.aiflags |= AI_COVER_FIRE;
 			self->monsterinfo.aiflags |= AI_TEMP_STAND_GROUND;
 
 		}
 	}
-		
+
 
 	return self->monsterinfo.checkattack(self);
 }
@@ -1902,19 +2053,19 @@ ai_run
 The monster has an enemy it is trying to kill
 =============
 */
-void ai_run(edict_t *self, float dist)
+void ai_run(edict_t* self, float dist)
 {
 	vec3_t		v = { 0 };
-	edict_t		*tempgoal;
-	edict_t		*save;
+	edict_t* tempgoal;
+	edict_t* save;
 	qboolean	new;
-	edict_t		*marker;
+	edict_t* marker;
 	float		d1, d2;
 	trace_t		tr;
 	vec3_t		v_forward, v_right;
 	float		left, center, right;
 	vec3_t		left_target, right_target;
-	
+
 	if (!self->enemy) //FIXME how do we get here without an enemy???
 	{
 		//gi.bprintf(PRINT_HIGH, "ai_run: NO ENEMY!!!\n");
@@ -1960,7 +2111,7 @@ void ai_run(edict_t *self, float dist)
 			//gi.bprintf(PRINT_HIGH, "SOLDIER FIRE: !FindTarget(self)\n");
 			return;
 		}
-			
+
 	}
 
 	if (ai_checkattack(self, dist))
@@ -2071,7 +2222,7 @@ void ai_run(edict_t *self, float dist)
 			int back = 0;
 			float rnum = 1 + (rand() % 3) + self->monsterinfo.aggression;
 			// if retreating this will make the monster go forward, which is idk theoretically not wanted right? Is this working?? yeah i think so
-			if (self->max_health && random() - (self->monsterinfo.aggression * 0.25f) + (((self->max_health - self->health) / self->max_health) * 0.25f) > 0.5f)
+			if (self->max_health && random() - (self->monsterinfo.aggression * 0.25f) + ((((float)self->max_health - self->health) / self->max_health) * 0.25f) > 0.5f)
 				back = 1;
 
 			VectorSubtract(self->goalentity->s.origin, self->s.origin, v);
@@ -2094,7 +2245,7 @@ void ai_run(edict_t *self, float dist)
 			tr = gi.trace(self->s.origin, self->mins, self->maxs, right_target, self, MASK_PLAYERSOLID);
 			right = tr.fraction;
 
-			center = (d1*center) / d2;
+			center = (d1 * center) / d2;
 			if (left >= center && left > right)
 			{
 				if (left < 1)
@@ -2141,9 +2292,9 @@ void ai_run(edict_t *self, float dist)
 		self->goalentity = save;
 }
 
-void faster_pain(edict_t *self)
+void faster_pain(edict_t* self)
 {
-	if(skill->value > 3 && self->monsterinfo.last_dodge > level.time && self->monsterinfo.aiflags & AI_AIMED_AT)
+	if (skill->value > 3 && self->monsterinfo.last_dodge > level.time && self->monsterinfo.aiflags & AI_AIMED_AT)
 		monster_skip_frame(self);
 	//gi.bprintf(PRINT_HIGH, "DEBUG: SKIPPING PAIN FRAME! last_dodge = %f", self->monsterinfo.last_dodge);
 }

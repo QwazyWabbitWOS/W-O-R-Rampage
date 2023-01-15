@@ -719,7 +719,7 @@ knockback:
 	{
 		vec3_t add_punch = { 0 };
 
-		int pdmg = take - ((take + fabsf(targ->mins[0]) * 2.0f) * 0.5f);
+		int pdmg = take - ((take + fabsf(targ->mins[0]) * 2.0f) * 0.5);
 		pdmg = clamp(pdmg, 45, 0);
 		//if (mod == MOD_SHOTGUN || MOD_SSHOTGUN)
 		//	pdmg *= 0.25;

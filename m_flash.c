@@ -108,17 +108,17 @@ vec3_t monster_flash_offset [] =
 	{-12.4f, 13.0f, 20.2f},
 
 // MZ2_SOLDIER_BLASTER_1			39
-	{10.6f * 1.2f, 7.7f * 1.2f, 7.8f * 1.2f},
+	{10.6f, 7.7f, 7.8f},
 // MZ2_SOLDIER_BLASTER_2			40
-	{21.1f * 1.2f, 3.6f * 1.2f, 19.0f * 1.2f},
+	{21.1f, 3.6f, 19.0f},
 // MZ2_SOLDIER_SHOTGUN_1			41
-	{10.6f * 1.2f, 7.7f * 1.2f, 7.8f * 1.2f},
+	{10.6f, 7.7f, 7.8f},
 // MZ2_SOLDIER_SHOTGUN_2			42
-	{21.1f * 1.2f, 3.6f * 1.2f, 19.0f * 1.2f},
+	{21.1f, 3.6f, 19.0f},
 // MZ2_SOLDIER_MACHINEGUN_1			43
-	{10.6f * 1.2f, 7.7f * 1.2f, 7.8f * 1.2f},
+	{10.6f, 7.7f, 7.8f},
 // MZ2_SOLDIER_MACHINEGUN_2			44
-	{21.1f * 1.2f, 3.6f * 1.2f, 19.0f * 1.2f},
+	{21.1f, 3.6f, 19.0f},
 
 // MZ2_GUNNER_MACHINEGUN_1			45
 	{30.1f * 1.15f, 3.9f * 1.15f, 21.6f * 1.15f},
@@ -244,9 +244,11 @@ vec3_t monster_flash_offset [] =
 //	34.5, 9.6, 6.1,
 	{31.5f, 9.6f, 12.1f},
 // MZ2_SOLDIER_SHOTGUN_8			99
-	{34.5f, 9.6f, 8.1f},
+//	{34.5f, 9.6f, 8.1f},
+	{ 31.5f, 9.6f, 12.1f },
 // MZ2_SOLDIER_MACHINEGUN_8			100
-	{34.5f, 9.6f , 8.1f},
+//	{34.5f, 9.6f , 8.1f},
+	{ 31.5f, 9.6f, 12.1f },
 
 // --- Xian shit below ---
 // MZ2_MAKRON_BFG					101
@@ -677,7 +679,76 @@ vec3_t monster_flash_offset [] =
 // MZ2_SOLDIER_DEATH4_8_MG			305
 	{-2.5f, 16.5f, 15.0f},
 
-
+// MZ2_SOLDIER_MACHINEGUN_9			306
+{ 30.f, 9.4f, 10.6f },
+// MZ2_SOLDIER_MACHINEGUN_10			307
+{ 32.6f, 9.4f, 16.5f },
+// MZ2_SOLDIER_MACHINEGUN_11			308
+{ 29.4f, 9.58f, 15.6f },
+// MZ2_SOLDIER_MACHINEGUN_12			309
+{ 32.f, 9.36f, 15.4f },
+// MZ2_SOLDIER_MACHINEGUN_13			310
+{ 32.f, 9.36f, 17.7f },
+// MZ2_SOLDIER_MACHINEGUN_14			311
+{ 29.5f, 9.9f, 15.2f },
+// MZ2_SOLDIER_RAILGUN_1				312
+{ 10.6f, 7.7f, 7.8f },
+// MZ2_SOLDIER_RAILGUN_2			313
+{ 21.1f, 3.6f, 19.0f },
+// MZ2_SOLDIER_RAILGUN_3			314
+{ 20.8f, 10.1f, -0.7f },
+// MZ2_SOLDIER_RAILGUN_4			315
+{ 7.6f, 9.3f, 2.8f },
+// MZ2_SOLDIER_RAILGUN_5			316
+{ 30.5f, 9.9f, -16.7f },
+// MZ2_SOLDIER_RAILGUN_6			317
+{ 27.6f, 3.4f, -8.4f },
+// MZ2_SOLDIER_RAILGUN_7			318
+{ 28.9f, 4.6f, -6.1f },
+// MZ2_SOLDIER_RAILGUN_8			319
+//	{34.5f, 9.6f, 8.1f},
+{ 31.5f, 9.6f, 12.1f },
+// MZ2_INFANTRY_MACHINEGUND_1		320
+{ 19.45f, 16.0f, -7.45f },
+// MZ2_INFANTRY_MACHINEGUND_2		321
+{ 19.45f, 16.0f, -7.45f },
+// MZ2_INFANTRY_MACHINEGUND_3		322
+{ 19.45f, 16.0f, -7.45f },
+// MZ2_INFANTRY_MACHINEGUND_4		323
+{ 19.45f, 16.0f, -7.45f },
+// MZ2_INFANTRY_MACHINEGUND_5		324
+{ 19.45f, 16.0f, -7.45f },
+// MZ2_INFANTRY_MACHINEGUND_6		325
+{ 19.45f, 16.0f, -7.45f },
+// MZ2_SOLDIER_HBLASTER_1			326
+{ 10.6f, 7.7f, 7.8f },
+// MZ2_SOLDIER_HBLASTER_2			327
+{ 21.1f, 3.6f, 19.0f },
+// MZ2_SOLDIER_HBLASTER_3			328
+{ 20.8f, 10.1f, -0.7f },
+// MZ2_SOLDIER_HBLASTER_4			329
+{ 7.6f, 9.3f, 4.8f },
+// MZ2_SOLDIER_HBLASTER_5			330
+{ 30.5f, 9.9f, -16.7f },
+// MZ2_SOLDIER_HBLASTER_6			331
+{ 27.6f, 3.4f, -8.4f },
+// MZ2_SOLDIER_HBLASTER_7			332
+{ 28.9f, 4.6f, -6.1f },
+// MZ2_SOLDIER_HBLASTER_8			333
+//	{34.5f, 9.6f , 8.1f},
+{ 31.5f, 9.6f, 12.1f },
+// MZ2_SOLDIER_HBLASTER_9			334
+{ 30.f, 9.4f, 10.6f },
+// MZ2_SOLDIER_HBLASTER_10			335
+{ 32.6f, 9.4f, 16.5f },
+// MZ2_SOLDIER_HBLASTER_11			336
+{ 29.4f, 9.58f, 15.6f },
+// MZ2_SOLDIER_HBLASTER_12			337
+{ 32.f, 9.36f, 15.4f },
+// MZ2_SOLDIER_HBLASTER_13			338
+{ 32.f, 9.36f, 17.7f },
+// MZ2_SOLDIER_HBLASTER_14			339
+{ 29.5f, 9.9f, 15.2f },
 // end of table
 	{0.0f, 0.0f, 0.0f}
 };

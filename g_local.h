@@ -546,7 +546,8 @@ typedef struct
 	int			emp_effect_left;
 	float       aggression;
 	int			charge;
-	int			clip;
+	int			clip;  //primary weapon magazine
+	int			clip2; //secondary weapon magazine
 	int			move_dir;
 	float		movedir_start;
 	edict_t		*jump_ent;
@@ -1702,6 +1703,32 @@ int	sound_alarm_debug;
 #define TYPE_GRENADE 1
 #define TYPE_PROJECTILE 2
 #define TYPE_BLASTER 3
-#define BLASTER_DROP_CONST 50
+#define BLASTER_DROP_CONST  125
 #define MIN_RETREAT_TIME 2
+
+qboolean bl_guard(edict_t* self);
+qboolean sg_guard(edict_t* self);
+qboolean mg_guard(edict_t* self);
+qboolean rg_guard(edict_t* self);
+qboolean hb_guard(edict_t* self);
+
+#define FRAC_LEFT 0
+#define FRAC_RIGHT 1
+#define FRAC_FORWARD 2
+#define FRAC_BACK 3
+
+#define FR_VAL 0
+#define FR_ENABLED 1
+#define NUM_J_DIRS 4
+
+
+#define ENABLED_FULLY 1.0f
+#define ENABLED_CONDITIONALLY 2.0f
+
+#define COMPLETE_TR_FRACTION 1.0f
+
+#define RANDOM_FR_MAX_COUNT 20
+
+qboolean check_run(edict_t* self);
+void soldier_gotoreload(edict_t* self);
 

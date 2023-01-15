@@ -3404,9 +3404,9 @@ void CTFGrappleTouch(edict_t* self, edict_t* other, cplane_t* plane, csurface_t*
 
 	vec3_t normal = { 0 };
 	//if (!plane->normal)
-		VectorSet(normal, random(), random(), random()); //bugfix
-	//else
-	//	VectorCopy(plane->normal, normal);
+	VectorSet(normal, random(), random(), random()); //bugfix
+//else
+//	VectorCopy(plane->normal, normal);
 
 	if (other->takedamage) {
 		T_Damage(other, self, self->owner, self->velocity, self->s.origin, normal, self->dmg, 1, 0, MOD_GRAPPLE);
@@ -3991,6 +3991,12 @@ void shot_sound(edict_t* self, int flashtype)
 	case MZ2_INFANTRY_MACHINEGUN_11:
 	case MZ2_INFANTRY_MACHINEGUN_12:
 	case MZ2_INFANTRY_MACHINEGUN_13:
+	case MZ2_INFANTRY_MACHINEGUND_1:
+	case MZ2_INFANTRY_MACHINEGUND_2:
+	case MZ2_INFANTRY_MACHINEGUND_3:
+	case MZ2_INFANTRY_MACHINEGUND_4:
+	case MZ2_INFANTRY_MACHINEGUND_5:
+	case MZ2_INFANTRY_MACHINEGUND_6:
 		gi.sound(self, CHAN_WEAPON, gi.soundindex("infantry/infatck1.wav"), 1.0, ATTN_NORM, 0);
 		break;
 
@@ -4034,7 +4040,31 @@ void shot_sound(edict_t* self, int flashtype)
 	case MZ2_SOLDIER_DEATH4_6_BL:
 	case MZ2_SOLDIER_DEATH4_7_BL:
 	case MZ2_SOLDIER_DEATH4_8_BL:
+	case MZ2_SOLDIER_HBLASTER_1:
+	case MZ2_SOLDIER_HBLASTER_2:
+	case MZ2_SOLDIER_HBLASTER_3:
+	case MZ2_SOLDIER_HBLASTER_4:
+	case MZ2_SOLDIER_HBLASTER_5:
+	case MZ2_SOLDIER_HBLASTER_6:
+	case MZ2_SOLDIER_HBLASTER_7:
+	case MZ2_SOLDIER_HBLASTER_8:
+	case MZ2_SOLDIER_HBLASTER_9:
+	case MZ2_SOLDIER_HBLASTER_10:
+	case MZ2_SOLDIER_HBLASTER_11:
+	case MZ2_SOLDIER_HBLASTER_13:
+	case MZ2_SOLDIER_HBLASTER_14:
 		gi.sound(self, CHAN_ITEM, gi.soundindex("soldier/Solatck2.wav"), 1, ATTN_NORM, 0);
+		break;
+
+	case MZ2_SOLDIER_RAILGUN_1:
+	case MZ2_SOLDIER_RAILGUN_2:
+	case MZ2_SOLDIER_RAILGUN_3:
+	case MZ2_SOLDIER_RAILGUN_4:
+	case MZ2_SOLDIER_RAILGUN_5:
+	case MZ2_SOLDIER_RAILGUN_6:
+	case MZ2_SOLDIER_RAILGUN_7:
+	case MZ2_SOLDIER_RAILGUN_8:
+		gi.sound(self, CHAN_WEAPON, gi.soundindex("weapons/RAILGF1A.WAV"), 1.0, ATTN_NORM, 0);
 		break;
 
 	case MZ2_SOLDIER_SHOTGUN_1:
@@ -4064,6 +4094,12 @@ void shot_sound(edict_t* self, int flashtype)
 	case MZ2_SOLDIER_MACHINEGUN_6:
 	case MZ2_SOLDIER_MACHINEGUN_7:
 	case MZ2_SOLDIER_MACHINEGUN_8:
+	case MZ2_SOLDIER_MACHINEGUN_9:
+	case MZ2_SOLDIER_MACHINEGUN_10:
+	case MZ2_SOLDIER_MACHINEGUN_11:
+	case MZ2_SOLDIER_MACHINEGUN_12:
+	case MZ2_SOLDIER_MACHINEGUN_13:
+	case MZ2_SOLDIER_MACHINEGUN_14:
 	case MZ2_SOLDIER_DEATH4_1_MG:
 	case MZ2_SOLDIER_DEATH4_2_MG:
 	case MZ2_SOLDIER_DEATH4_3_MG:
@@ -4483,7 +4519,30 @@ void add_sp_score(edict_t* self, int amount, double type)
 	}
 
 }
+qboolean nowaterbelow(edict_t* self) // we dont want monsters falling to water and drowning (lava, slime...)
+{
+	trace_t tr;
+	vec3_t forward, right, up, end, start = { 0 };
+	float dist = 9999.0f;
+	AngleVectors(self->s.angles, forward, right, up);
+	VectorScale(up, -1, end);
+	VectorMA(self->s.origin, dist, end, end);
+	tr = gi.trace(self->s.origin, NULL, NULL, end, self, MASK_WATER);
+	if (tr.fraction == 1.0f) //no water below
+		return true;
+	else
+	{
+		VectorCopy(tr.endpos, start);
+		start[2] -= 8.0f;
+		VectorMA(start, ((self->mins[2] * (-1)) * 0.75), end, end);
+		tr = gi.trace(start, NULL, NULL, end, self, MASK_SOLID);
+		if (tr.fraction == 1.0f)
+			return false;
+		else
+			return true;
+	}
 
+}
 float scan_dir(edict_t* self, int dir, float dist, vec3_t result)
 {
 	trace_t tr;
@@ -4514,6 +4573,8 @@ float scan_dir(edict_t* self, int dir, float dist, vec3_t result)
 	tr = gi.trace(self->s.origin, NULL, NULL, end, self, MASK_SHOT);
 
 	VectorCopy(tr.endpos, result);
+	if (!nowaterbelow(self))
+		return 0.0f;
 	//VectorCopy(tr.endpos, self->s.origin);
 	//gi.linkentity(self);
 	return tr.fraction;
@@ -4556,8 +4617,8 @@ float get_angledifference(edict_t* ent, float angle)
 	VectorNormalize(dir);
 	dot = DotProduct(dir, forward);
 	//gi.bprintf(PRINT_HIGH, "DEBUG: angle difference to 180 = %f", dot);
-//	if (ent->enemy)// !VectorCompare(ent->s.origin, ent->old_origin2))
-	//	gi.bprintf(PRINT_HIGH, "DEBUG: dir = %s, origin = %s, old_origin2 = %s, dot = %f\n", vtos(dir), vtos(ent->s.origin), vtos(ent->old_origin2), dot);//vtos(ent->old_origin2));
+	if (ent->enemy)// !VectorCompare(ent->s.origin, ent->old_origin2))
+		gi.bprintf(PRINT_HIGH, "DEBUG: dir = %s, origin = %s, old_origin2 = %s, dot = %f\n", vtos(dir), vtos(ent->s.origin), vtos(ent->old_origin2), dot);//vtos(ent->old_origin2));
 
 	/*angles[1] += 180;
 	VectorCopy(ent->velocity, dir);
@@ -4609,4 +4670,71 @@ qboolean check_frames(edict_t* self, int start_frame, int end_frame)
 		return true;
 
 	return false;
+}
+
+
+/*
+float zdifference(edict_t* self, float dist)
+{
+
+
+}
+*/
+
+qboolean check_run(edict_t* self)
+{
+	// THERE IS A BUG HERE SOMEWHERE THAT FIRES A SINGLE CHECK NEAR WALLS RANDOMLY??? I'M GONNA
+	// LEAVE THIS FOR NOW, NOT THAT IMPORTANT - THIS FUNCTION IS ABOUT 1/7 CRIPPLED BY THIS, FAIR ENOUGH
+	vec3_t forward;
+	vec3_t angles = { 0 };
+	vec3_t end = { 0 };
+	vec3_t start = { 0 };
+	vec3_t start_down = { 0 };
+	vec3_t down = { 0 };
+	down[2] = -1;
+	trace_t tr;
+	int num = 1;
+	VectorSubtract(self->enemy->s.origin, self->s.origin, end);
+	VectorNormalize(end);
+	VectorMA(self->s.origin, 128, end, end);
+
+	tr = gi.trace(self->s.origin, self->mins, self->maxs, end, self, CONTENTS_SOLID);
+
+	if (tr.fraction != 1)
+		return false;
+
+	VectorCopy(self->s.angles, angles);
+	angles[2] = 0;
+	AngleVectors(angles, forward, NULL, NULL);
+	VectorCopy(self->s.origin, start);
+	start[2] += self->mins[2] + 16; // not sure how high obstacles/steps they can pass trough
+
+check:
+	VectorMA(start, num * 16, forward, end);
+	//spawn_explosion(end, TE_ROCKET_EXPLOSION);
+	tr = gi.trace(self->s.origin, NULL, NULL, end, self, CONTENTS_SOLID);
+	if (tr.fraction != 1)
+	{
+		//	gi.bprintf(PRINT_HIGH, "DEBUG: can't trace forward, dist = %i, num = %i\n", num * 16, num);
+		return false;
+	}
+
+	VectorCopy(end, start_down);
+	VectorMA(end, 16, down, end);
+	tr = gi.trace(start_down, NULL, NULL, end, self, CONTENTS_SOLID);
+	//spawn_explosion(end, TE_ROCKET_EXPLOSION);
+	//spawn_explosion(tr.endpos, TE_ROCKET_EXPLOSION_WATER);
+	if (get_dist_point(start_down, tr.endpos) > 17)
+	{
+		//gi.bprintf(PRINT_HIGH, "DEBUG: there is a hole, down dist = %f, forward dist = %i, num = %i\n", tr.fraction* 17, num * 16, num);
+		return false;
+	}
+
+	else if (num >= 6)
+		return true;
+
+	num++;
+	goto check;
+
+	//return false;
 }

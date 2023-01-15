@@ -677,7 +677,7 @@ void HelpComputer(edict_t* ent)
 	else if (skill->value == 6)
 		sk = "cerb++";
 	else
-		sk = "cerb+x";
+		sk = va("cerb%i", (int)(skill->value) - 3);
 	// send the layout
 	Com_sprintf(string, sizeof(string),
 		"xv 32 yv 8 picn help "			// background

@@ -28,9 +28,9 @@ static qboolean	is_quad;
 static byte		is_silenced;
 
 
-void weapon_grenade_fire(edict_t *ent, qboolean held, int gravity);
+void weapon_grenade_fire(edict_t* ent, qboolean held, int gravity);
 
-void Cmd_attack2b(edict_t * ent)
+void Cmd_attack2b(edict_t* ent)
 {
 	//if (!ent->client->buttons & BUTTON_ATTACK2)
 	//	return;
@@ -90,38 +90,38 @@ void Cmd_attack2b(edict_t * ent)
 	}
 }
 
-void Cmd_DualWielda(edict_t * ent)
+void Cmd_DualWielda(edict_t* ent)
 {
 	ent->client->buttonsx |= BUTTON_DUAL;
 }
 
-void Cmd_DualWieldb(edict_t * ent)
+void Cmd_DualWieldb(edict_t* ent)
 {
 
 	ent->client->buttonsx &= ~BUTTON_DUAL;
 }
 
-void Cmd_Grapplea(edict_t * ent)
+void Cmd_Grapplea(edict_t* ent)
 {
 	ent->client->buttonsx |= BUTTON_GRAPPLE;
 }
 
-void Cmd_Grappleb(edict_t * ent)
+void Cmd_Grappleb(edict_t* ent)
 {
 
 	ent->client->buttonsx &= ~BUTTON_GRAPPLE;
 }
-void Cmd_attack3a(edict_t * ent)
+void Cmd_attack3a(edict_t* ent)
 {
 	ent->client->buttonsx |= BUTTON_ATTACK3;
 }
 
-void Cmd_attack3b(edict_t * ent)
+void Cmd_attack3b(edict_t* ent)
 {
 	ent->client->buttonsx &= ~BUTTON_ATTACK3;
 }
 
-void Cmd_attack2a(edict_t * ent)
+void Cmd_attack2a(edict_t* ent)
 {
 	ent->client->buttonsx |= BUTTON_ATTACK2;
 	//ent->client->latched_buttons |= BUTTON_ATTACK2;
@@ -165,7 +165,7 @@ void Cmd_attack2a(edict_t * ent)
 			ent->client->pers.weapon_ext.mode = WEAPON_MODE_CHAINGUN_ACCELERATING;
 	}
 	return;
-	char *msg;
+	char* msg;
 	if (ent->client->pers.weapon == FindItem("blaster"))
 	{
 		ent->client->pers.secondary ^= SECONDARY_BLASTER;
@@ -256,13 +256,13 @@ Monsters that don't directly see the player can move
 to a noise in hopes of seeing the player from there.
 ===============
 */
-void PlayerNoise_think(edict_t *ent)
+void PlayerNoise_think(edict_t* ent)
 {
 	// this is a temporary bug fix
 }
-void PlayerNoise(edict_t *who, vec3_t where, int type)
+void PlayerNoise(edict_t* who, vec3_t where, int type)
 {
-	edict_t		*noise;
+	edict_t* noise;
 
 	if (type == PNOISE_WEAPON)
 	{
@@ -327,10 +327,10 @@ void PlayerNoise(edict_t *who, vec3_t where, int type)
 }
 
 
-qboolean Pickup_Weapon(edict_t *ent, edict_t *other)
+qboolean Pickup_Weapon(edict_t* ent, edict_t* other)
 {
 	int			index;
-	gitem_t		*ammo;
+	gitem_t* ammo;
 
 	index = ITEM_INDEX(ent->item);
 
@@ -370,9 +370,9 @@ qboolean Pickup_Weapon(edict_t *ent, edict_t *other)
 
 	if (other->client->pers.inventory[index] > 1)
 	{
-	//	gi.bprintf(PRINT_HIGH, "HAS 2 weapons, set the dual state, before was = %i\n", other->client->pers.weapon->dual);
-		/*if (ent->item == FindItem("shotgun"))
-			other->client->pers.weapon_ext.mag_sec |= GRENADE_SECOND;*/
+		//	gi.bprintf(PRINT_HIGH, "HAS 2 weapons, set the dual state, before was = %i\n", other->client->pers.weapon->dual);
+			/*if (ent->item == FindItem("shotgun"))
+				other->client->pers.weapon_ext.mag_sec |= GRENADE_SECOND;*/
 	}
 	/*else if(other->client->pers.inventory[index] == 1)
 		if (ent->item == FindItem("shotgun"))
@@ -381,7 +381,7 @@ qboolean Pickup_Weapon(edict_t *ent, edict_t *other)
 	{
 
 		//gi.bprintf(PRINT_HIGH, "HAS 2 weapons, set the dual state\n");
-		if(other->client->pers.weapon_ext.dual < WEAPON_DUAL_HAS)
+		if (other->client->pers.weapon_ext.dual < WEAPON_DUAL_HAS)
 			other->client->pers.weapon_ext.dual = WEAPON_DUAL_HAS;
 	}
 
@@ -392,7 +392,7 @@ qboolean Pickup_Weapon(edict_t *ent, edict_t *other)
 
 	return true;
 }
-void save_weapon_ext(edict_t *ent)
+void save_weapon_ext(edict_t* ent)
 {
 	/*	if (ent->client->ctf_grapplestate > CTF_GRAPPLE_STATE_ACTIVATE_WEAPON)
 		{
@@ -481,7 +481,7 @@ void save_weapon_ext(edict_t *ent)
 
 	}
 }
-void set_gunxyz(edict_t *ent)
+void set_gunxyz(edict_t* ent)
 {
 	/*	if (ent->client->ctf_grapplestate > CTF_GRAPPLE_STATE_ACTIVATE_WEAPON)
 		{
@@ -489,110 +489,110 @@ void set_gunxyz(edict_t *ent)
 			gun_y->value = -15;
 			gun_z->value = 5;
 		}*/
-	
-		if (ent->client->pers.weapon == FindItem("bfg10k"))
-		{
-			//gi.bprintf(PRINT_HIGH, "BFG\n");
-			ent->client->pers.weapon_ext = ent->client->pers.weapon_ext_save.bfg10k;
-			gun_x->value = 0;
-			gun_y->value = 4;
-			gun_z->value = 5;
+
+	if (ent->client->pers.weapon == FindItem("bfg10k"))
+	{
+		//gi.bprintf(PRINT_HIGH, "BFG\n");
+		ent->client->pers.weapon_ext = ent->client->pers.weapon_ext_save.bfg10k;
+		gun_x->value = 0;
+		gun_y->value = 4;
+		gun_z->value = 5;
 
 
-		}
-		else if (ent->client->pers.weapon == FindItem("railgun"))
-		{
-			//gi.bprintf(PRINT_HIGH, "RAILGUN\n");
-			ent->client->pers.weapon_ext = ent->client->pers.weapon_ext_save.railgun;
-			gun_x->value = 0;
-			gun_y->value = 3;
-			gun_z->value = 0;
+	}
+	else if (ent->client->pers.weapon == FindItem("railgun"))
+	{
+		//gi.bprintf(PRINT_HIGH, "RAILGUN\n");
+		ent->client->pers.weapon_ext = ent->client->pers.weapon_ext_save.railgun;
+		gun_x->value = 0;
+		gun_y->value = 3;
+		gun_z->value = 0;
 
-		}
-		else if (ent->client->pers.weapon == FindItem("hyperblaster"))
-		{
-			//gi.bprintf(PRINT_HIGH, "HYPERBLASTER\n");
-			ent->client->pers.weapon_ext = ent->client->pers.weapon_ext_save.hyperblaster;
-			gun_x->value = -1;
-			gun_y->value = 5;
-			gun_z->value = 0;
+	}
+	else if (ent->client->pers.weapon == FindItem("hyperblaster"))
+	{
+		//gi.bprintf(PRINT_HIGH, "HYPERBLASTER\n");
+		ent->client->pers.weapon_ext = ent->client->pers.weapon_ext_save.hyperblaster;
+		gun_x->value = -1;
+		gun_y->value = 5;
+		gun_z->value = 0;
 
-		}
-		else if (ent->client->pers.weapon == FindItem("rocket launcher"))
-		{
-			//gi.bprintf(PRINT_HIGH, "ROCKET LAUNCHER\n");
-			ent->client->pers.weapon_ext = ent->client->pers.weapon_ext_save.rocketlauncher;
-			gun_x->value = 0;
-			gun_y->value = 5;
-			gun_z->value = 4;
+	}
+	else if (ent->client->pers.weapon == FindItem("rocket launcher"))
+	{
+		//gi.bprintf(PRINT_HIGH, "ROCKET LAUNCHER\n");
+		ent->client->pers.weapon_ext = ent->client->pers.weapon_ext_save.rocketlauncher;
+		gun_x->value = 0;
+		gun_y->value = 5;
+		gun_z->value = 4;
 
-		}
-		else if (ent->client->pers.weapon == FindItem("grenade launcher"))
-		{
-			//gi.bprintf(PRINT_HIGH, "GRENADE LAUNCHER\n");
-			ent->client->pers.weapon_ext = ent->client->pers.weapon_ext_save.grenadelauncher;
-			gun_x->value = 0;
-			gun_y->value = 5;
-			gun_z->value = 4;
+	}
+	else if (ent->client->pers.weapon == FindItem("grenade launcher"))
+	{
+		//gi.bprintf(PRINT_HIGH, "GRENADE LAUNCHER\n");
+		ent->client->pers.weapon_ext = ent->client->pers.weapon_ext_save.grenadelauncher;
+		gun_x->value = 0;
+		gun_y->value = 5;
+		gun_z->value = 4;
 
-		}
-		else if (ent->client->pers.weapon == FindItem("grenades"))
-		{
-			//gi.bprintf(PRINT_HIGH, "GRENADES\n");
-			ent->client->pers.weapon_ext = ent->client->pers.weapon_ext_save.grenades;
-			gun_x->value = 0;
-			gun_y->value = 5;
-			gun_z->value = 0;
+	}
+	else if (ent->client->pers.weapon == FindItem("grenades"))
+	{
+		//gi.bprintf(PRINT_HIGH, "GRENADES\n");
+		ent->client->pers.weapon_ext = ent->client->pers.weapon_ext_save.grenades;
+		gun_x->value = 0;
+		gun_y->value = 5;
+		gun_z->value = 0;
 
-		}
-		else if (ent->client->pers.weapon == FindItem("chaingun"))
-		{
-			//gi.bprintf(PRINT_HIGH, "CHAINGUN\n");
-			ent->client->pers.weapon_ext = ent->client->pers.weapon_ext_save.chaingun;
-			gun_x->value = 0;
-			gun_y->value = 5;
-			gun_z->value = 4;
+	}
+	else if (ent->client->pers.weapon == FindItem("chaingun"))
+	{
+		//gi.bprintf(PRINT_HIGH, "CHAINGUN\n");
+		ent->client->pers.weapon_ext = ent->client->pers.weapon_ext_save.chaingun;
+		gun_x->value = 0;
+		gun_y->value = 5;
+		gun_z->value = 4;
 
-		}
-		else if (ent->client->pers.weapon == FindItem("machinegun"))
-		{
-			//gi.bprintf(PRINT_HIGH, "MACHINEGUN\n");
-			ent->client->pers.weapon_ext = ent->client->pers.weapon_ext_save.machinegun;
-			gun_x->value = -3;
-			gun_y->value = 5;
-			gun_z->value = 0;
+	}
+	else if (ent->client->pers.weapon == FindItem("machinegun"))
+	{
+		//gi.bprintf(PRINT_HIGH, "MACHINEGUN\n");
+		ent->client->pers.weapon_ext = ent->client->pers.weapon_ext_save.machinegun;
+		gun_x->value = -3;
+		gun_y->value = 5;
+		gun_z->value = 0;
 
-		}
-		else if (ent->client->pers.weapon == FindItem("super shotgun"))
-		{
-			//gi.bprintf(PRINT_HIGH, "SUPER SHOTGUN\n");
-			ent->client->pers.weapon_ext = ent->client->pers.weapon_ext_save.supershotgun;
-			gun_x->value = -4;
-			gun_y->value = 5;
-			gun_z->value = 0;
+	}
+	else if (ent->client->pers.weapon == FindItem("super shotgun"))
+	{
+		//gi.bprintf(PRINT_HIGH, "SUPER SHOTGUN\n");
+		ent->client->pers.weapon_ext = ent->client->pers.weapon_ext_save.supershotgun;
+		gun_x->value = -4;
+		gun_y->value = 5;
+		gun_z->value = 0;
 
-		}
-		else if (ent->client->pers.weapon == FindItem("shotgun"))
-		{
-			//gi.bprintf(PRINT_HIGH, "SHOTGUN\n");
-			ent->client->pers.weapon_ext = ent->client->pers.weapon_ext_save.shotgun;
-			gun_x->value = -5;
-			gun_y->value = 5;
-			gun_z->value = 0;
+	}
+	else if (ent->client->pers.weapon == FindItem("shotgun"))
+	{
+		//gi.bprintf(PRINT_HIGH, "SHOTGUN\n");
+		ent->client->pers.weapon_ext = ent->client->pers.weapon_ext_save.shotgun;
+		gun_x->value = -5;
+		gun_y->value = 5;
+		gun_z->value = 0;
 
-		}
-		else if (ent->client->pers.weapon == FindItem("blaster"))
-		{
-			//gi.bprintf(PRINT_HIGH, "BLASTER\n");
-			ent->client->pers.weapon_ext = ent->client->pers.weapon_ext_save.blaster;
-			gun_x->value = -2;
-			gun_y->value = 5;
-			gun_z->value = 0;
+	}
+	else if (ent->client->pers.weapon == FindItem("blaster"))
+	{
+		//gi.bprintf(PRINT_HIGH, "BLASTER\n");
+		ent->client->pers.weapon_ext = ent->client->pers.weapon_ext_save.blaster;
+		gun_x->value = -2;
+		gun_y->value = 5;
+		gun_z->value = 0;
 
-		}
+	}
 }
 
-void check_pmodels(edict_t *ent)
+void check_pmodels(edict_t* ent)
 {
 	int city3 = 0;
 
@@ -605,7 +605,7 @@ void check_pmodels(edict_t *ent)
 		return;
 
 	int backup_model = ent->client->pers.weapon->weapmodel;
-	
+
 	int i = 0;
 
 	if (ent->client->pers.weapon == FindItem("hyperblaster") && !city3)
@@ -621,7 +621,7 @@ void check_pmodels(edict_t *ent)
 		if (ent->client->pers.weapon_ext.dual < WEAPON_DUAL_ACTIVE)
 			ent->client->pers.weapon->weapmodel = 4;
 		else
-		ent->client->pers.weapon->weapmodel = 14;
+			ent->client->pers.weapon->weapmodel = 14;
 
 	}
 	else if (ent->client->pers.weapon == FindItem("shotgun"))
@@ -660,10 +660,10 @@ The old weapon has been dropped all the way, so make the new one
 current
 ===============
 */
-void ChangeWeapon(edict_t *ent)
+void ChangeWeapon(edict_t* ent)
 {
 	int i;
-	
+
 	save_weapon_ext(ent);
 
 	if (ent->client->grenade_time)
@@ -726,7 +726,7 @@ void ChangeWeapon(edict_t *ent)
 		toggle_gl_ammo(ent);
 	}
 
-	gitem_t *index;
+	gitem_t* index;
 	index = FindItemByClassname(ent->client->pers.weapon->classname);
 
 	int ix = ITEM_INDEX(index);
@@ -735,11 +735,11 @@ void ChangeWeapon(edict_t *ent)
 	//gi.bprintf(PRINT_HIGH, "ITEM INDEX = %i", ix);
 	if (ent->client->pers.inventory[ix] > 1)
 		// (PRINT_HIGH, "HAS 2 weapons, set the dual state, before was = %i\n", ent->client->pers.weapon_ext.dual);
-	if (ent->client->pers.inventory[ix] > 1 && ent->client->pers.weapon->dual == WEAPON_DUAL_HASNT && ent->client->pers.weapon_ext.dual < WEAPON_DUAL_HAS)
-	{
-		//gi.bprintf(PRINT_HIGH, "HAS 2 weapons, set the dual state\n");
-		ent->client->pers.weapon_ext.dual = WEAPON_DUAL_HAS;
-	}
+		if (ent->client->pers.inventory[ix] > 1 && ent->client->pers.weapon->dual == WEAPON_DUAL_HASNT && ent->client->pers.weapon_ext.dual < WEAPON_DUAL_HAS)
+		{
+			//gi.bprintf(PRINT_HIGH, "HAS 2 weapons, set the dual state\n");
+			ent->client->pers.weapon_ext.dual = WEAPON_DUAL_HAS;
+		}
 
 	/*	if (ent->client->pers.weapon_ext.dual == WEAPON_DUAL_ACTIVE)
 		{
@@ -749,7 +749,7 @@ void ChangeWeapon(edict_t *ent)
 		{
 			ent->client->pers.weapon_ext.mag_sec = ent->client->pers.weapon->mag_sec;
 		}*/
-	
+
 }
 
 /*
@@ -757,7 +757,7 @@ void ChangeWeapon(edict_t *ent)
 NoAmmoWeaponChange
 =================
 */
-void NoAmmoWeaponChange(edict_t *ent)
+void NoAmmoWeaponChange(edict_t* ent)
 {
 	//gi.bprintf(PRINT_HIGH, "NoAmmoWeaponChange");
 	if (ent->client->pers.inventory[ITEM_INDEX(FindItem("slugs"))]
@@ -814,7 +814,7 @@ Think_Weapon
 Called by ClientBeginServerFrame and ClientThink
 =================
 */
-void Think_Weapon(edict_t *ent)
+void Think_Weapon(edict_t* ent)
 {
 	// if just died, put the weapon away
 	if (ent->health < 1)
@@ -846,28 +846,28 @@ Use_Weapon
 Make the weapon ready if there is ammo
 ================
 */
-void Use_Weapon(edict_t *ent, gitem_t *item)
+void Use_Weapon(edict_t* ent, gitem_t* item)
 {
 	//if (ent->client->pers.weapon_ext.scounter)
 	//	return;
 	if (ent->client->weaponstate == WEAPON_SWITCH_DUAL || ent->client->weaponstate == WEAPON_SWITCH_MODE)
 		return;
 	int			ammo_index;
-	gitem_t		*ammo_item;
+	gitem_t* ammo_item;
 
 	// see if we're already using it
 	if (item == ent->client->pers.weapon)
 		return;
 
 
-	if (item->ammo && !g_select_empty->value && 
-		!(item->flags & IT_AMMO) && 
+	if (item->ammo && !g_select_empty->value &&
+		!(item->flags & IT_AMMO) &&
 		ent->client->pers.weapon != FindItem("blaster")) //this blaster check should not be done this way, but it accidentaly works
 	{
 		ammo_item = FindItem(item->ammo);
 		ammo_index = ITEM_INDEX(ammo_item);
 
-		if (item == FindItem("grenade launcher") && 
+		if (item == FindItem("grenade launcher") &&
 			!ent->client->pers.inventory[ammo_index])
 		{
 			if (ent->client->pers.weapon_ext_save.grenadelauncher.mode == WEAPON_MODE_GRENADE_LAUNCHER_NORMAL &&
@@ -908,7 +908,7 @@ void Use_Weapon(edict_t *ent, gitem_t *item)
 Drop_Weapon
 ================
 */
-void Drop_Weapon(edict_t *ent, gitem_t *item)
+void Drop_Weapon(edict_t* ent, gitem_t* item)
 {
 	int		index;
 
@@ -938,7 +938,7 @@ A generic function to handle the basics of weapon thinking
 #define FRAME_FIRE_FIRST		(FRAME_ACTIVATE_LAST + 1)
 #define FRAME_IDLE_FIRST		(FRAME_FIRE_LAST + 1)
 #define FRAME_DEACTIVATE_FIRST	(FRAME_IDLE_LAST + 1)
-qboolean weapon_extention(edict_t *ent, int FRAME_ACTIVATE_LAST, int FRAME_FIRE_LAST, int FRAME_IDLE_LAST, int FRAME_DEACTIVATE_LAST)
+qboolean weapon_extention(edict_t* ent, int FRAME_ACTIVATE_LAST, int FRAME_FIRE_LAST, int FRAME_IDLE_LAST, int FRAME_DEACTIVATE_LAST)
 {
 	if (ent->client->pers.items_activated & FL_HOLSTER_R || ent->client->pers.items_activated & FL_HOLSTER_E || ent->client->pers.items_activated & FL_ACTIVATING_R || ent->client->pers.items_activated & FL_ACTIVATING_E || ent->client->pers.items_activated & FL_DEACTIVATING_R || ent->client->pers.items_activated & FL_DEACTIVATING_E)
 	{
@@ -1213,9 +1213,9 @@ void Weapon_Generic(edict_t* ent, int FRAME_ACTIVATE_LAST, int FRAME_FIRE_LAST, 
 				ent->client->ps.gunframe = 0;
 				return;
 			}
-			
-			if ((ent->client->pers.weapon_ext.scounter >= SSHOTGUN_ALTFIRE_COUNT && 
-				ent->client->pers.weapon_ext.scounter < 11 && 
+
+			if ((ent->client->pers.weapon_ext.scounter >= SSHOTGUN_ALTFIRE_COUNT &&
+				ent->client->pers.weapon_ext.scounter < 11 &&
 				ent->client->ps.gunframe < FRAME_DEACTIVATE_FIRST) || ent->client->pers.weapon_ext.scounter == 13)
 			{
 				if (ent->client->pers.weapon_ext.scounter == 13)
@@ -1894,7 +1894,7 @@ GRENADE
 #define GRENADE_MINSPEED	600.f
 #define GRENADE_MAXSPEED	1000.f
 
-void weapon_grenade_fire(edict_t *ent, qboolean held, int gravity)
+void weapon_grenade_fire(edict_t* ent, qboolean held, int gravity)
 {
 	//gi.bprintf(PRINT_HIGH, "DEBUG: gravity = %i\n", gravity);
 	vec3_t	offset;
@@ -1927,7 +1927,7 @@ void weapon_grenade_fire(edict_t *ent, qboolean held, int gravity)
 	{
 		damage *= 4;
 	}
-		
+
 
 	ent->client->pers.weapon_ext.mode = 0;
 	VectorSet(offset, 8, 8, ent->viewheight - 8);
@@ -1969,7 +1969,7 @@ void weapon_grenade_fire(edict_t *ent, qboolean held, int gravity)
 	}
 }
 
-void Weapon_Grenade(edict_t *ent)
+void Weapon_Grenade(edict_t* ent)
 {
 
 	//weapon_extention(ent, 1, 15, 49, 51);
@@ -2108,7 +2108,7 @@ GRENADE LAUNCHER
 ======================================================================
 */
 
-void weapon_grenadelauncher_fire(edict_t *ent)
+void weapon_grenadelauncher_fire(edict_t* ent)
 {
 	vec3_t	offset;
 	vec3_t	forward, right;
@@ -2274,7 +2274,7 @@ fire:
 
 }
 
-void Weapon_GrenadeLauncher(edict_t *ent)
+void Weapon_GrenadeLauncher(edict_t* ent)
 {
 	static int	pause_frames[] = { 34, 51, 59, 0 };
 	static int	fire_frames[] = { 6, 0 };
@@ -2290,7 +2290,7 @@ ROCKET
 ======================================================================
 */
 
-void Weapon_RocketLauncher_Fire(edict_t *ent)
+void Weapon_RocketLauncher_Fire(edict_t* ent)
 {
 	vec3_t	offset, start;
 	vec3_t	forward, right;
@@ -2301,7 +2301,7 @@ void Weapon_RocketLauncher_Fire(edict_t *ent)
 	damage = 100 + (int)(random() * 20.0);
 	radius_damage = 120;
 	damage_radius = 120;
-	if(item_mod->value)
+	if (item_mod->value)
 	{
 		if (is_quad)
 		{
@@ -2347,7 +2347,7 @@ void Weapon_RocketLauncher_Fire(edict_t *ent)
 		ent->client->pers.inventory[ent->client->ammo_index]--;
 }
 
-void Weapon_RocketLauncher(edict_t *ent)
+void Weapon_RocketLauncher(edict_t* ent)
 {
 	static int	pause_frames[] = { 25, 33, 42, 50, 0 };
 	static int	fire_frames[] = { 5, 0 };
@@ -2365,7 +2365,7 @@ BLASTER / HYPERBLASTER
 ======================================================================
 */
 
-void Blaster_Fire(edict_t *ent, vec3_t g_offset, int damage, int type, int effect)
+void Blaster_Fire(edict_t* ent, vec3_t g_offset, int damage, int type, int effect)
 {
 	vec3_t	forward, right;
 	vec3_t	start;
@@ -2443,7 +2443,7 @@ void Blaster_Fire(edict_t *ent, vec3_t g_offset, int damage, int type, int effec
 }
 
 
-void Weapon_Blaster_Fire(edict_t *ent)
+void Weapon_Blaster_Fire(edict_t* ent)
 {
 	int		damage;
 	vec3_t	forward, right, offset, angles;
@@ -2466,9 +2466,9 @@ void Weapon_Blaster_Fire(edict_t *ent)
 		return;
 	}
 
-	if (ent->client->ps.gunframe == 12 || 
-		ent->client->ps.gunframe == 14 || 
-		ent->client->ps.gunframe == 16 || 
+	if (ent->client->ps.gunframe == 12 ||
+		ent->client->ps.gunframe == 14 ||
+		ent->client->ps.gunframe == 16 ||
 		(ent->client->pers.weapon_ext.loopstarted && ent->client->ps.gunframe == 10))
 	{
 		if (ent->client->pers.weapon_ext.dual == WEAPON_DUAL_ACTIVE && !ent->client->pers.weapon_ext.scounter)
@@ -2587,7 +2587,7 @@ fire:
 			ent->client->pers.hand = 1;
 		else
 			ent->client->pers.hand = 0;
-	
+
 	}
 
 	if (dual_counter && ent->client->pers.weapon_ext.scounter)
@@ -2617,7 +2617,7 @@ fire:
 	ent->client->pers.weapon_ext.scounter = 0;
 }
 
-void Weapon_Blaster(edict_t *ent)
+void Weapon_Blaster(edict_t* ent)
 {
 	static int	pause_frames[] = { 28, 41, 0 };
 
@@ -2627,7 +2627,7 @@ void Weapon_Blaster(edict_t *ent)
 }
 
 
-void Weapon_HyperBlaster_Fire(edict_t *ent)
+void Weapon_HyperBlaster_Fire(edict_t* ent)
 {
 	float	rotation;
 	vec3_t	offset = { 0 };
@@ -2845,7 +2845,7 @@ void Weapon_HyperBlaster_Fire(edict_t *ent)
 				fired = 1;
 			if (current_mode == WEAPON_MODE_HYPERBLASTER_SLOW)
 				fired++;
-			s_offset = 0.00666 + (scounter / 133) + (random() / 66);
+			s_offset = 0.00666f + (float)(scounter / 133) + (random() / 66);
 			gi.sound(ent, CHAN_WEAPON, gi.soundindex("soldier/Solatck2.wav"), 1, ATTN_NORM, s_offset);
 
 			/***********************************************************************************/
@@ -2908,8 +2908,8 @@ void Weapon_HyperBlaster_Fire(edict_t *ent)
 			else if (current_mode == WEAPON_MODE_HYPERBLASTER_SLOW && ent->client->pers.inventory[ent->client->ammo_index] > 1)
 				ent->client->ps.gunframe = 6;
 		}
-	
-			
+
+
 	}
 	if (ent->client->ps.gunframe == 12)
 	{
@@ -2934,7 +2934,7 @@ void Weapon_HyperBlaster_Fire(edict_t *ent)
 		gi.multicast(start, MULTICAST_PVS);
 	}
 
-	if (ent->client->pers.weapon_ext.scounter && (ent->client->pers.weapon_ext.mode == WEAPON_MODE_HYPERBLASTER_SLOW || 
+	if (ent->client->pers.weapon_ext.scounter && (ent->client->pers.weapon_ext.mode == WEAPON_MODE_HYPERBLASTER_SLOW ||
 		(ent->client->pers.weapon_ext.mode2 == WEAPON_MODE_HYPERBLASTER_SLOW && ent->client->pers.weapon_ext.dual == WEAPON_DUAL_ACTIVE)))
 		ent->client->pers.weapon_ext.scounter = 0;
 
@@ -2959,7 +2959,7 @@ void Weapon_HyperBlaster_Fire(edict_t *ent)
 
 }
 
-void Weapon_HyperBlaster(edict_t *ent)
+void Weapon_HyperBlaster(edict_t* ent)
 {
 	static int	pause_frames[] = { 0 };
 	static int	fire_frames[] = { 6, 7, 8, 9, 10, 11, 0 };
@@ -2975,7 +2975,7 @@ MACHINEGUN / CHAINGUN
 ======================================================================
 */
 
-void Machinegun_Fire(edict_t *ent)
+void Machinegun_Fire(edict_t* ent)
 {
 	int	i;
 	vec3_t		start;
@@ -3009,34 +3009,34 @@ void Machinegun_Fire(edict_t *ent)
 		damage *= 4;
 		kick *= 4;
 	}
-//emp:
+	//emp:
 
-	   // gi.bprintf(PRINT_HIGH, "sec attack machinegun scounter = %i", ent->client->pers.weapon_ext.scounter);
+		   // gi.bprintf(PRINT_HIGH, "sec attack machinegun scounter = %i", ent->client->pers.weapon_ext.scounter);
 
-		//if (ent->client->pers.weapon_ext.scounter == 1)
-		if (ent->client->pers.weapon_ext.scounter == EMP_CHARGE_TIME)
-		{
-			
-			VectorCopy(ent->client->v_angle, angles);
-			angles[PITCH] += ent->client->v_dmg_pitch;
-			angles[ROLL] += ent->client->v_dmg_roll;
-			angles[YAW] += ent->client->v_dmg_yaw;
-			AngleVectors(angles, forward, right, NULL);
+			//if (ent->client->pers.weapon_ext.scounter == 1)
+	if (ent->client->pers.weapon_ext.scounter == EMP_CHARGE_TIME)
+	{
 
-			
-			VectorSet(offset, 0, 6, ent->viewheight - 8);
-			P_ProjectSource(ent->client, ent->s.origin, offset, forward, right, start);
-		
-
-			fire_emp(ent, start, forward, damage);
-			ent->client->pers.weapon_ext.scounter = 0;
-			gi.sound(ent, CHAN_WEAPON, gi.soundindex("weapons/emp_f.wav"), 1, ATTN_NORM, 0);
+		VectorCopy(ent->client->v_angle, angles);
+		angles[PITCH] += ent->client->v_dmg_pitch;
+		angles[ROLL] += ent->client->v_dmg_roll;
+		angles[YAW] += ent->client->v_dmg_yaw;
+		AngleVectors(angles, forward, right, NULL);
 
 
-		}
+		VectorSet(offset, 0, 6, ent->viewheight - 8);
+		P_ProjectSource(ent->client, ent->s.origin, offset, forward, right, start);
 
-	
-	
+
+		fire_emp(ent, start, forward, damage);
+		ent->client->pers.weapon_ext.scounter = 0;
+		gi.sound(ent, CHAN_WEAPON, gi.soundindex("weapons/emp_f.wav"), 1, ATTN_NORM, 0);
+
+
+	}
+
+
+
 	if (!(ent->client->buttons & BUTTON_ATTACK))
 	{
 		ent->client->machinegun_shots = 0;
@@ -3164,7 +3164,7 @@ fire:
 
 }
 
-void Weapon_Machinegun(edict_t *ent)
+void Weapon_Machinegun(edict_t* ent)
 {
 	static int	pause_frames[] = { 23, 45, 0 };
 	static int	fire_frames[] = { 4, 5, 0 };
@@ -3172,7 +3172,7 @@ void Weapon_Machinegun(edict_t *ent)
 	Weapon_Generic(ent, 3, 5, 45, 49, pause_frames, fire_frames, Machinegun_Fire);
 }
 
-void Chaingun_Fire(edict_t *ent)
+void Chaingun_Fire(edict_t* ent)
 {
 	int			i;
 	int			shots;
@@ -3264,10 +3264,10 @@ void Chaingun_Fire(edict_t *ent)
 	{
 		if (ent->client->anim_priority == ANIM_BASIC)
 		{
-			if ((ent->s.frame >= FRAME_crstnd01 && ent->s.frame <= FRAME_crstnd19) || 
+			if ((ent->s.frame >= FRAME_crstnd01 && ent->s.frame <= FRAME_crstnd19) ||
 				((ent->client->ps.pmove.pm_flags & PMF_DUCKED) && VectorLength(ent->velocity) == 0))
 				ent->s.frame = FRAME_attack1;
-			else if ((ent->s.frame >= FRAME_stand01 && ent->s.frame <= FRAME_stand40) || 
+			else if ((ent->s.frame >= FRAME_stand01 && ent->s.frame <= FRAME_stand40) ||
 				VectorLength(ent->velocity) == 0)
 				ent->s.frame = FRAME_attack1;
 
@@ -3372,7 +3372,7 @@ fire:
 }
 
 
-void Weapon_Chaingun(edict_t *ent)
+void Weapon_Chaingun(edict_t* ent)
 {
 	static int	pause_frames[] = { 38, 43, 51, 61, 0 };
 	static int	fire_frames[] = { 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 0 };
@@ -3389,7 +3389,7 @@ SHOTGUN / SUPERSHOTGUN
 ======================================================================
 */
 
-void weapon_shotgun_fire(edict_t *ent)
+void weapon_shotgun_fire(edict_t* ent)
 {
 	vec3_t		start, start2;
 	vec3_t		forward, right;
@@ -3472,7 +3472,7 @@ fire:
 			else
 				ent->client->ps.gunframe = 34;
 				*/
-			//gi.bprintf(PRINT_HIGH, "!ent->client->pers.weapon_ext.mag_sec\n");
+				//gi.bprintf(PRINT_HIGH, "!ent->client->pers.weapon_ext.mag_sec\n");
 
 			goto skip;
 		}
@@ -3483,7 +3483,7 @@ fire:
 				//gi.bprintf(PRINT_HIGH, "!dual_counter && !(ent->client->pers.weapon_ext.mag_sec & GRENADE_FIRST), %i, %i\n", dual_counter, ent->client->pers.weapon_ext.mag_sec & GRENADE_FIRST);
 				goto skip;
 			}
-				
+
 
 			int ix = ITEM_INDEX(FindItem("Grenades"));
 			if (ent->client->pers.inventory[ix] <= 0)
@@ -3498,8 +3498,8 @@ fire:
 
 				goto skip;
 			}
-			
-				
+
+
 
 
 
@@ -3580,7 +3580,7 @@ skip:
 	}
 }
 
-void Weapon_Shotgun(edict_t *ent)
+void Weapon_Shotgun(edict_t* ent)
 {
 	static int	pause_frames[] = { 17, 23, 29, 0 };
 	static int	fire_frames[] = { 3, 0 };
@@ -3589,7 +3589,7 @@ void Weapon_Shotgun(edict_t *ent)
 }
 
 
-void weapon_supershotgun_fire(edict_t *ent)
+void weapon_supershotgun_fire(edict_t* ent)
 {
 	vec3_t		start;
 	vec3_t		forward, right;
@@ -3708,13 +3708,13 @@ void weapon_supershotgun_fire(edict_t *ent)
 	if (ent->client->pers.weapon_ext.scounter > 1)
 		VectorMA(v, 0.5, ent->client->kick_angles, v);
 	AngleVectors(v, forward, NULL, NULL);
-	fire_shotgun(ent, start, forward, damage, kick, DEFAULT_SHOTGUN_HSPREAD*0.9, DEFAULT_SHOTGUN_VSPREAD*0.9, DEFAULT_SSHOTGUN_COUNT / 2, MOD_SSHOTGUN);
-	if(real_shotgun_spread->value)
+	fire_shotgun(ent, start, forward, damage, kick, DEFAULT_SHOTGUN_HSPREAD * 0.9, DEFAULT_SHOTGUN_VSPREAD * 0.9, DEFAULT_SSHOTGUN_COUNT / 2, MOD_SSHOTGUN);
+	if (real_shotgun_spread->value)
 		v[YAW] = v[YAW] + 2;
 	else
 		v[YAW] = v[YAW] + 10;
 	AngleVectors(v, forward, NULL, NULL);
-	fire_shotgun(ent, start, forward, damage, kick, DEFAULT_SHOTGUN_HSPREAD*0.9, DEFAULT_SHOTGUN_VSPREAD*0.9, DEFAULT_SSHOTGUN_COUNT / 2, MOD_SSHOTGUN);
+	fire_shotgun(ent, start, forward, damage, kick, DEFAULT_SHOTGUN_HSPREAD * 0.9, DEFAULT_SHOTGUN_VSPREAD * 0.9, DEFAULT_SSHOTGUN_COUNT / 2, MOD_SSHOTGUN);
 
 	// send muzzle flash
 	gi.WriteByte(svc_muzzleflash);
@@ -3734,7 +3734,7 @@ void weapon_supershotgun_fire(edict_t *ent)
 		ent->client->pers.inventory[ent->client->ammo_index] -= 2;
 }
 
-void Weapon_SuperShotgun(edict_t *ent)
+void Weapon_SuperShotgun(edict_t* ent)
 {
 	static int	pause_frames[] = { 29, 42, 57, 0 };
 	static int	fire_frames[] = { 7, 12, 0 };
@@ -3752,7 +3752,7 @@ RAILGUN
 ======================================================================
 */
 
-void weapon_railgun_fire(edict_t *ent)
+void weapon_railgun_fire(edict_t* ent)
 {
 	vec3_t		start;
 	vec3_t		forward, right;
@@ -3823,7 +3823,7 @@ void weapon_railgun_fire(edict_t *ent)
 }
 
 
-void Weapon_Railgun(edict_t *ent)
+void Weapon_Railgun(edict_t* ent)
 {
 	static int	pause_frames[] = { 56, 0 };
 	static int	fire_frames[] = { 4, 0 };
@@ -3840,7 +3840,7 @@ BFG10K
 ======================================================================
 */
 
-void weapon_bfg_fire(edict_t *ent)
+void weapon_bfg_fire(edict_t* ent)
 {
 	vec3_t	offset, start;
 	vec3_t	forward, right;
@@ -4008,7 +4008,7 @@ void weapon_bfg_fire(edict_t *ent)
 	}
 }
 
-void Weapon_BFG(edict_t *ent)
+void Weapon_BFG(edict_t* ent)
 {
 	static int	pause_frames[] = { 39, 45, 50, 55, 0 };
 	static int	fire_frames[] = { 9, 17,18, 0 };

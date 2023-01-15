@@ -552,6 +552,12 @@ mframe_t chick_frames_start_attack1 [] =
 mmove_t chick_move_start_attack1 = {FRAME_attak101, FRAME_attak113, chick_frames_start_attack1, NULL};
 
 
+void chick_attack_walk_loop(edict_t* self)
+{
+
+	if(rand() % 3 > 0 && (range(self, self->enemy) > RANGE_MELEE) && check_run(self))
+		self->monsterinfo.nextframe = FRAME_attak121;
+}
 mframe_t chick_frames_attack1 [] =
 {
 	{ai_charge, 19,	ChickRocket},
@@ -566,7 +572,7 @@ mframe_t chick_frames_attack1 [] =
 	{ai_charge, 5,	NULL},
 	{ai_charge, 6,	NULL},
 	{ai_charge, 6,	NULL},
-	{ai_charge, 4,	NULL},
+	{ai_charge, 4,	chick_attack_walk_loop},
 	{ai_charge, 3,	chick_rerocket}
 
 };
