@@ -37,6 +37,11 @@ _CrtMemState startup1;	// memory diagnostics
 #define	GAME_INCLUDE
 #include "game.h"
 //#include "mtwist.h"
+
+//ZOID
+#include "p_menu.h"
+//ZOID
+
 // the "gameversion" client command will print this plus compile date
 #define	GAMEVERSION	"Rampage v1.4o"
 #define GAMEDATE	__DATE__
@@ -1190,6 +1195,11 @@ struct gclient_s
 	edict_t*	flashlight;
 	int		flashtype;
 
+	//ZOID
+	int	inmenu;				// in menu
+	pmenuhnd_t* menu;				// current menu
+	//ZOID
+
 	float		pickup_msg_time;
 
 	float		flood_locktill;		// locked from talking
@@ -1622,7 +1632,7 @@ float scan_dir(edict_t *self, int dir, float dist, vec3_t result);
 void throw_nuke(edict_t *self);
 void M_avoid_danger(edict_t *self);
 void spawn_blood_point(vec3_t point);
-int next_spawn_is_gib;
+extern int next_spawn_is_gib;
 
 #define MODE_SOLID 0
 #define MODE_GHOST 1
@@ -1698,7 +1708,7 @@ extern int Sol_death5_end;
 #define MONSTER_RADIUSDMGAVOID_RADIUS 192
 float get_dist2d_point(vec3_t point1, vec3_t point2);
 #define FLAK_SPREAD 4
-int	sound_alarm_debug;
+extern int	sound_alarm_debug;
 #define TYPE_HITSCAN 0
 #define TYPE_GRENADE 1
 #define TYPE_PROJECTILE 2

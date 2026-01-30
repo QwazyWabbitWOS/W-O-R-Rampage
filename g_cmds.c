@@ -66,13 +66,12 @@ qboolean OnSameTeam(edict_t* ent1, edict_t* ent2)
 
 void Cmd_PositionPrint(edict_t* ent)
 {
-	trace_t tr;
 	vec3_t forward, end;
 	AngleVectors(ent->client->v_angle, forward, NULL, NULL);
 	VectorMA(ent->s.origin, 8192, forward, end);
-	tr = gi.trace(ent->s.origin, NULL, NULL, end, ent, CONTENTS_SOLID);
-	//gi.bprintf(PRINT_HIGH, "DEBUG: POS = %s, DEST = %s END POS = %s, DIST = %f, HIT = %s\n",
-	//	vtos(ent->s.origin), vtos(end), vtos(tr.endpos), get_dist_point(ent->s.origin, tr.endpos), tr.ent->classname);
+	trace_t tr = gi.trace(ent->s.origin, NULL, NULL, end, ent, CONTENTS_SOLID);
+	gi.cprintf(ent, PRINT_HIGH, "DEBUG: POS = %s, DEST = %s END POS = %s, DIST = %f, HIT = %s\n",
+		vtos(ent->s.origin), vtos(end), vtos(tr.endpos), get_dist_point(ent->s.origin, tr.endpos), tr.ent->classname);
 }
 
 void Cmd_jumpa(edict_t* ent)
@@ -179,12 +178,10 @@ void Cmd_MonsterPrint(edict_t* ent)
 	VectorScale(forward, 8192, forward);
 	tr = gi.trace(ent->s.origin, NULL, NULL, forward, ent, MASK_SHOT);
 
-
 	if (tr.ent && tr.ent->svflags & SVF_MONSTER)
 	{
 		if (tr.ent->goalentity)
 			gi.bprintf(PRINT_HIGH, "MONSTER DEBUG: goalentity = %s, origin = %s\n", tr.ent->goalentity->classname, vtos(tr.ent->goalentity->s.origin));
-
 		if (tr.ent->target_ent)
 			gi.bprintf(PRINT_HIGH, "MONSTER DEBUG: target_ent = %s, origin = %s\n", tr.ent->target_ent->classname, vtos(tr.ent->target_ent->s.origin));
 		if (tr.ent->movetarget)
@@ -1045,7 +1042,7 @@ void Cmd_debug_attack(edict_t* self)
 	debug_trail(self->s.origin, end);
 	//gi.bprintf(PRINT_HIGH, "DEBUG: start = %s, end = %s, fraction = %f\n", vtos(self->s.origin), vtos(end), tr.fraction);
 	//if(tr.ent)
-	//	gi.bprintf(PRINT_HIGH, "DEBUG: we hit = %s\n", tr.ent->classname);
+	//gi.bprintf(PRINT_HIGH, "DEBUG: we hit = %s\n", tr.ent->classname);
 
 	if (tr.ent->svflags & SVF_MONSTER)
 	{

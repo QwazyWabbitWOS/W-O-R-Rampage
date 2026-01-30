@@ -874,14 +874,14 @@ void check_move_dir(edict_t* self, vec3_t point)
 		if (move <= -180)
 			move = move + 360;
 	}
-	qboolean backwards = false;
+	//qboolean backwards = false;
 	float angle_difference = get_angledifference(self, ANGLE_FORWARD);
-	gi.bprintf(PRINT_HIGH, "DEBUG: CHECKING MOVE DIR!, angle_difference = %f\n", angle_difference);
+	//gi.bprintf(PRINT_HIGH, "DEBUG: CHECKING MOVE DIR!, angle_difference = %f\n", angle_difference);
 	if (angle_difference > 0.75 || angle_difference < -0.75)
 	{
 		self->monsterinfo.move_dir = MOVE_STRAIGHT;
 		if (angle_difference < -0.75)
-			backwards = true;
+			/*backwards = true*/;
 	}
 	else
 	{
@@ -1413,7 +1413,7 @@ qboolean FindTarget(edict_t* self)
 
 	if (client->client)
 	{
-		if (client->flags & FL_NOTARGET)
+		if (client->flags & FL_NOTARGET || client->client->pers.spectator)
 			return false;
 	}
 	else if (client->svflags & SVF_MONSTER)

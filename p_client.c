@@ -133,7 +133,6 @@ void SP_info_player_deathmatch(edict_t* self)
 /*QUAKED info_player_coop (1 0 1) (-16 -16 -24) (16 16 32)
 potential spawning position for coop games
 */
-
 void SP_info_player_coop(edict_t* self)
 {
 	if (!coop->value)

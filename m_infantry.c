@@ -761,8 +761,10 @@ void SP_monster_infantry(edict_t* self)
 	self->movetype = MOVETYPE_STEP;
 	self->solid = SOLID_BBOX;
 	self->s.modelindex = gi.modelindex("models/monsters/infantry/tris.md2");
-	VectorSet(self->mins, -12, -20, -24);
-	VectorSet(self->maxs, 12, 20, 32);
+	//VectorSet(self->mins, -12, -20, -24); //QW// Q2PRO complains about these if developer = 1.
+	//VectorSet(self->maxs, 12, 20, 32);
+	VectorSet(self->mins, -16, -16, -24); //QW// Taken from original game code.
+	VectorSet(self->maxs, 16, 16, 32);
 
 	self->health = 100 + (5 * skill->value);
 	self->gib_health = -40;

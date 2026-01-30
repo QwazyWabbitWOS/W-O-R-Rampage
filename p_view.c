@@ -487,7 +487,6 @@ void SV_CheckSun(edict_t *ent)
 	if (tr.surface && (tr.surface->flags & SURF_SKY) && ent->s.angles[1] <= -108 + 69 && ent->s.angles[1] >= -108 - 69 && ent->s.angles[0] <= -7 + 45 && ent->s.angles[0] >= -7 - 45)
 	{
 		SV_AddBlend(1.0, 1.0, 0.5, clamp((0.345 * sunblend->value) - (diff(ent->s.angles[1], -108) * 0.005 * sunblend->value) - (diff(ent->s.angles[0], -7) * 0.00766 * sunblend->value), 1, 0), ent->client->ps.blend);
-
 	}
 
 	VectorMA(start, 4096.0, forward, origin);
@@ -495,18 +494,19 @@ void SV_CheckSun(edict_t *ent)
 
 	vec3_t	vec = { 0 };
 	float	dot;
-	int inview = 0;
+	//int inview = 0;
 	AngleVectors(ent->s.angles, forward, NULL, NULL);
 	VectorSubtract(level.sun->s.origin, ent->s.origin, vec);
 	VectorNormalize(vec);
 
 	dot = DotProduct(vec, forward);
 	if (dot >= cos(10 * (M_PI / 360)))
-		inview = 1;
+		/*inview = 1*/;
 
 	//if (dot > 0.3)
 		
 }
+
 void SV_CheckSky(edict_t *ent)
 {
 	int check_num = 0;

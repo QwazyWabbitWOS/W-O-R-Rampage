@@ -2984,7 +2984,7 @@ void Machinegun_Fire(edict_t* ent)
 	int			damage = 8;
 	int			kick = 2;
 	vec3_t		offset;
-	float f_offset;
+	//float f_offset;
 	int dual_counter = 0;
 	if (item_mod->value)
 	{
@@ -3124,7 +3124,7 @@ fire:
 			ent->client->pers.hand = 0;
 		gi.sound(ent, CHAN_AUTO, gi.soundindex(va("weapons/machgf%ib.wav", (rand() % 5) + 1)), 1, ATTN_NORM, 0);
 		PlayerNoise(ent, start, PNOISE_WEAPON);
-		f_offset = 0.01 + (random() / 50);
+		//f_offset = 0.01 + (random() / 50);
 		goto fire;
 
 

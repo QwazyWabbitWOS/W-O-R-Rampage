@@ -22,6 +22,8 @@ int DEBRIS_EXISTS;
 #include "g_local.h"
 #include "mtwist.h"
 
+int next_spawn_is_gib;
+
 void P_ProjectSource(gclient_t* client, vec3_t point, vec3_t distance, vec3_t forward, vec3_t right, vec3_t result)
 {
 
@@ -3199,7 +3201,7 @@ void droptofloorx(edict_t* self)
 	tr = gi.trace(self->s.origin, self->mins, self->maxs, dest, self, MASK_SOLID);
 	if (tr.startsolid)
 	{
-		//gi.bprintf(PRINT_HIGH, "%s: %s startsolid at %s\n", __func__, self->classname, vtos(self->s.origin));
+		gi.dprintf("%s: %s startsolid at %s\n", __func__, self->classname, vtos(self->s.origin));
 		G_FreeEdict(self);
 		return;
 	}
@@ -4617,8 +4619,8 @@ float get_angledifference(edict_t* ent, float angle)
 	VectorNormalize(dir);
 	dot = DotProduct(dir, forward);
 	//gi.bprintf(PRINT_HIGH, "DEBUG: angle difference to 180 = %f", dot);
-	if (ent->enemy)// !VectorCompare(ent->s.origin, ent->old_origin2))
-		gi.bprintf(PRINT_HIGH, "DEBUG: dir = %s, origin = %s, old_origin2 = %s, dot = %f\n", vtos(dir), vtos(ent->s.origin), vtos(ent->old_origin2), dot);//vtos(ent->old_origin2));
+	//if (ent->enemy)// !VectorCompare(ent->s.origin, ent->old_origin2))
+	//	gi.bprintf(PRINT_HIGH, "DEBUG: dir = %s, origin = %s, old_origin2 = %s, dot = %f\n", vtos(dir), vtos(ent->s.origin), vtos(ent->old_origin2), dot);//vtos(ent->old_origin2));
 
 	/*angles[1] += 180;
 	VectorCopy(ent->velocity, dir);

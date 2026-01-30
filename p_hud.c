@@ -69,7 +69,7 @@ void MoveClientToIntermission(edict_t* ent)
 	gi.unicast(ent, true);
 }
 
-void think_intermission(edict_t* self)
+static void think_intermission(edict_t* self)
 {
 	int i;
 	edict_t* ent;
@@ -312,7 +312,7 @@ void DeathmatchScoreboardMessage(edict_t* ent, edict_t* killer)
 	int		sorted[MAX_CLIENTS] = { 0 };
 	int		sortedscores[MAX_CLIENTS] = { 0 };
 	int		score, total;
-	int		picnum;
+	//int		picnum;
 	int		x, y;
 	gclient_t* cl;
 	edict_t* cl_ent;
@@ -355,7 +355,7 @@ void DeathmatchScoreboardMessage(edict_t* ent, edict_t* killer)
 		cl = &game.clients[sorted[i]];
 		cl_ent = g_edicts + 1 + sorted[i];
 
-		picnum = gi.imageindex("i_fixme");
+		//picnum = gi.imageindex("i_fixme");
 		x = (i >= 6) ? 160 : 0;
 		y = 32 + 32 * (i % 6);
 
@@ -402,7 +402,6 @@ void IntermissionScoreboardMessage(edict_t* ent)
 	int		sortedscores[MAX_CLIENTS] = { 0 };
 	int		score, total;
 	int		x, y, x_base;
-	gclient_t* cl;
 	edict_t* cl_ent;
 	char* tag;
 	char* dmg_received;
@@ -507,7 +506,6 @@ void IntermissionScoreboardMessage(edict_t* ent)
 
 	for (i = 0; i < total; i++)
 	{
-		cl = &game.clients[sorted[i]];
 		cl_ent = g_edicts + 1 + sorted[i];
 
 

@@ -21,6 +21,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "g_local.h"
 #include "mtwist.h"
 
+int sound_alarm_debug;
+
 typedef struct spawn_s
 {
 	char	*name;

@@ -168,6 +168,9 @@
     <ClCompile Include="performance.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="p_menu.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="g_local.h">
@@ -256,6 +259,9 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="p_menu.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

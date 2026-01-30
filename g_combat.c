@@ -480,7 +480,7 @@ float location_scaling(edict_t *targ, vec3_t point, float damage, int  mod, int 
 				}
 				else if (z_rel < CHEST_DAMAGE)
 				{
-					//	gi.bprintf(PRINT_HIGH, "HIT IN *CHEST*\n");
+					//gi.bprintf(PRINT_HIGH, "HIT IN *CHEST*\n");
 					return 1.20f;  // Scale up by 1/5
 
 				}
@@ -490,7 +490,7 @@ float location_scaling(edict_t *targ, vec3_t point, float damage, int  mod, int 
 					//mod |= MOD_NECKSHOT;
 					mod += 200;
 					meansOfDeath = mod;
-					//	gi.bprintf(PRINT_HIGH, "HIT IN *NECK*, mod = %i, meansOfDeath = %i\n", mod, meansOfDeath);
+					//gi.bprintf(PRINT_HIGH, "HIT IN *NECK*, mod = %i, meansOfDeath = %i\n", mod, meansOfDeath);
 					headshot = 1;
 					return 2.00;  // Scale up by 3X (Come on, a neck shot atleast has to kill;) )
 
@@ -784,7 +784,7 @@ knockback:
 			ThrowGib_damage(targ, inflictor, attacker, take, point);
 		
 		//if(attacker->svflags & SVF_MONSTER && (attacker->monsterinfo.monster_type == MONSTER_GUNNER))
-		//	gi.bprintf(PRINT_HIGH, "DEBUG: GUNNER ATTACKED SOMEONE!\n");
+		//gi.dprintf("DEBUG: GUNNER ATTACKED SOMEONE!\n");
 
 		if (((attacker->svflags & SVF_MONSTER) && (attacker->monsterinfo.monster_type == MONSTER_GUNNER) && (targ->svflags & SVF_GRENADE) && (inflictor->svflags & SVF_GRENADE)) &&
 			((targ->owner && targ->owner == attacker) ||
@@ -943,7 +943,7 @@ void shockwave_think(edict_t *self)
 	while ((ent = findradius(ent, self->s.origin, radius)) != NULL)
 	{
 
-	//	gi.bprintf(PRINT_HIGH, "SHOCKWAVE_THINK: SEARCHING FOR SOMEONE TO DAMAGE, RADIUS = %f\n", radius);
+	//gi.bprintf(PRINT_HIGH, "SHOCKWAVE_THINK: SEARCHING FOR SOMEONE TO DAMAGE, RADIUS = %f\n", radius);
 		if (!ent->inuse)
 			continue;
 		if(self->activator == ent)

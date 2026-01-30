@@ -33,8 +33,8 @@ int	sm_meat_index;
 int	snd_fry;
 int meansOfDeath;
 char* vmodel_backup;
-int Sol_death5_start;
-int Sol_death5_end;
+//int Sol_death5_start;
+//int Sol_death5_end;
 edict_t* g_edicts;
 
 cvar_t* deathmatch;
@@ -97,7 +97,6 @@ void ClientUserinfoChanged(edict_t* ent, char* userinfo);
 void ClientDisconnect(edict_t* ent);
 void ClientBegin(edict_t* ent);
 void ClientCommand(edict_t* ent);
-void RunEntity(edict_t* ent);
 void WriteGame(char* filename, qboolean autosave);
 void ReadGame(char* filename);
 void WriteLevel(char* filename);
@@ -425,7 +424,8 @@ void search_for_entity()
 void G_RunFrame(void)
 {
 	int		i;
-	edict_t* ent, * old_ent;
+	edict_t* ent;
+	//edict_t* old_ent;
 	//char* oldclassname;
 	level.framenum++;
 	level.time = level.framenum * FRAMETIME;
@@ -447,7 +447,7 @@ void G_RunFrame(void)
 	// even the world gets a chance to think
 	//
 	ent = &g_edicts[0];
-	old_ent = &g_edicts[0];
+	//old_ent = &g_edicts[0];
 	for (i = 0; i < globals.num_edicts; i++, ent++)
 	{
 		if (!ent->inuse)

@@ -87,12 +87,12 @@ void soldier_jump_detail(edict_t* self);
 
 qboolean soldier_isneedingreload(edict_t* self)
 {
-	gi.bprintf(PRINT_HIGH, "DEBUG: CHECKING IF SOLDIER NEEDS RELOADING! CLIP = %i, CLIP2 = %i\n", self->monsterinfo.clip, self->monsterinfo.clip2);
+	//gi.dprintf("DEBUG: CHECKING IF SOLDIER NEEDS RELOADING! CLIP = %i, CLIP2 = %i\n", self->monsterinfo.clip, self->monsterinfo.clip2);
 	if (bl_guard(self))
 	{
 		if (self->monsterinfo.clip == 0)
 		{
-			gi.bprintf(PRINT_HIGH, "DEBUG: BLASTER GUARD NEEDS RELOADING!\n");
+			//gi.dprintf("DEBUG: BLASTER GUARD NEEDS RELOADING!\n");
 			return true;
 		}
 
@@ -102,7 +102,7 @@ qboolean soldier_isneedingreload(edict_t* self)
 		//spawn_explosion(end, TE_ROCKET_EXPLOSION);
 		if (self->monsterinfo.clip == 0)
 		{
-			gi.bprintf(PRINT_HIGH, "DEBUG: SG GUARD NEEDS RELOADING!\n");
+			//gi.dprintf("DEBUG: SG GUARD NEEDS RELOADING!\n");
 			return true;
 		}
 		if (self->monsterinfo.aiflags & AI_SHOOTGRENADE && self->monsterinfo.clip2 == 0)
@@ -125,12 +125,12 @@ qboolean soldier_isneedingreload(edict_t* self)
 		if (self->monsterinfo.clip == 0)
 			return true;
 	}
-	gi.bprintf(PRINT_HIGH, "DEBUG: SOLDIER DIDN'T NEED RELOADING!\n");
+	//gi.dprintf("DEBUG: SOLDIER DIDN'T NEED RELOADING!\n");
 	if (self->monsterinfo.clip < 0)
-		gi.bprintf(PRINT_HIGH, "DEBUG: MONSTER CLIP IS BELOW 0!\n");
+		gi.dprintf("DEBUG: MONSTER CLIP IS BELOW 0!\n");
 
 	if (self->monsterinfo.clip2 < 0)
-		gi.bprintf(PRINT_HIGH, "DEBUG: MONSTER CLIP2 IS BELOW 0!\n");
+		gi.dprintf("DEBUG: MONSTER CLIP2 IS BELOW 0!\n");
 
 
 	return false;
@@ -156,10 +156,10 @@ void soldier_idle(edict_t* self)
 
 void soldier_cock(edict_t* self)
 {
-	gi.bprintf(PRINT_HIGH, "DEBUG: ENTERING SOLDIERS COCK xd\n");
+	//gi.dprintf("DEBUG: ENTERING SOLDIERS COCK xd\n");
 	if (!soldier_isneedingreload(self))
 		return;
-	gi.bprintf(PRINT_HIGH, "DEBUG: SOLDIERS COCKING xd\n");
+	gi.dprintf("DEBUG: SOLDIERS COCKING xd\n");
 	if (bl_guard(self))
 	{
 		self->monsterinfo.clip = SOLDIER_BLASTER_CLIP;
@@ -168,12 +168,12 @@ void soldier_cock(edict_t* self)
 	{
 		if (self->monsterinfo.aiflags & AI_SHOOTGRENADE && self->monsterinfo.clip2 == 0)
 		{
-			gi.bprintf(PRINT_HIGH, "DEBUG: sg guard wanted to shoot grenade and reloaded GL\n");
+			gi.dprintf("DEBUG: sg guard wanted to shoot grenade and reloaded GL\n");
 			self->monsterinfo.clip2 = SOLDIER_GRENADE_CLIP;
 		}
 		else
 		{
-			gi.bprintf(PRINT_HIGH, "DEBUG: SG GUARD SHOULD F RELOAD!!!\n");
+			gi.dprintf("DEBUG: SG GUARD SHOULD F RELOAD!!!\n");
 			self->monsterinfo.clip = SOLDIER_SG_CLIP;
 		}
 	}
