@@ -43,7 +43,7 @@ _CrtMemState startup1;	// memory diagnostics
 //ZOID
 
 // the "gameversion" client command will print this plus compile date
-#define	GAMEVERSION	"Rampage v1.4o"
+#define	GAMEVERSION	"Rampage v1.4p"
 #define GAMEDATE	__DATE__
 
 // protocol bytes that can be directly added to messages
