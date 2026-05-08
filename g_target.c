@@ -300,7 +300,7 @@ void use_target_changelevel (edict_t *self, edict_t *other, edict_t *activator)
 	}
 
 	// if multiplayer, let everyone know who hit the exit
-	if (deathmatch->value)
+	if (deathmatch->value || coop->value)
 	{
 		if (activator && activator->client)
 			gi.bprintf (PRINT_HIGH, "%s exited the level.\n", activator->client->pers.netname);
